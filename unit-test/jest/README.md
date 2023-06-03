@@ -106,5 +106,136 @@ Jest 是一个基于 JavaScript 的前端单元测试框架，由 Facebook 开�
 
 # 怎么用 Jest
 
+## 初始化
+
+```js
+// 依赖
+yarn add -D jest
+// 初始化
+npx jest --init
+// 经过一些询问，生成Jest.config.js
+```
+jest.config 文件可以作为使用文档来参考
+
+## babel配置
+
+es6依赖
+```
+yarn add -D babel-jest @babel/core @babel/preset-env
+```
+
+ts依赖
+```
+yarn add -D @babel/preset-typescript ts-jest @types/jest
+```
+
+.babelrc
+
+```json
+{
+    "presets": [
+        // 数组的第二项为插件的配置项
+        [
+            "@babel/preset-env",
+            {
+                // 根据 node 的版本号来结合插件对代码进行转换
+                "targets": {
+                    "node": "current"
+                }
+            }
+        ],
+        [
+            "@babel/preset-typescript"
+        ]
+    ]
+}
+
+```
+
+## 生成报告
+
+第一种方式
+```
+npx jest --coverage
+```
+**推荐** 第二种方式 
+```js
+// jest.config.js配置
+export default {
+    collectCoverage: true,
+    coverageDirectory: "coverage",
+    coverageReporters: [
+        "json",
+        "text",
+        "lcov",
+        "clover",
+        "html",
+    ],
+}
+```
+## 基础用法
+### 匹配器
+#### 相等
+- toBe
+```js
+// toBe 内部使用Object.is来进行判断相等
+test('测试 toBe', () => {
+    expect(1 + 1).toBe(2);
+    
+    // 错误用例：a的引用和{one: 1} 引用不同
+    const a = { one: 1 };
+    expect(a).toBe({ one: 1 });
+})
+```
+- toEqual
+```js
+// toEqual 递归检查对象或数组的每个字段
+test('测试 toEqual', () => {
+    const a = { one: 1 };
+    expect(a).toEqual({ one: 1 });
+})
+```
+#### 真值
+代码中的undefined, null, and false有不同含义，若你在测试时不想区分他们，可以用真值判断。
+
+- toBeNull 只匹配 null
+- toBeUndefined 只匹配 undefined
+- toBeDefined 与 toBeUndefined 相反
+- toBeTruthy 匹配任何 if 语句为真
+- toBeFalsy 匹配任何 if 语句为假
+
+#### 数字比较
+- toBeGreaterThan 大于
+- toBeGreaterThanOrEqual 大于等于
+- toBeLessThan 小于
+- toBeLessThanOrEqual 小于等于
+- toBeCloseTo 浮点数比较
+
+#### 字符串
+- toMatch 支持字符串匹配 | 支持正则
+```js
+test('测试字符串', () => {
+    expect(handleStr('test')).toMatch(/test/);
+    expect(handleStr('test')).toMatch('custom');
+});
+```
+#### 数组和可迭代对象
+- toContain
+```js
+test('测试数组', () => {
+    const arr = ['test', 'jest'];
+    expect(arr).toContain('test');
+    expect(new Set(arr)).toContain('jest');
+});
+```
+
+### 修饰符
+- .not
+- .resolve
+- .reject
+
+
+## 进阶功能
+
 
 # Jest 的设计
