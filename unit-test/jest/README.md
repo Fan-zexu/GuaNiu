@@ -229,6 +229,38 @@ test('测试数组', () => {
 });
 ```
 
+#### 调用相关
+
+- toHaveBeenCalled alias: toBeCalled
+匹配被调用了
+
+```js
+const lx = { pv: () => {} };
+function pv() {
+    lx.pv();
+}
+
+test('测试pv方法执行后，能正确调用lx.pv', () => {
+    pv();
+    lx.pv = jest.fn();
+    expect(lx.pv).toHaveBeenCalled();
+});
+```
+- toHaveBeenCalledWith alias: toBeCalledWith
+匹配以什么参数被调用了
+```js
+const lx = { pv: (cid?: string) => {} };
+function pv(cid?: string) {
+    if (cid) lx.pv(cid);
+    lx.pv();
+};
+
+test('测试pv方法执行后，lx.pv接受cid为参数', () => {
+    const spy = jest.spyOn(lx, 'pv');
+    pv('cid');
+    expect(spy).toBeCalledWith('cid');
+})
+```
 ### 修饰符
 - .not
 - .resolve

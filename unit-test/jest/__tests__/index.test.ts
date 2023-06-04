@@ -119,3 +119,28 @@ test('测试数组', () => {
     expect(arr).toContain('test');
     expect(new Set(arr)).toContain('jest');
 });
+
+/**
+ * 调用相关
+ * 
+ * toHaveBeenCalled
+ * toHaveBeenCalledWith
+ */
+const lx = { pv: (cid?: string) => {} };
+function pv(cid?: string) {
+    if (cid) lx.pv(cid);
+    lx.pv();
+};
+
+test('测试pv方法执行后，能正确调用lx.pv', () => {
+    // 错误在哪里
+    pv();
+    lx.pv = jest.fn(); // 暂时忽略jest.fn用法
+    expect(lx.pv).toHaveBeenCalled();
+});
+
+test('测试pv方法执行后，lx.pv接受cid为参数', () => {
+    const spy = jest.spyOn(lx, 'pv');
+    pv('cid');
+    expect(spy).toBeCalledWith('cid');
+})
