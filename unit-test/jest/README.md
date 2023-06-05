@@ -266,6 +266,15 @@ test('测试pv方法执行后，lx.pv接受cid为参数', () => {
 - .resolve
 - .reject
 
+## 异步测试
+可以使用async/await处理异步
+
+```js
+test('测试getData，返回{success: true}', async () => {
+    const res = await getData();
+    expect(res).toEqual({success: true});
+})
+```
 
 ## 进阶功能
 

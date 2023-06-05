@@ -9,3 +9,10 @@ export function sleep(time: number) {
         }, time);
     });
 }
+
+export const getData = async () => {
+    await sleep(10);
+    return {
+        success: true
+    }
+};
