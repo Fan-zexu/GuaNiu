@@ -140,7 +140,7 @@ test('测试pv方法执行后，能正确调用lx.pv', () => {
 });
 
 test('测试pv方法执行后，lx.pv接受cid为参数', () => {
-    const spy = jest.spyOn(lx, 'pv');
+    const spy = jest.spyOn(lx, 'pv'); // 忽略spyOn方法
     pv('cid');
     expect(spy).toBeCalledWith('cid');
 })
