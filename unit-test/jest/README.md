@@ -271,8 +271,11 @@ test('测试pv方法执行后，lx.pv接受cid为参数', () => {
 
 ```js
 test('测试getData，返回{success: true}', async () => {
+    // 方式1
     const res = await getData();
     expect(res).toEqual({success: true});
+    // 方式2
+    await expect(getData()).resolves.toMatchObject({success: true});
 })
 ```
 
