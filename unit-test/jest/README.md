@@ -279,6 +279,14 @@ test('测试getData，返回{success: true}', async () => {
 })
 ```
 
+## 钩子函数
+
+可以当做用例的生命周期来理解。主要包括：
+
+- beforeAll: 所有用例执行前执行
+- beforeEach: 每个用例执行前执行
+- afterEach: 每个用例执行后执行
+- afterAll: 所有用例执行后执行
 ## 进阶功能
 
 

@@ -157,3 +157,11 @@ test('测试getData，返回{success: true}', async () => {
     // 方式2
     await expect(getData()).resolves.toMatchObject({success: true});
 })
+
+/**
+ * 钩子函数
+ */
+
+describe('钩子函数应用', () => {
+    // todo
+});
