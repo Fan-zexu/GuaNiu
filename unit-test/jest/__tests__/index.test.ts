@@ -163,5 +163,26 @@ test('测试getData，返回{success: true}', async () => {
  */
 
 describe('钩子函数应用', () => {
-    // todo
+    let count = 0;
+    beforeAll(() => {
+        console.log('beforeAll');
+    });
+    beforeEach(() => {
+        count = 0;
+        console.log('beforeEach');
+    });
+    afterEach(() => {
+        console.log('afterEach');
+    });
+    afterAll(() => {
+        console.log('afterAll');
+    });
+    test('add', () => {
+        count++;
+        expect(count).toBe(1);
+    });
+    test('minus', () => {
+        count--;
+        expect(count).toBe(-1);
+    });
 });
