@@ -173,7 +173,7 @@ export default {
     ],
 }
 ```
-## 基础用法
+## 常用功能
 ### 匹配器
 #### 相等
 - toBe
@@ -266,7 +266,7 @@ test('测试pv方法执行后，lx.pv接受cid为参数', () => {
 - .resolve
 - .reject
 
-## 异步测试
+### 异步测试
 可以使用async/await处理异步
 
 ```js
@@ -279,7 +279,7 @@ test('测试getData，返回{success: true}', async () => {
 })
 ```
 
-## 钩子函数
+### 钩子函数
 
 可以当做用例的生命周期来理解。主要包括：
 
@@ -287,7 +287,12 @@ test('测试getData，返回{success: true}', async () => {
 - beforeEach: 每个用例执行前执行
 - afterEach: 每个用例执行后执行
 - afterAll: 所有用例执行后执行
-## 进阶功能
+### Mock
+非常常用且重要的功能，帮助我们在单测中模拟函数及其返回值，模拟三方包等。
+#### jest.fn()
+生成一个mock函数
+```js
 
+```
 
 # Jest 的设计

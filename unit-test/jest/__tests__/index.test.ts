@@ -1,4 +1,4 @@
-import { handleStr, getData } from '../src/index'
+import { handleStr, getData, forEach } from '../src/index'
 
 /**
  * 匹配器
@@ -186,3 +186,29 @@ describe('钩子函数应用', () => {
         expect(count).toBe(-1);
     });
 });
+
+/**
+ * mock相关
+ */
+
+describe('mock功能', () => {
+    test('mock forEach', () => {
+        const mockFn = jest.fn(x => 42 + x);
+        forEach([0, 1], mockFn);
+
+        // console.log(mockFn.mock);
+        // {
+        //     calls: [ [ 0 ], [ 1 ] ],
+        //     contexts: [ undefined, undefined ],
+        //     instances: [ undefined, undefined ],
+        //     invocationCallOrder: [ 1, 2 ],
+        //     results: [ { type: 'return', value: 42 }, { type: 'return', value: 43 } ],
+        //     lastCall: [ 1 ]
+        // }
+
+        // mock函数被执行2次
+        expect(mockFn.mock.calls).toHaveLength(2);
+        expect(mockFn.mock.results[0].value).toBe(42);
+    });
+
+})
