@@ -211,4 +211,18 @@ describe('mock功能', () => {
         expect(mockFn.mock.results[0].value).toBe(42);
     });
 
+    test('mock 返回值', () => {
+        const myMock = jest.fn();
+        // console.log(myMock());
+        // undefined
+        myMock.mockReturnValueOnce(10).mockReturnValueOnce('x').mockReturnValue(true);
+        // console.log(myMock(), myMock(), myMock(), myMock());
+        // 10 'x' true true
+
+        expect(myMock()).toBe(10);
+        expect(myMock()).toBe('x');
+        expect(myMock()).toBe(true);
+        expect(myMock()).toBe(true);
+    });
+
 })
