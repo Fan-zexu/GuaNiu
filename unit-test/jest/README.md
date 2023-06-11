@@ -289,7 +289,7 @@ test('测试getData，返回{success: true}', async () => {
 - afterAll: 所有用例执行后执行
 ### Mock
 非常常用且重要的功能，帮助我们在单测中模拟函数及其返回值，模拟三方包等。
-#### jest.fn()
+#### jest.fn(implementation?)
 `jest.fn()`返回一个新的、未曾调用过的mock函数。它可以用于验证函数的调用、参数以及返回值。
 
 **.mock属性**
@@ -301,5 +301,19 @@ test('测试getData，返回{success: true}', async () => {
 - mockFn.mock.lastCall: 保存了函数最后一次调用时的参数，是一个数组。
 
 **mock的返回值**
+- mockReturnValue(Once) 定义返回值
+- mockResolvedValue(Once) 自定义Promise返回
+- mockImplementation 定义mock函数实现，和`jest.fn(implementation)`功能相同
+
+#### jest.spy()
+区别于jest.fn，spy函数可以监听特定对象上的方法，并可以对其进行修改、追踪和验证。
+参考上面这个demo
+```js
+test('测试pv方法执行后，lx.pv接受cid为参数', () => {
+    const spy = jest.spyOn(lx, 'pv'); // 忽略spyOn方法
+    pv('cid');
+    expect(spy).toBeCalledWith('cid');
+})
+```
 
 # Jest 的设计
