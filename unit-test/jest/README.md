@@ -287,7 +287,7 @@ test('测试getData，返回{success: true}', async () => {
 - beforeEach: 每个用例执行前执行
 - afterEach: 每个用例执行后执行
 - afterAll: 所有用例执行后执行
-### Mock
+### Mock（重点功能）
 非常常用且重要的功能，帮助我们在单测中模拟函数及其返回值，模拟三方包等。
 #### jest.fn(implementation?)
 `jest.fn()`返回一个新的、未曾调用过的mock函数。它可以用于验证函数的调用、参数以及返回值。
@@ -315,5 +315,39 @@ test('测试pv方法执行后，lx.pv接受cid为参数', () => {
     expect(spy).toBeCalledWith('cid');
 })
 ```
+#### mock模块
+比如有一个api请求的功能，内部使用`axios`库实现，实际上我们不关心请求过程的发生，而是关注返回的结果。这样我们就可以使用`jest.mock`来模拟`axios`的返回值。看下面这个例子。
+```js
+// fetchData.ts
+export const fetchData = async () => {
+    const res = await axios.get('http://www.dell-lee.com/react/api/demo.json');
+    return res.data;
+}
+
+// fetchData.test.ts
+import axios from 'axios';
+import { fetchData } from './fetchData';
+jest.mock('axios');
+
+test('测试fechData', () => {
+    const res = {
+        data: '123'
+    };
+    // 这里会有ts报错
+    axios.get.mockResolvedValue(res);
+    return fetchData().then(data => {
+        expect(data).toEqual(res.data);
+    });
+});
+```
+上面代码会存在ts报错，原因是axios.get中是没有`jest`相关方法的类型定义的，报错如下
+`TS2339: Property 'mockResolveValues' does not exist on type '  >(url: string, config?: AxiosRequestConfig | undefined) => Promise '.
+`
+解决办法是可以通过 jest.spyOn 来解决
+```js
+jest.spyOn(axios, 'get').mockResolvedValue(res);
+```
+#### mock部分依赖
+
 
 # Jest 的设计
