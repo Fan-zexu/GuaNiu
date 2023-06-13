@@ -347,7 +347,29 @@ test('测试fechData', () => {
 ```js
 jest.spyOn(axios, 'get').mockResolvedValue(res);
 ```
-#### mock部分依赖
 
+**这里有一个细节**，`jest.mock`会被提升到最顶部，也就是所有import之前。
+#### mock部分依赖
+当我们通过 `jest.mock('./index')`，这样会导致`index`文件中的所有方法都被mock掉，如何只mock部分方法呢？看下面这个例子。
+```js
+// test.ts
+import { handleStr, getData } from './index';
+
+jest.mock('./index', () => {
+    // 获取真实的模块
+    const originModule = jest.requireActual('./index');
+    return {
+        __esModule: true,
+        ...originModule,
+        getData: jest.fn(() => '123')
+    }
+});
+
+test('测试模拟部分模块', () => {
+    expect(handleStr('test')).toEqual('customtest');
+    expect(getData()).toEqual('123');
+});
+```
+上面使用了`jest.requireActual`来获取真实的模块，然后通过`jest.fn`来模拟`getData`方法。
 
 # Jest 的设计
