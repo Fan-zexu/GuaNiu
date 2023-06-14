@@ -1,4 +1,14 @@
-import { handleStr, getData, forEach } from '../src/index'
+import { handleStr, getData, forEach, mockedFn } from '../src/index'
+
+jest.mock('../src/index', () => {
+    // 获取真实的模块
+    const originModule = jest.requireActual('../src/index');
+    return {
+        __esModule: true,
+        ...originModule,
+        mockedFn: jest.fn(() => '123')
+    }
+});
 
 /**
  * 匹配器
@@ -225,4 +235,8 @@ describe('mock功能', () => {
         expect(myMock()).toBe(true);
     });
 
+    test('mock 部分模块功能', () => {
+        expect(handleStr('test')).toEqual('customtest');
+        expect(mockedFn()).toEqual('123');
+    })
 })

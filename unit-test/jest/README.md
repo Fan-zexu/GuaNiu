@@ -372,4 +372,10 @@ test('测试模拟部分模块', () => {
 ```
 上面使用了`jest.requireActual`来获取真实的模块，然后通过`jest.fn`来模拟`getData`方法。
 
+由于使用`jest.mock`会被提升到文件顶部，这也导致我们无法再次修改Mock的实现，可以理解为**一次性mock**
+
+所以如果我们想进行多次mock，比如针对不同环境、不同变量来mock，这样我们就可以用`doMock`来解决。
+#### 多次mock doMock 
+
+
 # Jest 的设计

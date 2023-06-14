@@ -22,3 +22,7 @@ export function forEach(items: any[], callback: Function) {
         callback(items[index]);
     }
 };
+
+export function mockedFn() {
+    return 'mockedFn';
+}
