@@ -376,6 +376,8 @@ test('测试模拟部分模块', () => {
 
 所以如果我们想进行多次mock，比如针对不同环境、不同变量来mock，这样我们就可以用`doMock`来解决。
 #### 多次mock doMock 
+jest提供的另一个api `jest.doMock`，它也会执行Mock操作，但是不会被提升。再加上`require`函数，就可以实现多次mock。
 
+当然也可以使用`spyOn`来实现。可以自己尝试
 
 # Jest 的设计

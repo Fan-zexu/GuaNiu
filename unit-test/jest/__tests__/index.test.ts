@@ -136,7 +136,7 @@ test('测试数组', () => {
  * toHaveBeenCalled
  * toHaveBeenCalledWith
  */
-const lx = { pv: (cid?: string) => {} };
+const lx = { pv: (cid?: string) => { } };
 function pv(cid?: string) {
     if (cid) lx.pv(cid);
     lx.pv();
@@ -163,9 +163,9 @@ test('测试pv方法执行后，lx.pv接受cid为参数', () => {
 test('测试getData，返回{success: true}', async () => {
     // 方式1
     const res = await getData();
-    expect(res).toEqual({success: true});
+    expect(res).toEqual({ success: true });
     // 方式2
-    await expect(getData()).resolves.toMatchObject({success: true});
+    await expect(getData()).resolves.toMatchObject({ success: true });
 })
 
 /**
@@ -239,4 +239,37 @@ describe('mock功能', () => {
         expect(handleStr('test')).toEqual('customtest');
         expect(mockedFn()).toEqual('123');
     })
-})
+});
+
+describe("测试doMock", () => {
+    beforeEach(() => {
+        // 必须重置模块，否则无法再次应用 doMock 的内容
+        jest.resetModules();
+    })
+
+    it('开发环境', () => {
+        jest.doMock('../src/env', () => ({
+            __esModule: true,
+            config: {
+                getEnv: () => 'dev'
+            }
+        }));
+
+        const { config } = require('../src/env');
+
+        expect(config.getEnv()).toEqual('dev');
+    })
+
+    it('正式环境', () => {
+        jest.doMock('../src/env', () => ({
+            __esModule: true,
+            config: {
+                getEnv: () => 'prod'
+            }
+        }));
+
+        const { config } = require('../src/env');
+
+        expect(config.getEnv()).toEqual('prod');
+    })
+});
