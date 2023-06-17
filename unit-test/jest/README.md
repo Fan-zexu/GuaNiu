@@ -380,4 +380,63 @@ jest提供的另一个api `jest.doMock`，它也会执行Mock操作，但是不�
 
 当然也可以使用`spyOn`来实现。可以自己尝试
 
+#### Mock Timer
+这里介绍关于定时器的模拟，看官网示例
+```js
+// after1000ms函数
+type AnyFunction = (...args: any[]) => any;
+
+const after1000ms = (callback?: AnyFunction) => {
+  console.log("准备计时");
+  setTimeout(() => {
+    console.log("午时已到");
+    callback && callback();
+  }, 1000);
+};
+
+// test
+import { after1000ms } from "../src/index";
+
+describe("after1000ms", () => {
+  it("可以在 1000ms 后自动执行函数", (done) => {
+    after1000ms(() => {
+      expect("???");
+      done();
+    });
+  });
+});
+```
+这样的实现，需要干等1秒钟之后，才能完成测试用例，不太理想。我们看下官方的解决方案：
+```js
+import { after1000ms } from "../src/index";
+
+describe("after1000ms", () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
+  it("可以在 1000ms 后自动执行函数", () => {
+    jest.spyOn(global, "setTimeout");
+    const callback = jest.fn();
+    
+    expect(callback).not.toHaveBeenCalled();
+
+    after1000ms(callback);
+
+    jest.runAllTimers();
+
+    expect(callback).toHaveBeenCalled();
+    expect(setTimeout).toHaveBeenCalledTimes(1);
+    expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 1000);
+  });
+});
+```
+- 使用 `jest.useFakeTimers`模拟定时器
+- 使用 `jest.spyOn`来监听`setTimeout`方法
+- 使用 `jest.fn`模拟callback函数，同时断言在开始时，callback并未执行
+- 使用 `jest.runAllTimers`来**快进**定时器
+
+所以整体测试流程是：模拟 -> 执行 -> 快进 -> 断言
+
+
 # Jest 的设计
