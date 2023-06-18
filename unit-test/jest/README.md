@@ -174,6 +174,23 @@ export default {
 }
 ```
 ## 常用功能
+### 关于环境
+jest默认提供了node和dom浏览器，2种运行环境，可以通过`jest.config.js`中的`testEnvironment`字段进行配置
+```js
+module.exports = {
+  testEnvironment: "jsdom", // 默认是node
+}
+```
+### 前置钩子
+jest提供了2个可以在单测开始前执行的钩子函数，`setupFilesAfterEnv`和`setupFiles`。看图可以明白它们各自的执行时机不同。
+
+![图片](./images/setupFiles-vs-setupFilesAfterEnv.png)
+
+各自的使用场景：
+- `setupFiles`中可以进行全局变量的设置
+- `setupFilesAfterEnv`中可以引入和配置jest相关的插件。如果在`setupFiles`中使用插件，则可能会得到`expect is not define`的提示。
+
+
 ### 匹配器
 #### 相等
 - toBe
@@ -438,5 +455,24 @@ describe("after1000ms", () => {
 
 所以整体测试流程是：模拟 -> 执行 -> 快进 -> 断言
 
+#### Mock logger
+有时候我们在执行功能代码时，会被代码中的console信息干扰，这时候我们就可以通过`jest.spy`来屏蔽这些干扰
 
+方案1：通过`jest.spy`模拟，这里注意代码位置在执行测试用例之前的时机。可以是 `setupFilesAfterEnv`或者 `setupFiles`的钩子中
+```js
+// test/jest-setup
+jest.spy(console, 'log').mockRetureValue();
+jest.spy(console, 'info').mockRetureValue();
+jest.spy(console, 'error').mockRetureValue();
+jest.spy(console, 'warn').mockRetureValue();
+```
+
+方案2：使用[jest-mock-console](https://www.npmjs.com/package/jest-mock-console)，在`jest-setup`文件中引入
+```js
+import mockConsole from "jest-mock-console";
+
+mockConsole()
+```
+### 组件测试
+以后用到了再写吧
 # Jest 的设计

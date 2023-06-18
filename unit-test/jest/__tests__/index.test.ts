@@ -247,7 +247,7 @@ describe("测试doMock", () => {
         jest.resetModules();
     })
 
-    it('开发环境', () => {
+    test('开发环境', () => {
         jest.doMock('../src/env', () => ({
             __esModule: true,
             config: {
@@ -260,7 +260,7 @@ describe("测试doMock", () => {
         expect(config.getEnv()).toEqual('dev');
     })
 
-    it('正式环境', () => {
+    test('正式环境', () => {
         jest.doMock('../src/env', () => ({
             __esModule: true,
             config: {
@@ -279,7 +279,7 @@ describe("after1000ms", () => {
       jest.useFakeTimers();
     });
   
-    it("可以在 1000ms 后自动执行函数", () => {
+    test("可以在 1000ms 后自动执行函数", () => {
       jest.spyOn(global, "setTimeout");
       const callback = jest.fn();
       
