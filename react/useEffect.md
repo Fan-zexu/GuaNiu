@@ -20,6 +20,13 @@ function useAsyncEffect(effect: () => Promise<void | (() => void)>, dependencies
         const cleanupPromise = effect();
         return () => { cleanupPromise.then(cleanup => cleanup && cleanup()) }
     }, dependencies)
+
+    // 或者内部使用IIFE
+    useEffect(() => {
+        (
+            await effect();
+        )()
+    })
 }
 
 
