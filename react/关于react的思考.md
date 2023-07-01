@@ -63,6 +63,32 @@ const MyForm = () => {
 
 ### 3. 关于记忆memo
 
-### 4. 关于信号Singal
+### 4. 关于信号Signal
 
+原来来源：[useSignal](https://www.builder.io/blog/usesignal-is-the-future-of-web-frameworks)
 
+借用一张图说明
+
+![介绍](./imgs/useSignal.webp)
+
+#### 是什么
+
+signal（信号）是一种存储应用状态的形式，类似于 React 中的 useState()。 但是，有一些关键性差异使 Signal 更具优势。Vue、Preact、Solid 和 Qwik 等流行 JavaScript 框架都支持 Signal。
+
+Signal 和 State 之间的主要区别在于 Signal 返回一个 getter 和一个 setter，而非响应式系统返回一个值和一个 setter。
+
+![useState](./imgs/useSignal-vs-useState.png)
+
+#### useState缺点
+
+![useState缺点](./imgs/useState%E7%BC%BA%E7%82%B9.png)
+
+React 的 useState() 会返回一个状态值。这意味着 useState() 不知道组件或应用内部如何使用状态值。所以，一旦通过调用 setCount() 通知 React 状态更改，React 就不知道页面的哪一部分发生了更改，因此必须重新渲染整个组件，这在计算上是很昂贵的。
+
+#### useRef
+
+React 的 useRef() 类似于 useSignal()，但它不会导致页面重新渲染。下面的例子看起来与 useSignal() 非常相似，但它不起作用
+
+![useRef](./imgs/useRef.jpeg)
+
+#### useMemo
