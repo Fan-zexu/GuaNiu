@@ -63,6 +63,8 @@ const MyForm = () => {
 
 ### 3. 关于记忆memo
 
+[use记忆](./use%E8%AE%B0%E5%BF%86.md)
+
 ### 4. 关于信号Signal
 
 原来来源：[useSignal](https://www.builder.io/blog/usesignal-is-the-future-of-web-frameworks)
