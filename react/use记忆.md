@@ -67,3 +67,20 @@ function useTime() {
 }
 ```
 效果显而易见，每一秒钟`Calculator`组件都在渲染，即使用户并没有在input中输入。
+
+我们直接使用*记忆化*来改造：
+
+```js
+import { useMemo } from 'react';
+
+// 给原来计算属性增加一层useMemo，第二个参数传入记忆参数
+const memoCalculateNum = useMemo(() => {
+    return selectedNum * 2;
+}, [selectedNum])
+```
+
+这里`useMemo`的第二个参数，实际就是记忆失效的策略，只有当`selectedNum`值发生变化，记忆才会失效。
+
+## 由于引用导致的记忆失效
+
+虽然我们可以使用`React.memo`或者`useMemo`来进行记忆优化，但是有很多不小心的用法，会打破我们的记忆...

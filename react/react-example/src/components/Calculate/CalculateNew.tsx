@@ -1,21 +1,25 @@
-import { useState } from 'react';
+// 经过优化的计算组件
+import { useState, useMemo } from 'react';
 import useTime from './useTime';
 import RecordRender from '../Record';
 
 export default function Calculate() {
     const [selectedNum, setSelectedNum] = useState(10);
+    
     const timer = useTime();
 
-    const calculateNum = () => {
+    const memoCalculate = useMemo(() => {
+        console.log('记忆后---复杂计算');
         return `${selectedNum * 2}----${timer}`;
-    }
+    }, [selectedNum])
+
 
     return (
         <div>
-            <RecordRender />
+            <RecordRender/>
             <input value={selectedNum} type="number" onChange={(e) => { setSelectedNum(+e.target.value) }} />
             <p>
-                { calculateNum() }
+                { memoCalculate }
             </p>
         </div>
     )
