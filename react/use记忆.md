@@ -1,4 +1,4 @@
-# useMemo useCallback
+# useMemo
 
 看个反面例子
 
@@ -152,3 +152,67 @@ const boxes = useMemo(() => [
 ], [boxWidth]);
 ```
 
+由于上面例子，因为引用变化的问题，打破了`React.memo`的记忆，所以我们目标就是保留对特定数组的引用，从而保持组件的记忆性。
+
+# useCallback
+
+`useMemo`和`useCallback`实际是一个东西，只是`useMemo`返回对象/数组，`useCallback`返回**函数**
+
+和上面打破记忆例子一样，两个返回相同的函数，引用并不一样...
+
+```js
+const functionOne = function() {
+  return 5;
+};
+const functionTwo = function() {
+  return 5;
+};
+
+console.log(functionOne === functionTwo); // false
+```
+看下面这个反面例子：
+```js
+function App() {
+    const [count, setCount] = React.useState(0);
+
+    function handleMegaBoost() {
+        setCount((currentValue) => currentValue + 1234);
+    }
+
+    return (
+        <>
+            Count: {count}
+            <button
+                onClick={() => {
+                setCount(count + 1)
+                }}
+            >
+                Click me!
+            </button>
+            <PureMegaBoost handleClick={handleMegaBoost} />
+        </>
+    );
+}
+```
+这里的`PureMegaBoost`是一个经过`React.memo`包裹的纯组件。
+
+但是由于`count`状态值变化，导致App重新渲染，进而重新定义新的`handleMegaBoost`函数，传入`PureMegaBoost`组件后，导致组件记忆被打破
+
+解决方案：
+
+```js
+const handleMegaBoost = React.useCallback(() => {
+    setCount((currentValue) => currentValue + 1234);
+}, [])
+```
+
+等同于使用useMemo：
+```js
+const handleMegaBoost = React.useMemo(() => {
+    return function() {
+        setCount((currentValue) => currentValue + 1234);
+    }
+}, [])
+```
+
+其实`useCallback`是`useMemo`的一个语法糖，让缓存函数时，可以方便一些。
