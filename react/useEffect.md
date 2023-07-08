@@ -68,5 +68,8 @@ function Example({ someProp }) {
 - 把仅在effect中调用的函数，放在effect中
 - 在effect中引入组件内部函数（函数中包含state,props或者是通过props传入的函数），可以用`useCallback`包一层
 
+### effect中请求出现无限重复调用情况
+
+在effect中发起请求，但是并没有设置依赖，这样每次组件有状态更新，都是重新执行effect，导致请求被无限重复执行。可以参考[demo](./react-example//src/components/useEffect.tsx)
 
 ## 深入原理
