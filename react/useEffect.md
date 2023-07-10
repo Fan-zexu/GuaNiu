@@ -72,4 +72,73 @@ function Example({ someProp }) {
 
 在effect中发起请求，但是并没有设置依赖，这样每次组件有状态更新，都是重新执行effect，导致请求被无限重复执行。可以参考[demo](./react-example//src/components/useEffect.tsx)
 
+### 获取上一次的props和state
+可以在useEffect中实现，[demo](./react-example/src/components/useEffect.tsx)
+
+```js
+useEffect(() => {
+    api.subscribe(props.id); // 最新的props.id
+    return () => api.unsubscribe(props.id); // 上一次旧的props.id
+}, [props.id])
+```
+类似这种订阅和取消订阅的场景。当props.id发生变化，则订阅最新的id，并在**清理函数的闭包中**，自动获取到上一次的id，用来取消订阅。
+
+### 为什么总是获取旧的props和state
+看官网的例子。先点击【show alert】，然后立即点击【click me】，此时3秒后，打印的count还是初始值0，而不是1。
+```js
+function Example() {
+  const [count, setCount] = useState(0);
+
+  function handleAlertClick() {
+    setTimeout(() => {
+      alert('You clicked on: ' + count);
+    }, 3000);
+  }
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+      <button onClick={handleAlertClick}>
+        Show alert
+      </button>
+    </div>
+  );
+}
+```
+你可以通过`ref`来解决
+```js
+function ExampleRef() {
+  const [count, setCount] = useState(0);
+  const ref = useRef();
+
+  function handleAlertClick() {
+    setTimeout(() => {
+      alert('You clicked on: ' + ref.current);
+    }, 3000);
+  }
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => {
+            setCount(count + 1);
+            ref.current = count + 1;
+        }}>
+        Click me
+      </button>
+      <button onClick={handleAlertClick}>
+        Show alert
+      </button>
+    </div>
+  );
+}
+```
+
+我们后面会来深入分析一波。这里我猜测和react每次状态更新都是一次快照，所以第一个旧state的例子，及时放在异步里面去获取state，获取的也是第一次的快照数据。
+
+而`ref.current`，这是一种引用类型，不受快照限制。所以获取的是最新的数据。
+
 ## 深入原理
