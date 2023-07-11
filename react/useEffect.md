@@ -145,4 +145,79 @@ function ExampleRef() {
 
 而`ref.current`，这是一种引用类型，不受快照限制。所以获取的是最新的数据。
 
+---
+
+这里分隔一下 。。。看了文章之后，对于我上面的猜测做一些解答。
+
+react对于每一次渲染来说，props和state都是独立的，props和state都属于这次渲染。
+
+同时，**事件处理函数**也是如此。
+
+在上面例子中count在每一次函数调用中都是常量，每次函数组件渲染时都会调用到。这并不是`react`所特有的，而是普通函数都有的行为。---> wc这确实没想到，其实很简单，理解复杂了...
+
+可以看下面这个简单js的例子
+
+```js
+function sayHi(person) {
+  const name = person.name
+  setTimeout(() => {
+    alert(`Hi, ${name}`)
+  }, 3000)
+}
+
+let someone = { name: 'zhangsan' }
+sayHi(someone)
+
+someone = { name: 'lisi' }
+sayHi(someone)
+
+someone = { name: 'wangwu' }
+sayHi(someone)
+
+```
+
+在控制台输出，发现每次打印都是那次运行中获取的name值，并不是最后一次的值。
+
+这就解释了我们的事件处理函数如何捕获点击时候的count值，这是因为每次渲染都有一个新版的`handleAlertClick`被创建并执行，每个版本都会记住它自己的count。
+
+如下伪代码
+
+```js
+function App() {
+  // ...
+  function handleAlertClick() {
+    setTimeout(() => {
+      alert(0)
+    }, 3000)
+  }
+  <button onClick={handleAlertClick} />  // The one with 0 inside
+}
+
+function App() {
+  // ...
+  function handleAlertClick() {
+    setTimeout(() => {
+      alert(1)
+    }, 3000)
+  }
+  <button onClick={handleAlertClick} />  // The one with 1 inside
+}
+
+function App() {
+  // ...
+  function handleAlertClick() {
+    setTimeout(() => {
+      alert(2)
+    }, 3000)
+  }
+  <button onClick={handleAlertClick} />  // The one with 2 inside
+}
+```
+
+---
+
+缓一波，捋一捋。其实react的处理并不特殊，就是用到的js最原始的特性。
+
+在任意一次渲染中，props 和 state 是始终保持不变的，如果 props 和 state 在不同的渲染中是相互独立的，那么使用到它们的任何值也是独立的（包括事件处理函数），它们都属于一次特定的渲染，即便是事件处理中的异步函数调用所得到的的也是这次渲染中的 count 值
+
 ## 深入原理
