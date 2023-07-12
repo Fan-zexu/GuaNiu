@@ -220,4 +220,32 @@ function App() {
 
 在任意一次渲染中，props 和 state 是始终保持不变的，如果 props 和 state 在不同的渲染中是相互独立的，那么使用到它们的任何值也是独立的（包括事件处理函数），它们都属于一次特定的渲染，即便是事件处理中的异步函数调用所得到的的也是这次渲染中的 count 值
 
+---
+
+继续文章内容。上面探讨了`props/state`以及事件处理函数。那其实`effect`也是一样的。每个effect版本中的count，都来自于它自己的那次渲染。
+
+```js
+function App() {
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    setTimeout(() => {
+      console.log(`${count}`)
+    }, 3000)
+  })
+
+  return (
+    <div>
+      <p>点击了 {count} 次</p>
+      <button onClick={_ => setCount(count + 1)}>点击</button>
+    </div>
+  )
+}
+```
+即便是上面这个例子，它也会按顺序输出每次点击的count值，而不是最后一次的值。
+
+---
+
+下面我们来对比一下`class`组件的情况
+
 ## 深入原理
