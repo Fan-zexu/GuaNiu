@@ -248,4 +248,12 @@ function App() {
 
 下面我们来对比一下`class`组件的情况
 
+```js
+componentDidUpdate() {
+  setTimeout(() => {
+    console.log(`${this.state.count}`)
+  }, 3000)
+}
+```
+
 ## 深入原理
