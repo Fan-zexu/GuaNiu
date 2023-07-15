@@ -77,6 +77,7 @@ function OldStateCom() {
     );
 }
 
+// 通过ref来得到最新的值
 function ExampleRef() {
     const [count, setCount] = useState(0);
     const ref = useRef<number>();

@@ -2,6 +2,7 @@ import './App.css';
 import Calculate from './components/Calculate';
 import CalculateNew from './components/Calculate/CalculateNew';
 import UseEffectCom from './components/useEffect';
+import ClassEffectCom from './components/ClassEffect';
 
 function App() {
   return (
@@ -14,6 +15,8 @@ function App() {
       <h1>demo2-useEffect</h1>
       <h2>把函数作为effect依赖</h2>
       <UseEffectCom />
+      <h2>看看class组件表现</h2>
+      <ClassEffectCom />
     </div>
   );
 }

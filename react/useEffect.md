@@ -244,6 +244,27 @@ function App() {
 ```
 即便是上面这个例子，它也会按顺序输出每次点击的count值，而不是最后一次的值。
 
+```js
+function App(props) {
+  useEffect(() => {
+    setTimeout(() => {
+      console.log(props.counter)
+    }, 1000)
+  })
+}
+
+function App(props) {
+  const counter = props.counter
+  useEffect(() => {
+    setTimeout(() => {
+      console.log(counter)
+    }, 1000)
+  })
+}
+```
+
+同样对于函数组件内部使用props读取count，也是输出**每次渲染捕获的值**，而不是未来的值。
+
 ---
 
 下面我们来对比一下`class`组件的情况
@@ -255,9 +276,33 @@ componentDidUpdate() {
   }, 3000)
 }
 ```
-在生命周期里可以看到，每次输出，`this.state.count`都指向最新的count。
+在生命周期里可以看到，每次输出，`this.state.count`都指向最新的count。 如果点击3次，那么每次输出内容都是3。
 
-如果点击3次，那么每次输出内容都是3。
+如果想在函数组件内的`effect`中达到相同效果（获取未来最新的值，而不是每次捕获的值），我们可以使用`ref`来解决。
+```js
+function App() {
+  const [count, setCount] = useState(0)
+  const latestCount = useRef(count)
 
+  useEffect(() => {
+    // Set the mutable latest value
+    latestCount.current = count
+    setTimeout(() => {
+      // Read the mutable latest value
+      console.log(`${latestCount.current}`)
+    }, 3000)
+  })
+}
+```
+通过ref创建的引用，可以得到最新的值。
+
+---
+
+所以我们可以得到结论：
+
+在`class`内部也是像这样去修改`this.state`的，也不是去捕获。这里可以参考[demo](./react-example//src/components/ClassEffect.tsx)
+
+
+### effect清理
 
 ## 深入原理
