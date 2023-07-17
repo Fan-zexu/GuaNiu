@@ -311,4 +311,50 @@ function App() {
 
 ### 依赖项
 
+看一个简单例子。我们在`useEffect`里面写一个轮询，去递增`count`值。一般我们会这么写，但是看看是不是有问题
+```js
+function App() {
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCount(count + 1)
+    }, 1000)
+    return () => clearInterval(id)
+  }, [])
+
+  return <h1>{count}</h1>
+}
+```
+在demo中运行后可以发现，`count`值只变化为1，并没有持续递增。这是因为count初始为0，运行一次effect后，相当于执行了一次`setCount(0+1)`，之后由于依赖设置是`[]`，所以仅effect仅执行一次就暂停了。后续的轮询一直是在执行`setCount(0+1)`。
+
+仔细观察，effect中使用到了`count`变量，那自然而然想到下面的解决方案：
+
+```js
+useEffect(() => {
+    const id = setInterval(() => {
+      setCount(count + 1)
+    }, 1000)
+    return () => clearInterval(id)
+  }, [count])
+```
+把`count`最为依赖传入，这样就可以保证count持续递增。看似完成了需求，但是实际有点问题。
+
+由于`count`在持续变化，会导致effect会一直执行，也就是定时器会一直清除，再重新设定。这不是一个合理的方案。
+
+所以我们期望在`effect`内部不依赖`count`状态。可以参考`useState`通过回调函数形式，修改state。
+
+但是`setCount(c => c+1)`这种形式也不完美，并不能很好处理类似两个相互依赖的状态，或者根据一个`prop`来计算下一次的`state`。
+
+幸运的是，我们有一个更强大的工具，`useReducer`。
+
+```js
+useEffect(() => {
+    const id = setInterval(() => {
+      setCount(c => c+1)
+    }, 1000)
+    return () => clearInterval(id)
+  }, [])
+```
+
 ## 深入原理
