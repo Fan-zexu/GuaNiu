@@ -344,10 +344,6 @@ useEffect(() => {
 
 所以我们期望在`effect`内部不依赖`count`状态。可以参考`useState`通过回调函数形式，修改state。
 
-但是`setCount(c => c+1)`这种形式也不完美，并不能很好处理类似两个相互依赖的状态，或者根据一个`prop`来计算下一次的`state`。
-
-幸运的是，我们有一个更强大的工具，`useReducer`。
-
 ```js
 useEffect(() => {
     const id = setInterval(() => {
@@ -356,5 +352,13 @@ useEffect(() => {
     return () => clearInterval(id)
   }, [])
 ```
+
+但是`setCount(c => c+1)`这种形式也不完美，并不能很好处理类似两个相互依赖的状态，或者根据一个`prop`来计算下一次的`state`。
+
+幸运的是，我们有一个更强大的工具，`useReducer`。
+
+### useReducer
+
+
 
 ## 深入原理
