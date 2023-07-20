@@ -358,6 +358,29 @@ useEffect(() => {
 幸运的是，我们有一个更强大的工具，`useReducer`。
 
 ### useReducer
+修改上面的例子，让他支持`count`和`step`两个状态，定时器会在每次`count`上增加一个`step`值
+
+```js
+function App() {
+  const [count, setCount] = useState(0)
+  const [step, setStep] = useState(1)
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCount(c => c + step)
+    }, 1000)
+    return () => clearInterval(id)
+  }, [step])
+
+  return (
+    <>
+      <h1>{count}</h1>
+      <input value={step} onChange={e => setStep(Number(e.target.value))} />
+    </>
+  )
+}
+```
+显然这个例子在每次修改`step`值后，都会重启定时器，即清理上一次`effect`，重新执行一次`effect`。但如果我不想每次都重启定时器，要怎么取消`step`的依赖呢？
 
 
 
