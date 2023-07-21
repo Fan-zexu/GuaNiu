@@ -382,6 +382,56 @@ function App() {
 ```
 显然这个例子在每次修改`step`值后，都会重启定时器，即清理上一次`effect`，重新执行一次`effect`。但如果我不想每次都重启定时器，要怎么取消`step`的依赖呢？
 
+当一个状态的更新依赖另一个状态时，可以是用`useReducer`来处理，它可以把组件内改变状态的动作`action`，和状态如何修改和响应更新分开。就像redux一样，通过`dispatch`派发一个`action`来更新`state`。代码：
+```js
+const initialState = {
+  count: 0,
+  step: 1,
+}
+
+function reducer(state, action) {
+  const { count, step } = state
+  switch (action.type) {
+    case 'tick':
+      return {
+        ...state,
+        count: count + step
+      }
+    case 'step':
+      return {
+        ...state,
+        step: action.step
+      }
+    default:
+      return state
+  }
+}
+
+function App() {
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const { count, step } = state
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      dispatch({ type: 'tick' })
+    }, 1000)
+    return () => clearInterval(id)
+  }, [dispatch])
+
+  return (
+    <>
+      <h1>{count}</h1>
+      <input value={step} onChange={e => {
+        dispatch({
+          type: 'step',
+          step: Number(e.target.value)
+        })
+      }} />
+    </>
+  )
+}
+```
+由于`react`会保证`dispatch`在组件内不变，所以`effect`不会重新执行。
 
 
 ## 深入原理
