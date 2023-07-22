@@ -433,5 +433,17 @@ function App() {
 ```
 由于`react`会保证`dispatch`在组件内不变，所以`effect`不会重新执行。
 
+这里也可以把`effect`的依赖 `dispatch`去掉，只传一个空数组
+
+```js
+useEffect(() => {
+  const id = setInterval(() => {
+    dispatch({ type: 'tick' })
+  }, 1000);
+  return () => clearInterval(id);
+}, [])
+```
+
+还有一个情况，就是在`reducer`中访问`props`，我们可以把`reducer`放在具体组件内部，这样就可以访问到`props`了。
 
 ## 深入原理
