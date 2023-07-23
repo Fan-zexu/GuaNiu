@@ -452,5 +452,38 @@ useEffect(() => {
 
 好像写过类似的问题，这里再来写一次，加深印象
 
+---
+
+经常遇到一类场景，在`effect`中去发请求，把`effect`当做`DidMounted`来用。
+
+但随着维护迭代，代码可能变得复杂，向下面这样：
+
+```js
+function App() {
+  function getFetchUrl(query) {
+    return '...' + query
+  }
+
+  async function fetchData() {
+    const result = await axios(getFetchUrl())
+    setData(result.data)
+  }
+
+  useEffect(() => {
+    const url = getFetchUrl('react')
+    // ...
+    fetchData();
+  }, []) // 缺少依赖 getFetchUrl
+
+  useEffect(() => {
+    const url = getFetchUrl('redux')
+    fetchData();
+    // ...
+  }, []) // 缺少依赖 getFetchUrl
+
+  // ...
+}
+```
+
 
 ## 深入原理
