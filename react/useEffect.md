@@ -485,5 +485,55 @@ function App() {
 }
 ```
 
+随着迭代复杂度的增加，我们可能会忘记在`useEffect`中添加`getFetchUrl`依赖，导致`getFetchUrl`一旦发生变化，`useEffect`不会重新执行，导致请求的url不正确。
+
+这里也有3种解决方案：
+
+1. 把`getFetchUrl`放到`useEffect`中，这样就不会忘记添加依赖了
+2. 直接把`getFetchUrl`提到组件外部
+```js
+function getFetchUrl(query) {
+  return '...' + query
+}
+function App() {
+  // ...
+}
+```
+3. 使用`useCallback`，把`getFetchUrl`作为依赖传入
+
+```js
+function App() {
+  const getFetchUrl = useCallback(query => {
+    return '...' + query
+  }, [])
+
+  async function fetchData() {
+    const result = await axios(getFetchUrl())
+    setData(result.data)
+  }
+
+  useEffect(() => {
+    const url = getFetchUrl('react')
+    // ...
+    fetchData();
+  }, [getFetchUrl])
+
+  useEffect(() => {
+    const url = getFetchUrl('redux')
+    fetchData();
+    // ...
+  }, [getFetchUrl])
+
+  // ...
+}
+```
+
+接着上面的例子，将`getFetchUrl`方法作为参数，传递给子组件的应用：
+```js
+function Parent() {
+
+}
+```
+
 
 ## 深入原理
