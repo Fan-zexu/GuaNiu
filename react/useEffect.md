@@ -531,9 +531,22 @@ function App() {
 接着上面的例子，将`getFetchUrl`方法作为参数，传递给子组件的应用：
 ```js
 function Parent() {
+  const [query, setQuery] = useState('test');
+  const fetchData = useCallback(() => {
+    const url = '...' + query
+    // ...
+  }, [query]);
+  return <Child fetchData={fetchData} />
+}
 
+function Child({ fetchData }) {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    fetchData().then(setData);
+  }, [fetchData]);
+  // ...
 }
 ```
-
+由于父组件中的`fetchData`被`useCallback`包裹，只有`query`状态变化时，才会重新创建`fetchData`函数，从而导致子组件参数的更新，子组件的`effect`重新执行。
 
 ## 深入原理
