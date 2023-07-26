@@ -549,4 +549,6 @@ function Child({ fetchData }) {
 ```
 由于父组件中的`fetchData`被`useCallback`包裹，只有`query`状态变化时，才会重新创建`fetchData`函数，从而导致子组件参数的更新，子组件的`effect`重新执行。
 
+### 竞态
+
 ## 深入原理
