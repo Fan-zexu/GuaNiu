@@ -3,6 +3,7 @@ import Calculate from './components/Calculate';
 import CalculateNew from './components/Calculate/CalculateNew';
 import UseEffectCom from './components/useEffect';
 import ClassEffectCom from './components/ClassEffect';
+import RaceWrap from './components/RaceWrap';
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
       <UseEffectCom />
       <h2>看看class组件表现</h2>
       <ClassEffectCom />
+      <h2>竞态</h2>
+      <RaceWrap />
     </div>
   );
 }
