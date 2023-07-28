@@ -5,16 +5,26 @@ const RaceCom = ({id}: {id: number}) => {
 
     useEffect(() => {
         let didCancel = false;
-
+        console.log('didCancel---', id, didCancel);
+        
         async function fetchData() {
             const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
-            const article = await res.json();
-            if (!didCancel) setArticle(article);
+            const data = await res.json();
+            if (id%2 === 0) {
+                setTimeout(() => {
+                    console.log('fetch----,,,', id, didCancel);
+                    if (!didCancel) setArticle(data.id);
+                }, 1000)
+            } else {
+                console.log('fetch----,,,', id, didCancel);
+                if (!didCancel) setArticle(data.id);
+            }
         }
 
         fetchData();
         return () => {
             didCancel = true;
+            console.log('cleanup----,,,', id, didCancel);
         };
     }, [id]);
 
@@ -27,7 +37,7 @@ function RaceWrap() {
     const [id, setId] = useState(1);
     return (
         <div>
-            <button onClick={() => { setId(id + 1) }}>点我+1</button>
+            <button onClick={() => { setId(id + 1) }}>累加{id}</button>
             <RaceCom id={id} />
         </div>
     )
