@@ -13,3 +13,5 @@ Monorepo是一种项目管理方式，在它之前，管理方式是MultiRepo，
 | Rush   |         |
 
 今天主要介绍主打高性能的**Turborepo**
+
+这里大家可以了解下它的兄弟产品**Turbopack**
