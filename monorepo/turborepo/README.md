@@ -36,5 +36,18 @@ Turborepo 是一个适用于 JavaScript 和 Typescript monorepo 的高性能构�
 > 拓扑 是一种排序 拓扑排序是依赖优先的术语， 如果 A 依赖于 B，B 依赖于 C，则拓扑顺序为 C、B、A。
 > 比如一个较大的工程往往被划分成许多子工程，有些子工程必须在其它有关子工程完成之后才能开始，也就是说，一个子工程的开始是以它的所有前序子工程的结束为先决条件的
 
+下面对比图，来看`Turbo`和`lerna`处理任务的方式
 
+子包关系：
 
+![任务关系](./images/your-monorepo-excalidraw.webp)
+
+`lerna`执行任务：
+
+![lerna执行任务](./images/yarn-workspaces-excalidraw.webp)
+
+`Turbo`执行任务：
+
+![turbo执行](./images/turborepo-excalidraw.webp)
+
+很明显，`Turbo`可以并行执行多个任务，而`lerna`只能串行执行。性能不言而喻
