@@ -12,6 +12,12 @@ Monorepo是一种项目管理方式，在它之前，管理方式是MultiRepo，
 | Lerna   | 用于管理包含多个软件包的JavaScript项目的工具        |
 | Rush   |    支持跨项目构建；多进程编译     |
 
+Monorepo 必备3大能力：
+
+- 依赖管理能力
+- 任务编排能力
+- 版本发布能力
+
 # Turborepo
 
 ## 是什么
