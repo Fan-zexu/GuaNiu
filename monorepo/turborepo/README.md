@@ -2,21 +2,30 @@
 
 Monorepo是一种项目管理方式，在它之前，管理方式是MultiRepo，即每个项目对应一个仓库。这会导致一些弊端，比如代码管理分散、相同功能在每个仓库重复维护等问题。
 
-常见Monorepo工具有：
-
-| 工具      | 简述 |
-| ----------- | ----------- |
-| Bit      | 用于组件驱动开发的工具链  |
-| Turborepo   | 用于 JavaScript 和 TypeScript 代码库的高性能构建系统        |
-| Nx   | 用于开发和维护大型前端应用程序的工具集        |
-| Lerna   | 用于管理包含多个软件包的JavaScript项目的工具        |
-| Rush   |    支持跨项目构建；多进程编译     |
-
 Monorepo 必备3大能力：
 
 - 依赖管理能力
 - 任务编排能力
 - 版本发布能力
+
+
+常见Monorepo工具有：
+
+| 工具      | 依赖管理能力 | 任务编排能力 | 版本发布能力 |
+| ----------- | ----------- | ----------- | ----------- |
+| Pnpm Workspace | ✅  |  ✅ | ❌ |
+| Rush   | ✅  | ✅ | ✅ |
+| Lage   | ❌ | ✅ | ❌ |
+| Lerna   | ❌ | ✅ | ✅ |
+| Turborepo | ❌ | ✅ | ❌ |
+
+- [Pnpn](https://pnpm.io/) Pnpm除了具备高性能的依赖管理能力之外，还可以通过 `--filter`参数支持一定任务编排，所以也将其列入。
+- [Rush](https://rushjs.io/) 由微软开源的可扩展 Monorepo 管理方案，内置 PNPM 以及类 Changesets 发包方案，其插件机制是一大亮点，使得利用 Rush 内置能力实现自定义功能变得极为方便
+- [Lage](https://microsoft.github.io/lage/) 同样是微软开源，可以算是`Turbo`前身，同样是Go语言实现，但相较于`Turbo`人气差了一个级别。
+- [Lerna](https://lerna.js.org/) 比较成熟，中规中矩menorepo方案，目前已经停止维护。
+
+依赖管理过于底层，版本控制较为简单且已成熟，将这两项能力再做突破是比较困难的，实践中基本都是结合 `Pnpm` 以及 `Changesets` 补全整体能力，甚至就干脆专精于一点，即任务编排，也就是 Lage 以及 Turborepo 的发力点。
+
 
 # Turborepo
 
