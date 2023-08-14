@@ -24,7 +24,7 @@ Monorepo 必备3大能力：
 - [Lage](https://microsoft.github.io/lage/) 同样是微软开源，可以算是`Turbo`前身，同样是Go语言实现，但相较于`Turbo`人气差了一个级别。
 - [Lerna](https://lerna.js.org/) 比较成熟，中规中矩menorepo方案，目前已经停止维护。
 
-依赖管理过于底层，版本控制较为简单且已成熟，将这两项能力再做突破是比较困难的，实践中基本都是结合 `Pnpm` 以及 `Changesets` 补全整体能力，甚至就干脆专精于一点，即任务编排，也就是 Lage 以及 Turborepo 的发力点。
+依赖管理过于底层，版本控制较为简单且已成熟，将这两项能力再做突破是比较困难的，实践中基本都是结合 `Pnpm` 以及 `Changesets` 补全整体能力，甚至就干脆专精于一点，即任务编排，也就是 Turborepo 的发力点。
 
 
 # Turborepo
