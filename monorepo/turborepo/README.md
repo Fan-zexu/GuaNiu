@@ -89,7 +89,53 @@ Turborepo 是一个适用于 JavaScript 和 Typescript monorepo 的高性能构�
 
 ## Turbo核心概念
 
-### 管道
+### 管道 pipeline
+
+- 通过`pipeline json`可以显式指定任务关系
+- `pipeline`中的每一个`key`，都指向`package.json`中的`script`脚本，并且都可以被`turbo run `所运行
+- `turbo`最终会根据这分配至，对每个子package有序执行脚本和优化缓存输出
+
+```js
+
+// turbo.json
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "pipeline": {
+    "build": {
+      // A package's `build` script depends on that package's
+      // dependencies' and devDependencies'
+      // `build` tasks  being completed first
+      // (the `^` symbol signifies `upstream`).
+      "dependsOn": ["^build"],
+      // note: output globs are relative to each package's `package.json`
+      // (and not the monorepo root)
+      "outputs": [".next/**"]
+    },
+    "test": {
+      // A package's `test` script depends on that package's
+      // own `build` script being completed first.
+      "dependsOn": ["build"],
+      "outputs": [],
+      // A package's `test` script should only be rerun when
+      // either a `.tsx` or `.ts` file has changed in `src` or `test` folders.
+      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
+    },
+    "lint": {
+      // A package's `lint` script has no dependencies and
+      // can be run whenever. It also has no filesystem outputs.
+      "outputs": []
+    },
+    "deploy": {
+      // A package's `deploy` script depends on the `build`,
+      // `test`, and `lint` scripts of the same package
+      // being completed. It also has no filesystem outputs.
+      "dependsOn": ["build", "test", "lint"],
+      "outputs": []
+    }
+  }
+}
+
+```
 
 #### DependsOn依赖
 
