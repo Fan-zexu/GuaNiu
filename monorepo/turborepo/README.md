@@ -211,4 +211,21 @@ Turborepo 是一个适用于 JavaScript 和 Typescript monorepo 的高性能构�
 
 #### input
 
-默认为`[]`
+表示命令执行所依赖的文件，如果文件发生变化，那么命令会被重新执行。
+
+例如，可以用它来帮助你跳过单元测试，除非源文件发生更改。
+
+默认为`[]`，表示任何文件变化都会触发命令执行。
+
+```js
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "pipeline": {
+    "test": {
+      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
+    }
+  }
+}
+
+```
+
