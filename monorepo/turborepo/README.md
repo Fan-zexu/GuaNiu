@@ -247,9 +247,44 @@ Turborepo 是一个适用于 JavaScript 和 Typescript monorepo 的高性能构�
 
 ##### `--continue`
 
+`true`：`turbo`将以执行期间遇到的最高退出代码值退出。
+
+默认`false`
+
+```
+turbo run build --continue
+```
 
 ##### `--parallel`
 
+脚本程序并行运行命令并忽略依赖关系图。这对于使用实时重新加载进行开发很有用。例如我们启动vite项目的时候我们就需要忽略其他可能出现的dependsOn依赖关系
+
+默认`false`
+
+```json
+"pipeline": {
+  "build": {
+    "dependsOn": ["^build"],
+    "outputs": ["dist/**", "build/**"],
+    "outputMode": "new-only"
+  },
+  "lint": {
+    "outputs": []
+  },
+  "dev": {
+    "cache": false,
+    //
+    "dependsOn": ["^build"]
+  }
+}
+```
+
+由于我们在pipeline中设置了dependson的build命令依赖优先的问题所以我们可以指定--parallel并行执行并且阻止默认依赖 build 指令
+
+```
+turbo run lint --parallel --no-cache
+turbo run dev --parallel --no-cache
+```
 
 ##### `--filter`
 
