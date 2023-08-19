@@ -288,15 +288,60 @@ turbo run dev --parallel --no-cache
 
 ##### `--filter`
 
+很强大的过滤功能，只能这么形容，[参考](https://turbo.build/repo/docs/reference/command-line-reference/run#--filter)
+
+```
+turbo run build --filter=my-pkg
+turbo run test --filter=...^@scope/my-lib
+turbo run build --filter=./apps/* --filter=!./apps/admin
+```
 
 ##### `--force`
 
+忽略现有的缓存工件并强制重新执行所有任务（覆盖重叠的工件）
+
+```
+turbo run build --force
+```
 
 ##### `--no-cache`
 
+不要缓存任务的结果。 默认`false`
+
+```
+turbo run build --no-cache
+turbo run dev --parallel --no-cache
+```
 
 ##### `--only`
 
+将执行限制为指定package中的指定的任务。默认`false`
+
+```json
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "pipeline": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "test": {
+      "dependsOn": [
+        "^build"
+      ]
+    }
+  }
+}
+```
+
+```bash
+turbo run test --only
+```
+
+将只会执行每个包中的test任务。它不会build
+
+更多指令[参考](https://turbo.build/repo/docs/reference/command-line-reference/run#options)
 
 ## 实战部分
 
