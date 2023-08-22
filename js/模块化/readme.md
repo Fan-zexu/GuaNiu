@@ -114,3 +114,31 @@ Module {
 - `require.extensions`：根据文件的后缀名，调用不同的执行函数。比如，`.js`文件调用`js`执行函数，`.json`文件调用`json`执行函数，`.node`文件调用`node`执行函数。
 
 
+## CommonJS的例子
+
+1. 简单类型的输出
+
+```js
+// a.js
+let val = 1;
+
+const setVal = (newVal) => {
+    val = newVal;
+}
+
+module.exports = {
+    val,
+    setVal
+}
+
+// b.js
+const { val, setVal } = require('./a.js');
+
+console.log(val); // 1
+
+setVal(2);
+
+console.log(val); // 1
+```
+
+最后执行b文件，结果为如上
