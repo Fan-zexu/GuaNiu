@@ -32,3 +32,9 @@
 - 篮球对的第一场比赛，赢了~ 很激烈，开始以为输了，上半场落后10多分，下半场顽强追回，最后还反超5分。对手确实很强，今天轮换阵容都是主力。。。
 
 - 今天又看了2篇关于react文章：一篇是讲`Qwik`的的`Resumable`即**恢复**概念，PK`react`的`RSC`的。`Qwik`的作者是`Angular`之父。[原文](https://mp.weixin.qq.com/s/MSQcDUyOHZLs9xNn6Nob4g)。另一篇是讲`react`的`RSC`的，哈哈，正好前后呼应，[原文](https://mp.weixin.qq.com/s/TFxQSwOLQJWBC-ErWaHS9Q)在这里。回头把里面核心概念摘录出来整理回顾一下~
+
+# 08-23
+
+- 今天请假休息一天，基本啥也没干，刷了刷头条，都是讲24号日本排核废水的事，日本自己应该承担的责任，不仅不作为，还想拉着世界一起下水。看见新闻说要我国采取抵制，保卫海洋环境，不知道会有什么措施。
+
+- 看见有同事发了一个chrome新特性，`Fetch Priority`，意思是可以设置浏览器获取资源优先级，[文章参考](https://cloud.tencent.com/developer/article/2311482)
