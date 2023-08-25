@@ -142,3 +142,53 @@ console.log(val); // 1
 ```
 
 最后执行b文件，结果为如上
+
+2. 引用类型的输出
+
+```js
+// a.js
+let obj = {
+  val: 1
+};
+
+const setVal = (newVal) => {
+  obj.val = newVal
+}
+
+module.exports = {
+  obj,
+  setVal
+}
+
+// b.js
+const { obj, setVal } = require('./a.js')
+
+console.log(obj); // { val: 1 }
+
+setVal(101);
+
+console.log(obj); // { val: 101 }
+```
+
+就简单分析这两个例子，可以简化成 `c.js`，[入口](./demo/c.js)
+
+所以其实`CommonJS`并没有什么神秘的地方，就是最原始的JS用法。
+
+**重点：**
+
+值的拷贝，发生在给`module.exports`赋值的那一刻：
+
+```js
+var a = 1;
+
+var obj = {
+  val: 1,
+}
+
+module.exports = {
+  val: a,
+  valObj: obj
+}
+```
+可以看到如果`a`是一个**简单类型**，再如何改变，`val`的值也不会改变； 如果是一个**引用类型**，那就会存在引用问题~
+
