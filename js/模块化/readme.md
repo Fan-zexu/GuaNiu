@@ -192,3 +192,55 @@ module.exports = {
 ```
 可以看到如果`a`是一个**简单类型**，再如何改变，`val`的值也不会改变； 如果是一个**引用类型**，那就会存在引用问题~
 
+## CommonJS 具体实现
+
+### 1. 一个模块类`MyModule`
+
+```js
+function MyModule() {
+  this.id = ''; // 模块路径
+  this.exports = {}; // 模块输出
+  this.loaded = false; // 是否加载完成
+  // this.filename = ''; // 模块文件名
+  // this.children = []; // 子模块
+  // this.paths = []; // 模块路径
+}
+```
+
+### 2. `require`函数
+
+`require`是`Mymodule`的一个实例方法，所以在`MyModule`的原型上定义：
+
+```js
+MyModule.prototype.require = function(id) {
+  return MyModule._load(id);
+}
+```
+
+`require`函数包装了`_load`方法
+
+```js
+MyModule._load = function (path) {
+  // 1. 根据传入路径，解析模块文件名
+  const filename = MyModule._resolveFilename(path);
+
+  // 2. 如果缓存中存在，直接返回
+  const cachedModule = MyModule._cache[filename];
+  if (cachedModule) {
+    return cachedModule.exports;
+  }
+
+  // 3. 如果没有缓存，创建一个模块实例
+  const module = new MyModule();
+
+  // 4. 缓存模块
+  MyModule._cache[filename] = module;
+
+  // 5. 加载模块，这里其实还有模块加载失败后清理缓存的操作，这里可以省略
+  module.load(filename);
+
+  // 6. 返回模块的输出
+  return module.exports;
+}
+```
+
