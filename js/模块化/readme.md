@@ -243,4 +243,15 @@ MyModule._load = function (path) {
   return module.exports;
 }
 ```
+#### _resolveFilename
+
+根据传入的`require`参数，来解析实际的模块路径。源码实现复杂，因为要支持多种类型参数：内置模块、相对路径、绝对路径、文件夹、三方模块等。
+
+这里仅简单演示相对路类型。
+
+```js
+MyModule._resolveFilename = function(id) {
+  return path.resolve(id);
+}
+```
 
