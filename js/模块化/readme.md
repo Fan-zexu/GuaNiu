@@ -255,3 +255,70 @@ MyModule._resolveFilename = function(id) {
 }
 ```
 
+#### MyModule.prototype.load
+
+`.load`是模块的实例方法，是真正用来加载模块的方法，也是不同类型文件加载的一个入口，不同类型文件会对应`MyModule._extensions`里面的一个方法
+
+```js
+MyModule.prototype.load = function (filename) {
+  // 获取文件后缀名
+  const extname = path.extname(filename);
+  // 调用后缀名对应的处理函数来处理
+  MyModule._extensions[extname](this, filename);
+
+  this.loaded = true;
+}
+```
+
+#### MyModule._extensions['X']
+
+`node`加载器处理`.js`之外，还支持`.json``.node`模块
+
+本demo仅演示`.js`文件处理
+
+```js
+MyModule._extensions['.js'] = function(module, filename) {
+  // 1. 读取filename文件内容
+  const content = fs.readFileSync(filename, 'utf8');
+  // 2. 将读取内容交给 _compile方法处理
+  module._compile(content, filename);
+}
+```
+
+这里的`._compile`是一个实例方法
+
+#### ._compile
+
+`_compile`是node加载模块的核心方法，功能就是将文件代码拿出来，执行一遍，执行过程如下：
+
+**1.** 在代码执行前，先给模块外包一层，为了可以注入`require` `module` `exports` `__filename` `__dirname`变量，这也就是为什么我们在代码中可以使用这几个看似是全局的变量。
+
+比如，我们有个简单的`hello world`文件，
+
+```js
+module.exports = 'hello world';
+```
+
+那么这里的 `module`变量，就是通过外层注入进来，给我们使用的，类似这样:
+
+```js
+function (module) {  // 同理，其他几个变量也是如此注入
+  module.exports = 'hello world';
+}
+```
+
+在Node中提供了这样的`wrap`方法，来将模块代码进行包装：
+
+```js
+NativeModule.wrap = function(script) {
+  return NativeModule.wrapper[0] + script + NativeModule.wrapper[1];
+};
+
+NativeModule.wrapper = [
+  '(function (exports, require, module, __filename, __dirname) { ',
+  '\n});'
+];
+```
+
+**2.** 将包装好的代码放入node沙箱执行，并返回？ 沙箱执行使用了node的`vm`模块
+
