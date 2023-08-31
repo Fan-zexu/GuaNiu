@@ -322,3 +322,45 @@ NativeModule.wrapper = [
 
 **2.** 将包装好的代码放入node沙箱执行，并返回？ 沙箱执行使用了node的`vm`模块
 
+实现在`_.compile`中
+
+```js
+MyModule.wrapper = [
+  '(function (myExports, myRequire, myModule, __filename, __dirname) { ',
+  '\n});'
+];
+
+MyModule.wrap = function (script) {
+  return MyModule.wrapper[0] + script + MyModule.wrapper[1];
+};
+
+MyModule.prototype._compile = function(content, filename) {
+  var self = this;
+  // 包装一层模块代码
+  const wrapper = MyModule.wrap(content);
+  // vm是nodejs虚拟机沙盒模块，runInThisContext方法可以接受一个字符串并将它转换为一个函数
+  // 返回值就是转化后的函数，compiledWrapper就是一个函数
+  const compiledWrapper = vm.runInThisContext(wrapper, {
+    filename
+  });
+  const dirname = path.dirname(filename);
+
+  const args = [self.exports, self.require, self, filename, dirname];
+  return compiledWrapper.apply(self.exports, args);
+}
+```
+
+#### 最后生成一个实例并导出
+
+```js
+const myModuleIns = new MyModule();
+
+const MyRequire = (id) => {
+  return myModuleIns.require(id);
+};
+
+module.exports = {
+  MyRequire,
+  MyModule,
+}
+```
