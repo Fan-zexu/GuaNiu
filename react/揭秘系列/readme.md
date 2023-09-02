@@ -12,7 +12,7 @@
 
 - CPU瓶颈
 
-- IOS瓶颈
+- IO瓶颈
 
 ### CPU瓶颈
 
@@ -22,3 +22,10 @@
 
 这里的之所以可以继续执行，是归功于**时间切片**，而它的关键就是：将**同步更新**转为**可中断的异步更新**
 
+### IO瓶颈
+
+这里举例，当页面渲染前需要接口请求，此时一般情况会增加`loading`来进行兜底。
+
+`react`提出了[Suspense](https://zh-hans.reactjs.org/docs/concurrent-mode-suspense.html)功能，配套的hook——useDeferredValue，来进行优化。
+
+这其中的实现，也依托于将**同步更新**转为**可中断的异步更新**
