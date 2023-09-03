@@ -29,3 +29,47 @@
 `react`提出了[Suspense](https://zh-hans.reactjs.org/docs/concurrent-mode-suspense.html)功能，配套的hook——useDeferredValue，来进行优化。
 
 这其中的实现，也依托于将**同步更新**转为**可中断的异步更新**
+
+
+## 老React架构
+
+由于`React15`版本不能满足快速响应式，所以被重构.
+
+### React15
+
+架构分为两层：
+
+- `Reconciler` 协调器，负责找到**变化的组件**
+
+- `Renderer` 渲染器，复杂将变化的组件渲染到页面
+
+#### Reconciler
+
+`React`通过 `this.setState`, `this.forceUpdate`, `ReactDOM.render`等api来触发更新
+
+每当有更新时，协调器工作:
+
+- 调用组件的`render`，将`jsx`转为虚拟DOM
+
+- 将虚拟DOM和上次更新时的虚拟DOM对比
+
+- 通过对比找出本次更新中变化的虚拟DOM
+
+- 通知`Renderer`将变化的虚拟DOM渲染到页面上
+
+> [Reconciler官方介绍](https://zh-hans.reactjs.org/docs/codebase-overview.html#reconcilers)
+
+#### Renderer
+
+React中渲染器支持跨平台，不同平台对应不同的渲染器实现。`web`端对应的是`ReactDOM`
+
+- ReactNative，渲染App原生组件
+
+- ReactTest，渲染出纯Js对象用于测试
+
+- ReactArt，渲染到Canvas, SVG 或 VML (IE8)
+
+在每次更新发生时，`Renderer`接到`Reconciler`通知，将变化的组件渲染在当前宿主环境。
+
+> [Renderer官方介绍](https://zh-hans.reactjs.org/docs/codebase-overview.html#renderers)
+
