@@ -73,3 +73,12 @@ React中渲染器支持跨平台，不同平台对应不同的渲染器实现。
 
 > [Renderer官方介绍](https://zh-hans.reactjs.org/docs/codebase-overview.html#renderers)
 
+### React15架构缺点
+
+在`Reconciler`中，组件的`mount`会调用 `mountComponent`，组件`update`会调用`updateComponet`。这两个方法都会**递归更新子组件**
+
+递归更新的缺点：**中途不能中断**
+
+这里有一个模拟中途中断的例子，但其实React15不支持中断。[demo](https://react.iamkasong.com/preparation/oldConstructure.html#react15%E6%9E%B6%E6%9E%84%E7%9A%84%E7%BC%BA%E7%82%B9)
+
+所以中途中断后，渲染会错误。所以这也是React15被重构的原因。
