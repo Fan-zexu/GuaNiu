@@ -364,3 +364,54 @@ module.exports = {
   MyModule,
 }
 ```
+
+## 循环引用问题
+
+循环引用问题，就是A模块引用B模块，B模块又引用A模块，这样就形成了循环引用。
+
+下面这个例子：
+
+```js
+// app.js入口
+require('./a.js');
+
+// a.js
+const { b } = require('./b.js');
+
+module.exports = {
+  a: 1,
+}
+
+// b.js
+
+const { a } = require('./a.js');
+
+module.exports = {
+  b: 2,
+}
+
+// 执行app.js
+// 报错：TypeError: Cannot read property 'a' of undefined
+
+```
+
+问题：为什么CommonJS循环引用没有产生类似“死锁”问题：
+
+答案：在`Module._load`函数做了处理：
+
+```js
+// 4. 缓存模块
+  MyModule._cache[filename] = module;
+
+  // 5. 加载模块，这里其实还有模块加载失败后清理缓存的操作，这里可以省略
+  module.load(filename);
+```
+
+1. 检查缓存，如果有，直接返回
+2. 如果没有，创建一个模块实例
+3. 将Module的实例放到缓存中
+4. 通过这个实例来加载文件
+5. 返回这个实例的exports
+
+解决问题的核心在于：**放到缓存中** 与 **加载文件**的顺序
+
