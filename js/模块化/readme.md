@@ -378,13 +378,20 @@ require('./a.js');
 // a.js
 const { b } = require('./b.js');
 
+let a = 'a'
+
+const setA = (val) => { a = val };
+
 module.exports = {
-  a: 1,
+  a,
+  setA,
 }
 
 // b.js
 
-const { a } = require('./a.js');
+const { a, setA } = require('./a.js');
+
+setA('aa')
 
 module.exports = {
   b: 2,
@@ -407,11 +414,33 @@ module.exports = {
   module.load(filename);
 ```
 
+做了以下事情：
+
 1. 检查缓存，如果有，直接返回
 2. 如果没有，创建一个模块实例
 3. 将Module的实例放到缓存中
 4. 通过这个实例来加载文件
 5. 返回这个实例的exports
 
-解决问题的核心在于：**放到缓存中** 与 **加载文件**的顺序
+解决问题的核心在于：**放到缓存中** 与 **加载文件**的顺序，如上代码块
 
+详细分析循环引用细节：
+
+1. 当`app.js`加载`a.js`时，此时`Module`会检查缓存中是否有`a.js`，发现没有，于是new `a.js`模块，并将这个模块放到缓存中，然后去加载`a.js`文件本身。
+
+2. `a.js`文件第一行是加载`b.js`，此时`Module`会检查缓存中是否有`b.js`，发现没有，于是new `b.js`模块，并将这个模块放到缓存中，然后去加载`b.js`文件本身。
+
+3. 加载`b.js`本身时，Module发现第一行是加载`a.js`，它会检查缓存中是否有`a.js`，发现有，于是`require`函数直接返回缓存中的`a.js`。
+
+4. 但是这时候，`a.js`本身并没有执行完毕，还没有走到`module.exports`那一步，所以`a.js`的`exports`还是一个空对象，所以`b.js`中执行 `setA` ，会报`setA is not a function` 的异常。
+
+但如果像这样顺序换一下？
+
+```js
+// 5. 加载模块，这里其实还有模块加载失败后清理缓存的操作，这里可以省略
+module.load(filename);
+// 4. 缓存模块
+MyModule._cache[filename] = module;
+```
+
+这样就会死锁，导致JS栈溢出 `RangeError: Maximum call stack size exceeded`
