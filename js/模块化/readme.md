@@ -508,4 +508,20 @@ function add(a, b) {
 }
 ```
 
+## 编译时输出接口 vs 运行时加载
 
+ESM之所以叫编译时输出接口，就是因为它的模块解析是发生在**编译阶段**
+
+所以`import` `export`这样的关键字在编译阶段就做了解析，所以如果关键字有使用不规范，就会编译阶段抛错~
+
+例如 `import` 只能在顶层作用域使用，不能在条件语句中使用，否则会报错。
+
+```js
+if (true) {
+  import a from './a.js';
+}
+
+// SyntaxError: Unexpected token '{'
+```
+
+于此相对应的 `CommonJS`中的 `require` `module.exports`，他们本身就是函数或者变量对象， 是在执行阶段才被解析，所以被称为**运行时加载**
