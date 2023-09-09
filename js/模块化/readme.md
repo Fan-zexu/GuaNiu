@@ -541,3 +541,27 @@ if (true) {
 5. 加载文件后到全局执行上下文时，会有创建阶段和执行阶段，在创建阶段做函数和变量提升，接着执行代码。
 
 6. 返回这个 Module 实例的 exports
+
+## CommonJS和ESM的区别
+
+### 关于`this`指向
+
+`CommonJS`的`this`在源码中有明确指出，也就是`module`的`exports`对象。
+
+```js
+var args = [self.exports, require, self, filename, dirname];
+return compiledWrapper.apply(self.exports, args)
+```
+
+`ESM` 语言层面设计指向 `undefined`
+
+### 模块内部变量
+
+`CommonJS`中存在`module`,`exports`,`require`,`__dirname`,`__filename`
+
+`ESM`中并没有
+
+
+相同点：
+
+2者都存在缓存
