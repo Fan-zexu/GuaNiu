@@ -82,3 +82,30 @@ React中渲染器支持跨平台，不同平台对应不同的渲染器实现。
 这里有一个模拟中途中断的例子，但其实React15不支持中断。[demo](https://react.iamkasong.com/preparation/oldConstructure.html#react15%E6%9E%B6%E6%9E%84%E7%9A%84%E7%BC%BA%E7%82%B9)
 
 所以中途中断后，渲染会错误。所以这也是React15被重构的原因。
+
+### React16架构
+
+架构分3层：
+
+- Scheduler 调度器，调度任务的优先级，高优任务优先进入**Reconciler**
+
+- Reconciler 协调器，找出变化的组件
+
+- Renderer 渲染器，将变化的组件渲染到页面上
+
+和React15的区别在于 增加了`Scheduler`层
+
+#### Scheduler
+
+我们以浏览器是否有空闲时间，来作为是否任务中断的依据，那么我们需要一种机制，当浏览器有空闲时间时候通知我们。
+
+这个API叫做 **`requestIdleCallback`**
+
+部分浏览器已经实现了这个API，但是`react`官方并没有使用它，原因：
+
+1. 浏览器兼容性问题
+2. 触发频率不稳定，当切换tab之后，之前tab注册的requestIdleCallback触发频率会降低
+
+所以`react`自己实现了一个`requestIdleCallback`的`polyfill`，叫做`Scheduler`。
+
+除了在空闲时间回调之外，还提供了多种调度优先级供任务设置。
