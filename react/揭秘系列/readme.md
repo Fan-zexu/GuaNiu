@@ -109,3 +109,5 @@ React中渲染器支持跨平台，不同平台对应不同的渲染器实现。
 所以`react`自己实现了一个`requestIdleCallback`的`polyfill`，叫做`Scheduler`。
 
 除了在空闲时间回调之外，还提供了多种调度优先级供任务设置。
+
+#### Reconciler
