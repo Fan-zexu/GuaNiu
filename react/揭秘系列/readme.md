@@ -142,3 +142,21 @@ export const Deletion = /*              */ 0b0000000001000;
 只有当所有组件都完成了`Reconciler`的工作后，才会被统一交给`Renderer`来渲染。
 
 > [这里](https://zh-hans.reactjs.org/docs/codebase-overview.html#fiber-reconciler)可以看官方对`Reconciler`描述
+
+#### Renderer
+
+![流程图](../imgs/react16-process.png)
+
+红框部分可能随时中断，中断条件：
+
+- 有优先级更高的任务需要先更新
+
+- 当前帧没有剩余时间
+
+红框中的工作都在内存中进行，不会更新页面DOM，及时反复中断，用户也不会看到更新不全的DOM
+
+### 总结
+
+- `react16`引入`Scheduler`，来进行任务调度，设置优先级
+
+- 新的`Reconciler`，内容使用`Fiber`架构
