@@ -111,3 +111,34 @@ React中渲染器支持跨平台，不同平台对应不同的渲染器实现。
 除了在空闲时间回调之外，还提供了多种调度优先级供任务设置。
 
 #### Reconciler
+
+`react15`是通过递归来`diff`虚拟DOM，所以不能实现中断。
+
+`react16`改为可中断的循环，每次循环都会调用`shouldYield`判断是否有剩余时间，[源码](https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiberWorkLoop.new.js#L1673)
+
+```js
+/** @noinline */
+function workLoopConcurrent() {
+  // Perform work until Scheduler asks us to yield
+  while (workInProgress !== null && !shouldYield()) {
+    workInProgress = performUnitOfWork(workInProgress);
+  }
+}
+```
+
+问题：`react16`怎么解决中断后，DOM渲染不完全问题
+
+答：`Reconciler`和`Renderer`不再交替工作。当`Scheduler`将任务交给`Reconciler`之后，`Reconciler`会给变化的虚拟DOM打上标记，比如新增、删除、修改。[全部标记](https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactSideEffectTags.js)
+
+```js
+export const Placement = /*             */ 0b0000000000010;
+export const Update = /*                */ 0b0000000000100;
+export const PlacementAndUpdate = /*    */ 0b0000000000110;
+export const Deletion = /*              */ 0b0000000001000;
+```
+
+这里就是运用位运算了
+
+只有当所有组件都完成了`Reconciler`的工作后，才会被统一交给`Renderer`来渲染。
+
+> [这里](https://zh-hans.reactjs.org/docs/codebase-overview.html#fiber-reconciler)可以看官方对`Reconciler`描述
