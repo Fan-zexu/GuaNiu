@@ -30,6 +30,7 @@
 
 这其中的实现，也依托于将**同步更新**转为**可中断的异步更新**
 
+---
 
 ## 老React架构
 
@@ -82,6 +83,10 @@ React中渲染器支持跨平台，不同平台对应不同的渲染器实现。
 这里有一个模拟中途中断的例子，但其实React15不支持中断。[demo](https://react.iamkasong.com/preparation/oldConstructure.html#react15%E6%9E%B6%E6%9E%84%E7%9A%84%E7%BC%BA%E7%82%B9)
 
 所以中途中断后，渲染会错误。所以这也是React15被重构的原因。
+
+---
+
+## 新架构
 
 ### React16架构
 
@@ -160,3 +165,11 @@ export const Deletion = /*              */ 0b0000000001000;
 - `react16`引入`Scheduler`，来进行任务调度，设置优先级
 
 - 新的`Reconciler`，内容使用`Fiber`架构
+
+---
+
+## Fiber架构的心智模型
+
+### 代数效应 Algebraic Effects
+
+**它是函数式编程中的概念，用于将副作用从函数中分离**
