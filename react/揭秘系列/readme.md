@@ -173,3 +173,20 @@ export const Deletion = /*              */ 0b0000000001000;
 ### 代数效应 Algebraic Effects
 
 **它是函数式编程中的概念，用于将副作用从函数中分离**
+
+### 代数效应在react中的应用
+
+最明显的例子：`hooks`
+
+参考官方例子：[Suspense Demo](https://codesandbox.io/s/frosty-hermann-bztrp?file=/src/index.js)
+
+在demo中`ProfileDetails`用来展示用户名，是一个异步请求。
+
+在demo中可以同步书写!
+
+```js
+function ProfileDetails() {
+  const user = resource.user.read();
+  return <h1>{user.name}</h1>;
+}
+```
