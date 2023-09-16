@@ -223,3 +223,17 @@ function* jobs(A,B,C) {
 但此时有优先级更高的任务插入，那此前计算y值时的x值，就需要重新计算，而不能复用。如果引入全局变量保存x值，就会增加复杂度。
 
 > 参考这个[issue](https://github.com/facebook/react/issues/7942#issuecomment-254987818)
+
+### 代数效应与Fiber
+
+`Fiber`有“纤程”的意思，它并不是计算机中的新概念。而是与 进程(Process)、线程(Thread)、协程(Coroutine)，同为程序执行过程。
+
+在JS中协程，就是`Generator` ！！！ 
+
+所以可以理解为，`Fiber`和`Generator`就是“代数效应”思想在JS中的体现。
+
+`React Fiber`可以理解为：
+
+- `React`内部实现的一套状态更新机制。支持任务不同优先级，可中断与恢复，并且恢复后可以复用之前的中间状态。
+
+- 其中每个任务更新单元为`React Element`对应的`Fiber`节点。
