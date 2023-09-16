@@ -190,3 +190,36 @@ function ProfileDetails() {
   return <h1>{user.name}</h1>;
 }
 ```
+
+### 代数效应与Generator
+
+`react15`到16最大的改变就是，重构`Reconciler`，将**同步更新**变为**异步可中断**
+
+异步可中断更新可以理解为：更新在执行过程中可能会被打断（浏览器时间分片用尽或有更高优任务插队），当可以继续执行时恢复之前执行的中间状态。
+
+浏览器原生支持类似实现，他就是 `Generator`
+
+但是也被`react`放弃了，原因：
+
+1. 也和`async/await`类似有传染性
+
+2. 它执行的**中间状态**是有上下文关联的，这里可以参考原因的[例子](https://react.iamkasong.com/process/fiber-mental.html#%E4%BB%A3%E6%95%B0%E6%95%88%E5%BA%94%E4%B8%8Egenerator)
+
+就是类似这样
+
+```js
+function* jobs(A,B,C) {
+  var x = jobA(A);
+  yield;
+  var y = job(B) + x;
+  yield;
+  var z = job(c) + y;
+  return z;
+}
+```
+
+当浏览器利用空闲时间执行了A,B任务后（也就是“时间切片”），计算出y值。
+
+但此时有优先级更高的任务插入，那此前计算y值时的x值，就需要重新计算，而不能复用。如果引入全局变量保存x值，就会增加复杂度。
+
+> 参考这个[issue](https://github.com/facebook/react/issues/7942#issuecomment-254987818)
