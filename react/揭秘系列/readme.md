@@ -242,3 +242,7 @@ function* jobs(A,B,C) {
 
 在新架构中，用`Fiber`来代替虚拟DOM的称呼
 
+### Fiber起源
+
+> 最早的官方解释 [2016年React团队成员Acdlite的一篇介绍](https://github.com/acdlite/react-fiber-architecture)
+
