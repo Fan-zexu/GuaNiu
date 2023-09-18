@@ -386,3 +386,7 @@ this.lastEffect = null;
 this.lanes = NoLanes;
 this.childLanes = NoLanes;
 ```
+
+## 前置知识
+
+### 深入JSX
