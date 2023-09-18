@@ -250,9 +250,139 @@ function* jobs(A,B,C) {
 
 - `react15`的`Reconciler`已递归方式执行，数据状态保存在递归的调用栈中，所以叫做`stack Reconciler`。`react16`基于`Fiber`实现，称为`Fiber Reconciler`
 
-- 每个`Fiber`节点对应一个`React Element`，保存了该组件的类型（函数/类/原生组件），对应的DOM节点信息
+- **静态：**每个`Fiber`节点对应一个`React Element`，保存了该组件的类型（函数/类/原生组件），对应的DOM节点信息
 
-- 每个`Fiber`节点保存了本次更新中组件改变的状态、要执行的工作（增、删、改）
+- **动态：**每个`Fiber`节点保存了本次更新中组件改变的状态、要执行的工作（增、删、改）
 
 ### Fiber的结构
 
+[Fiber节点属性源码](https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiber.new.js#L117)
+
+按照3层含义，对节点信息划分：
+
+```js
+function FiberNode(
+  tag: WorkTag,
+  pendingProps: mixed,
+  key: null | string,
+  mode: TypeOfMode,
+) {
+  // 作为静态数据结构的属性
+  this.tag = tag;
+  this.key = key;
+  this.elementType = null;
+  this.type = null;
+  this.stateNode = null;
+
+  // 用于连接其他Fiber节点形成Fiber树
+  this.return = null;
+  this.child = null;
+  this.sibling = null;
+  this.index = 0;
+
+  this.ref = null;
+
+  // 作为动态的工作单元的属性
+  this.pendingProps = pendingProps;
+  this.memoizedProps = null;
+  this.updateQueue = null;
+  this.memoizedState = null;
+  this.dependencies = null;
+
+  this.mode = mode;
+
+  this.effectTag = NoEffect;
+  this.nextEffect = null;
+
+  this.firstEffect = null;
+  this.lastEffect = null;
+
+  // 调度优先级相关
+  this.lanes = NoLanes;
+  this.childLanes = NoLanes;
+
+  // 指向该fiber在另一次更新时对应的fiber
+  this.alternate = null;
+}
+```
+
+#### 作为架构
+
+每个`Fiber`节点有个对应的`React Element`，多个`Fiber`靠下面3个属性，连起来成为树:
+
+```js
+// 指向父级Fiber节点
+this.return = null;
+// 指向子Fiber节点
+this.child = null;
+// 指向右边第一个兄弟Fiber节点
+this.sibling = null;
+```
+
+🌰，组件结构：
+
+```js
+function App() {
+  return (
+    <div>
+      i am
+      <span>KaSong</span>
+    </div>
+  )
+}
+```
+
+`Fiber`结构
+
+![fiber](../imgs/fiber-exmaple.png);
+
+> 这里解释了为什么父级指针叫`return`，而不是parent或者father。因为作为一个工作单元，`return`指节点执行完`completeWork`后会返回下一个节点。
+
+> 子节点及其兄弟节点完成工作后会返回其父节点，就是`return`指向的父节点
+
+#### 作为静态数据结构
+
+保存了组件信息
+
+```js
+// Fiber对应组件的类型 Function/Class/Host...
+this.tag = tag;
+// key属性
+this.key = key;
+// 大部分情况同type，某些情况不同，比如FunctionComponent使用React.memo包裹
+this.elementType = null;
+// 对于 FunctionComponent，指函数本身，对于ClassComponent，指class，对于HostComponent，指DOM节点tagName
+this.type = null;
+// Fiber对应的真实DOM节点
+this.stateNode = null;
+```
+
+#### 作为动态工作单元
+
+保存了**本次更新**相关信息
+
+```js
+// 保存本次更新造成的状态改变相关信息
+this.pendingProps = pendingProps;
+this.memoizedProps = null;
+this.updateQueue = null;
+this.memoizedState = null;
+this.dependencies = null;
+
+this.mode = mode;
+
+// 保存本次更新会造成的DOM操作
+this.effectTag = NoEffect;
+this.nextEffect = null;
+
+this.firstEffect = null;
+this.lastEffect = null;
+```
+
+还有调度优先级相关的信息，在`Scheduler`部分介绍
+
+```js
+// 调度优先级相关
+this.lanes = NoLanes;
+this.childLanes = NoLanes;
+```
