@@ -246,3 +246,13 @@ function* jobs(A,B,C) {
 
 > 最早的官方解释 [2016年React团队成员Acdlite的一篇介绍](https://github.com/acdlite/react-fiber-architecture)
 
+### Fiber3层含义
+
+- `react15`的`Reconciler`已递归方式执行，数据状态保存在递归的调用栈中，所以叫做`stack Reconciler`。`react16`基于`Fiber`实现，称为`Fiber Reconciler`
+
+- 每个`Fiber`节点对应一个`React Element`，保存了该组件的类型（函数/类/原生组件），对应的DOM节点信息
+
+- 每个`Fiber`节点保存了本次更新中组件改变的状态、要执行的工作（增、删、改）
+
+### Fiber的结构
+
