@@ -390,3 +390,81 @@ this.childLanes = NoLanes;
 ## 前置知识
 
 ### 深入JSX
+
+关注几个问题：
+
+- `JSX`和`Fiber`是同一个东西么？
+
+- `React Component`和`React Element`是同一个东西么，和`JSX`的关系？
+
+#### JSX
+
+`JSX`会被编译为`React.createElement`方法。
+
+但是在`React17`有[新的JSX转换方式](https://zh-hans.legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)。不需要显示导入`React`
+
+
+#### React.createElement
+
+[源码](https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react/src/ReactElement.js#L348)
+
+```js
+export function createElement(type, config, children) {
+  // ...
+  return ReactElement{
+    type,
+    key,
+    ref,
+    self,
+    source,
+    ReactCurrentOwner.current,
+    props,
+  }
+}
+
+const ReactElement = function(type, key, ref, self, source, owner, props) {
+  const element = {
+    // 标记这是个 React Element
+    $$typeof: REACT_ELEMENT_TYPE,
+
+    type: type,
+    key: key,
+    ref: ref,
+    props: props,
+    _owner: owner,
+  };
+
+  return element;
+};
+```
+
+方法内部实际调用`ReactElement`，来生成一个包含组件数据的对象。
+
+**重点是：** 这个对象的`$$typeof: REACT_ELEMENT_TYPE`属性，来标记这个对象是一个`React Element`
+
+同时官方还提供了一个全局API[React.isValidElement](https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react/src/ReactElement.js#L547)，来校验是否是合法的`React Element`
+
+所以在react中，`JSX`返回的结果都是`React Element` 
+
+#### React Component
+
+组件分为 `ClassComponent`和`FunctionComponent`
+
+2者无法通过引用类型区分，`React`通过`ClassComponent`实例原型上的`isReactComponent`变量来判断是否是`ClassComponent`
+
+#### JSX和Fiber
+
+JSX是描述组件内容的数据结构，它不包含关于`scheduler` `Reconciler` `Renderer`所需的信息。
+
+比如：
+
+- 组件更新的优先级
+
+- 组件`state`
+
+- 组件被打上用于`Renderer`的标记
+
+在组件`mount`时，`Reconciler`会根据JSX的信息来生成组件对应的`Fiber`节点
+
+在`update`时，`Reconciler`将`JSX`与`Fiber`节点保存的数据对比，生成组件对应的`Fiber`节点，并根据对比结果为`Fiber`节点打上标记
+
