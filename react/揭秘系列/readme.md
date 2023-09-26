@@ -479,6 +479,31 @@ JSX是描述组件内容的数据结构，它不包含关于`scheduler` `Reconci
 
 解决这个问题的一种方案，就是在内存中绘制下一帧内容，绘制完毕之后直接**替换**当前帧画面，这样就可以省去两帧交替的间隙，不会出现白屏到页面闪烁的问题。
 
-这种**在内存中构建并直接替换**的技术，叫做“双缓存”
+这种**在内存中构建并直接替换**的技术，叫做[“双缓存”](https://baike.baidu.com/item/%E5%8F%8C%E7%BC%93%E5%86%B2)
 
 `React`中利用“双缓存”来完成`Fiber树`的构建与替换——对应着`DOM树`的创建和更新。
+
+### 双缓存Fiber树
+
+在`React`中最多会同时存在两棵`Fiber树`：
+
+- 当前屏幕显示内容对应的，称为`current Fiber树`
+
+- 正在内存中构建的，称为`workInProgress Fiber树`
+
+所以对应的`current fiber树的节点` => `current fiber`
+
+对应的`workInProgress fiber树的节点` => `workInProgress fiber`
+
+两个节点通过`alternate`属性连接。
+
+```js
+currentFiber.alternate === workInProgressFiber;
+workInProgressFiber.alternate === currentFiber;
+```
+
+`React`应用的根节点通过`current`指针在不同的`Fiber树`的`rootFiber`间切换来完成`current Fiber树`指向的切换。
+
+也就是当`workInProgress Fiber树`构建完毕，交给`Renderer`渲染到页面之后，`current`就会指向这个`workInProgress Fiber树`，此时它变成了 `current Fiber树`。
+
+每次状态更新都会产生新的`workInProgress Fiber树`，通过`current`和`workInProgress`的替换，完成DOM更新
