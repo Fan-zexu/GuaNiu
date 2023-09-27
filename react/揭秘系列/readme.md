@@ -507,3 +507,42 @@ workInProgressFiber.alternate === currentFiber;
 也就是当`workInProgress Fiber树`构建完毕，交给`Renderer`渲染到页面之后，`current`就会指向这个`workInProgress Fiber树`，此时它变成了 `current Fiber树`。
 
 每次状态更新都会产生新的`workInProgress Fiber树`，通过`current`和`workInProgress`的替换，完成DOM更新
+
+接下来从“挂载”和“更新”来看构建和替换流程
+
+### mount
+
+例子：
+
+```js
+function App() {
+  const [num, add] = useState(0);
+  return (
+    <p onClick={() => add(num + 1)}>{num}</p>
+  )
+}
+
+ReactDOM.render(<App/>, document.getElementById('root'));
+```
+
+1. 首次执行`ReactDOM.render`，会创建 `fiberRoot` 和 `rootFiber`....
+
+其中`fiberRoot`是整个应用的根节点，只有一个。
+
+`rootFiber`是组件根节点，由于可以多次执行`ReactDOM.render`，渲染出多个组件，所以会有多个`rootFiber`节点。
+
+此时 `fiberRoot`的`current`指向当前页面已渲染的内容对应的`fiber树`，即`current Fiber树`
+
+![示意](../imgs/mount-domrender.png)
+
+```js
+fiberRoot.current === rootFiber;
+```
+
+2. 接下来进入`render阶段`，开始渲染 `<App />`组件，`React`会根据`JSX`的返回依次创建`Fiber节点`并连接在一起构建`Fiber树`，即`workInProgress Fiber树`
+
+在构建`workInProgress Fiber树`时会尝试复用`current Fiber树`中已有节点的属性。在首屏时，只有`rootFiber`存在`current Fiber`即 `rootFiber.alternate`
+
+![示意](../imgs/mount-workInProgressFiber.png)
+
+### update
