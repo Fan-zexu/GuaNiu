@@ -525,18 +525,18 @@ function App() {
 ReactDOM.render(<App/>, document.getElementById('root'));
 ```
 
-1. 首次执行`ReactDOM.render`，会创建 `fiberRoot` 和 `rootFiber`....
+1. 首次执行`ReactDOM.render`，会创建 `fiberNodeRoot` 和 `rootFiber`....
 
-其中`fiberRoot`是整个应用的根节点，只有一个。
+其中`fiberNodeRoot`是整个应用的根节点，只有一个，在源码里叫 `fiberRoot`
 
 `rootFiber`是组件根节点，由于可以多次执行`ReactDOM.render`，渲染出多个组件，所以会有多个`rootFiber`节点。
 
-此时 `fiberRoot`的`current`指向当前页面已渲染的内容对应的`fiber树`，即`current Fiber树`
+此时 `fiberNodeRoot`的`current`指向当前页面已渲染的内容对应的`fiber树`，即`current Fiber树`
 
 ![示意](../imgs/mount-domrender.png)
 
 ```js
-fiberRoot.current === rootFiber;
+fiberNodeRoot.current === rootFiber;
 ```
 
 2. 接下来进入`render阶段`，开始渲染 `<App />`组件，`React`会根据`JSX`的返回依次创建`Fiber节点`并连接在一起构建`Fiber树`，即`workInProgress Fiber树`
@@ -545,4 +545,27 @@ fiberRoot.current === rootFiber;
 
 ![示意](../imgs/mount-workInProgressFiber.png)
 
+3. 右侧的`workInProgress Fiber树`在 `commit阶段`被渲染到页面上。
+
+此时DOM更新为右边树对应的样子，`fiberNodeRoot`的`current`指针指向`workInProgress Fiber树`，成为新的 `current Fiber树`。
+
+![示意](../imgs/mount-wipTreeFinish.png)
+
 ### update
+
+1. 改变`p节点`状态，触发新一轮`render阶段`并构建新的`workInProgress Fiber树`
+
+![示意](../imgs/update-wipTreeUpdate.png)
+
+`workInProgress Fiber树`的创建会复用`current Fiber树`对应的节点数据。
+
+> 这个取决于diff算法
+
+2. 在`workInProgress Fiber树`构建完后进入`commit`阶段，并被渲染到页面上后，它就变成了`current Fiber树` 
+
+
+### 总结
+
+这里讲了 `Fiber树`的构建和替换，同时伴随着`DOM`更新。
+
+`Fiber树`中的每个`Fiber节点`，是在`render阶段`被创建。
