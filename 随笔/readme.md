@@ -1,3 +1,11 @@
+# 10-11
+
+[State of vite](https://www.bilibili.com/video/BV1K84y1U7J2/?spm_id_from=333.337.search-card.all.click&vd_source=b95c15ac90a8087a04184403c5e6a9c7)
+
+[vite conf2023](https://viteconf.org/23/replay/welcome)
+
+都提到了`Rust`语言，在前端领域应用愈来愈广泛，有点像TS的发展，是时候把它加入到学习项目中了...卷~
+
 # 10-07
 
 漫长假期终于快结束了，除了带娃之外，还玩起了视频剪辑，虽然用的是傻瓜式的剪映，但也是很需要花心思的。
