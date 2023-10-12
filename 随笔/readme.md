@@ -1,3 +1,9 @@
+# 10-12
+
+很恶心的事，一个半年前统计的指标，到现在觉得有问题，然后找我再去核实。烦死了
+
+明天又可以打球了，视频撸起~
+
 # 10-11
 
 [State of vite](https://www.bilibili.com/video/BV1K84y1U7J2/?spm_id_from=333.337.search-card.all.click&vd_source=b95c15ac90a8087a04184403c5e6a9c7)
