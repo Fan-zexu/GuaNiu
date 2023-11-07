@@ -1,3 +1,58 @@
+# 11-7
+
+遇到一个表单校验问题。
+
+一般情况下，表单显示在页面上，可以直接调用 `Form.validate`方法进行校验。
+
+但是诸如`elementUI`、`antd`这类表单，都是基于`DOM`校验，即页面上有表单`DOM元素`，校验才能生效，如果页面表单不存在，即使有`Form`实例，也无法发起校验。
+
+解决方案：
+
+可以用 [async-validator](https://github.com/yiminghe/async-validator)库来直接校验数据。这样的好处就是可以利用Form组件中的`rules`规则
+
+用法：
+
+```js
+import Schema from 'async-validator';
+const descriptor = {
+  name: {
+    type: 'string',
+    required: true,
+    validator: (rule, value) => value === 'muji',
+  },
+  age: {
+    type: 'number',
+    asyncValidator: (rule, value) => {
+      return new Promise((resolve, reject) => {
+        if (value < 18) {
+          reject('too young');  // reject with error message
+        } else {
+          resolve();
+        }
+      });
+    },
+  },
+};
+const validator = new Schema(descriptor);
+validator.validate({ name: 'muji' }, (errors, fields) => {
+  if (errors) {
+    // validation failed, errors is an array of all errors
+    // fields is an object keyed by field name with an array of
+    // errors per field
+    return handleErrors(errors, fields);
+  }
+  // validation passed
+});
+
+// PROMISE USAGE
+validator.validate({ name: 'muji', age: 16 }).then(() => {
+  // validation passed or without error message
+}).catch(({ errors, fields }) => {
+  return handleErrors(errors, fields);
+});
+
+```
+
 # 11-6
 
 今天变天，太冷了，我还穿少了，明天多穿
