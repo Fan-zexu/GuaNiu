@@ -1,3 +1,14 @@
+# 前面
+
+`react-router`和`react-router-dom`和`history`三者关系？？？
+
+`history`是`react-router`底层实现核心，主要基于`popState` `pushState` `replaceState`等api实现
+
+`react-router`实现了路由核心功能，包括`Router``Route``Switch`重要核心组件。它是`react-router-dom`的底层依赖，所以项目中直接引入`react-router-dom`即可
+
+`react-router-dom`，在`react-router`基础上实现了跳转组件`Link`，和`history`模式下的`BrowserRouter`组件和`hash`模式下的`HashRouter`组件等。
+
+
 # 原理分析
 
 ## `history api`
