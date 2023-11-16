@@ -52,3 +52,12 @@ window.addEventListener('popState', event => { console.log(event) } )
 2. `hashchange`
 
 它只能监听`#`井号后面的内容变化，功能相比`popState`薄弱，`react-router`也是使用`popState`实现的
+
+
+# 源码
+
+从`createBrowserRouter`入口方法入手：
+
+调用`createRouter`，内部传入`history`对象，这个`history`不是原生api，而是封装一层后的。主要包括`listen` `push` `replace` `go` 4个方法
+
+![history](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qUlBX8xMJIzbQ6JHyZ1qQYG2j51cLX9quTj6XKrCuLdibnT4fJuR0JicQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
