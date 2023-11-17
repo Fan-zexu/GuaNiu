@@ -61,3 +61,37 @@ window.addEventListener('popState', event => { console.log(event) } )
 调用`createRouter`，内部传入`history`对象，这个`history`不是原生api，而是封装一层后的。主要包括`listen` `push` `replace` `go` 4个方法
 
 ![history](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qUlBX8xMJIzbQ6JHyZ1qQYG2j51cLX9quTj6XKrCuLdibnT4fJuR0JicQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+`listen`主要监听了`popstate`事件，`go` `push` `replace`就是对`history api`的封装
+
+![push](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qlDyoX6w3WraTibaEcYORJAB4NZiaAbJaTQqib7s6cYaywowYefMLxObcw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+![replace](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qk0aS6iaicpFtaviaypDklklBcmzwL6RyFCRGogfGJ226r1vecVBcZmRNQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+此外`history` 还封装了 `location`，可以不用从`window`上获取了  `history.location`
+
+---
+
+从这里开始，进入`createRouter`：
+
+对`routes`配置和 `location`做一次匹配，
+
+![matchRoutes](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qObNuK8EGAgoBbxZfylIJfG8dVNF8fZRaXzOc9nnSWQpFv3zlQXxfJw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+通过`matchRoutes`把`routes`中的嵌套路由拍平，然后和`location`匹配
+
+![matchRoutes](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64q5STcKHaooyaxSIv4ibBtb1EmdfTO7mZd7ibBEB2UrW8XYiblCJfTkrDPQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+然后就可以得到匹配路由中要渲染的组件
+
+![element](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qd9vKRe1XeoIM533l4BhgjBs4WZ7sUz0pyF7AicGVNLpoGbbclZqibIfA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+在组件树渲染时，就知道渲染什么组件了
+
+![render](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qqvDPDzkKPqz9qY4D37gcpia09PTFdrVWTNuaASWxr2ds4u72MyLA7zg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+这就是路由对应组件的过程
+
+**流程小结**
+
+![init](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qdUd3tW8TqicI0uTYwM63zdR0ibnF92a5AoteOTicicQ4tecdVbb4b9ichUA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
