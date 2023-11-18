@@ -70,7 +70,7 @@ window.addEventListener('popState', event => { console.log(event) } )
 
 此外`history` 还封装了 `location`，可以不用从`window`上获取了  `history.location`
 
----
+## url匹配渲染组件流程
 
 从这里开始，进入`createRouter`：
 
@@ -95,3 +95,46 @@ window.addEventListener('popState', event => { console.log(event) } )
 **流程小结**
 
 ![init](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qdUd3tW8TqicI0uTYwM63zdR0ibnF92a5AoteOTicicQ4tecdVbb4b9ichUA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+
+## 通过link跳转渲染组件流程
+
+点击link组件
+
+![link](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qP6kib6E7bODPmUibyIy1k4CvIRt58QgWB8KIjCfH55F7JU1Ab3JhTULg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+`useLinkClickHandler`内部调用`navigate`
+
+![navigate](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qU8KlKst6mbpS7XPL91T9ibhHpmasu8foe3QXhDV4h0bcC4aeKgXtlhw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+![navigate2](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qA0ezQ4jF1pazEDiacBAibaiaiaaTib4QcCXpxDaB2vbf05p7qsYycTNejCw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+之后又回到`matchRoutes`流程
+
+![return matchRoutes](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qGE1XPKkicXLOegodtMiaUjMibbPuyQBKzbds6VyJxVTFHn4p1fvae0UJQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+`match`完之后，会`pushState`或`replaceState`，然后更新`state`：
+
+![updatestate](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qDC07iaQOF4uib41cHicIgvdtvGd2CLasvfibr8bzBd1ndvc8yXNiaspKYVQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+触发`setState`之后，就会触发组件树的重新渲染
+
+![rerender](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qII2tAcPFdSc6OEduFYB6JQVqOqHKYS0kUiatJLbfKE2NDKOpRxwhxfg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1&retryload=1)
+
+![routerProvider](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qkc3nfa8uSVVfD2zMBcRibg725dwMpmaDiaeIULn94sG3xjJquE6w726A/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+**小结**
+
+![link](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64quo7GicaStTicgXt2JLPib2vF1aLZeOcoTztldw4diaOYTVPWwugY047Hfg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+router.navigate 会传入新的 location，然后和 routes 做 match，找到匹配的路由。
+
+之后会 pushState 修改 history，并且触发 react 的 setState 来重新渲染，重新渲染的时候通过 renderMatches 把当前 match 的组件渲染出来。
+
+而渲染到 Outlet 的时候，会从 context 中取出当前需要渲染的组件来渲染：
+
+![outlet](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qHJOyYSW8r0QUwKricfvEKRwmTqU5KGFkfSzkA6TbuEILQOUz3cI2yjA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+![useOutlet](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qibaexYS1AlrmK3cqQy73bB6dPYgEPFqXF7h529vSibeMdz07sbFacIaQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+# 这个`outlet`是什么，疑惑？？？
