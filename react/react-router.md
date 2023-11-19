@@ -137,7 +137,6 @@ router.navigate 会传入新的 location，然后和 routes 做 match，找到�
 
 ![useOutlet](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qibaexYS1AlrmK3cqQy73bB6dPYgEPFqXF7h529vSibeMdz07sbFacIaQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
 
-# 这个`outlet`是什么，疑惑？？？
 
 ## 前进后退按钮流程
 
@@ -153,3 +152,89 @@ router.navigate 会传入新的 location，然后和 routes 做 match，找到�
 
 ![小结](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qdtYdbvkMQx1v4awl4cuWfOAq0Pccibpsk7q6ia8yVTgSOYBygiceUUwMA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
 
+
+## 关于routes配置的两种方式
+
+1. 基于数组配置形式
+
+```js
+const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <Root />,
+        loader: rootLoader,
+        children: [
+            {
+                path: '/sub1',
+                element: <Sub1 />,
+                loader: subLoader
+            }
+        ]
+    }
+]);
+```
+
+2. 基于`Route`组件
+
+```js
+<Routes>
+    <Route paht="/" element={<Root />} loader={rootLoader}>
+        <Route path="/sub2" element={<Sub2 />} />
+    </Route>
+    <Route></Route>
+</Routes>
+```
+
+这两种效果是一样的，源码如下：
+
+`Route`组件只是一个空组件，没有内容
+
+![route组件](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qE1ZFbTl4qrCSPic3qWpLmqibtJ7NjRbM3xG9ddoiaRK4tibgReSk0Mia42g/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+而`Routes`组件，会把所有`Route`组件参数取出来，组合成`routes`配置，和形式1一样
+
+![Routes](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qPfzyl2RamIwb7j0NeISaz7v7htrURoyZdwOFJzDGialQZOa86QWOnMA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+![routes children](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64q8PtlKF6Q83tFvfyDXu0sUF7mmBBP0J4ykMYWNQQuqNsdEic10aVvyXw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+# 总结
+
+**`history api` 有这些：**
+
+- ength：history 的条数
+- forward：前进一个
+- back：后退一个
+- go：前进或者后退 n 个
+- pushState：添加一个 history
+- replaceState：替换当前 history
+- scrollRestoration：保存 scroll 位置，取值为 auto 或者 manual，manual 的话就要自己设置 scroll 位置了
+
+`popstate` 事件可以监听到 `history.go、history.back、history.forward` 的导航，拿到最新的 `location`
+
+**这里要注意 `pushState、replaceState` 并不能触发 `popstate` 事件。也就是 history 之间导航（go、back、forward）可以触发 popstate，而修改 history （push、replace）不能触发**
+
+`React Router` 就是基于这些 `history api` 实现的。
+
+**首次渲染**
+
+首次渲染的时候，会根据 `location` 和配置的 `routes` 做匹配，渲染匹配的组件
+
+**点击link**
+
+之后点击 link 链接也会进行 `location` 和 `routes` 的匹配，然后 `history.pushState` 修改 history，之后通过 react 的 **`setState`** 触发重新渲染
+
+**前进后退**
+
+前进后退的时候，也就是执行 `history.go、history.back、history.forward` 的时候，会触发 ``popstate，这时候也是同样的处理，location`` 和 `routes` 的匹配，然后 `history.pushState` 修改 history，之后通过 react 的 **setState** 触发重新渲染
+
+**Outlet**
+
+渲染时会用到 `Outlet组件` 渲染子路由，用到 `useXxx` 来取一些匹配信息，这些都是通过 context 来传递的。
+
+# 疑惑？
+
+1. `Outlet`组件，具体作用，源码细节？
+
+2. 路由切换后，如何利用`setState`更新的组件，源码细节？
+
+3. `react-router`的`hash`模式是怎么实现的？
