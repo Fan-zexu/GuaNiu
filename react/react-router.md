@@ -138,3 +138,18 @@ router.navigate 会传入新的 location，然后和 routes 做 match，找到�
 ![useOutlet](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qibaexYS1AlrmK3cqQy73bB6dPYgEPFqXF7h529vSibeMdz07sbFacIaQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
 
 # 这个`outlet`是什么，疑惑？？？
+
+## 前进后退按钮流程
+
+监听`popstate`，再做一次`navigate`
+
+![listen](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qibbnHMsxUl8j9hMOiau9y1jEDia3D0bicApjD52XulQsd61soSjVQF6ShA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+![hanldePop](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qndYfQ2GKLszKnXd06DnSo1jb7lhRMPZDBx2ojOBMeZD8IoWmiciaDrPw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+![startNavigate](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64quMK8zyBdInniaf0wo8CreXnkLJmO6EVjlI8JpycU3xAWH2g44xhGZCg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+**流程小结**
+
+![小结](https://mmbiz.qpic.cn/sz_mmbiz_png/YprkEU0TtGhmwWwERIFjthlb0DvhL64qdtYdbvkMQx1v4awl4cuWfOAq0Pccibpsk7q6ia8yVTgSOYBygiceUUwMA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
