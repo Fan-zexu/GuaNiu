@@ -4,6 +4,14 @@
 
 可以参考[官网讲解](https://zh-hans.react.dev/learn/passing-data-deeply-with-context)
 
+关键3步骤：
+
+1. 创建`context`
+
+2. 赋值`context`
+
+3. 消费`context`
+
 # 类组件用法
 
 
