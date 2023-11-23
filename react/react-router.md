@@ -233,7 +233,40 @@ const router = createBrowserRouter([
 
 # 疑惑？
 
-1. `Outlet`组件，具体作用，源码细节？
+Q: `Outlet`组件，具体作用，源码细节？
+
+A: 用于支持嵌套路由，在父组件中用`<Outlet />`为子路由做占位，最终由子路由组件渲染
+
+官网DEMO
+
+```js
+function Dashboard() {
+  return (
+    <div>
+      <h1>Dashboard</h1>
+
+      {/* This element will render either <DashboardMessages> when the URL is
+          "/messages", <DashboardTasks> at "/tasks", or null if it is "/"
+      */}
+      <Outlet />
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Dashboard />}>
+        <Route
+          path="messages"
+          element={<DashboardMessages />}
+        />
+        <Route path="tasks" element={<DashboardTasks />} />
+      </Route>
+    </Routes>
+  );
+}
+```
 
 2. 路由切换后，如何利用`setState`更新的组件，源码细节？
 

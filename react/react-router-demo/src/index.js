@@ -12,6 +12,10 @@ function Aaa() {
     <br/>
     <Link to={'/ccc'}>to ccc</Link>
     <br/>
+    <Link to={'/ccc/ddd/1'}>to ddd/1</Link>
+    <br/>
+    <Link to={'/ccc/fff/2'}>to fff/2</Link>
+    <br/>
     <Outlet/>
   </div>;
 }
@@ -20,8 +24,21 @@ function Bbb() {
   return 'bbb';
 }
 
+function Ddd() {
+  return 'ddd1';
+}
+
+function Fff() {
+  return 'fff2';
+}
+
 function Ccc() {
-  return 'ccc';
+  return (
+    <div>
+      <div>ccc</div>
+      <Outlet/>
+    </div>
+  )
 }
 
 function ErrorPage() {
@@ -41,6 +58,16 @@ const routes = [
       {
         path: "ccc",
         element: <Ccc />,
+        children: [
+          {
+            path: "ddd/1",
+            element: <Ddd />
+          },
+          {
+            path: "fff/2",
+            element: <Fff />
+          },
+        ]
       }    
     ],
   }
