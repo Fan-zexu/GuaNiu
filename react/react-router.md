@@ -271,3 +271,49 @@ function App() {
 2. 路由切换后，如何利用`setState`更新的组件，源码细节？
 
 3. `react-router`的`hash`模式是怎么实现的？
+
+`react-router-dom`提供 `HashRouter`、`Route`组件
+
+`HashRouter` 监听了`window.location.hash`变化。并将它hash值传递给子组件
+
+```js
+window.addEventListener('hashchange', callback);
+```
+
+```js
+
+const { Provider } = React.createContext()
+
+class HashRouter extends React.component {
+  state = {
+    location: {
+      pathname: window.location.hash.slice(1) || '/'
+    }
+  }
+
+  componenntDidMount() {
+    window.addEventListener('hashchange', () => {
+      this.setState({
+        ...this.state.location,
+        pathname: window.location.hash.slice(1) || '/',
+      });
+    })
+  }
+  
+  render() {
+    const value = { location: this.state.location }
+    // 这里通过Provider将location传入子组件 Route中
+    return (
+      <Provider value={value}>
+        {
+          this.props.children
+        }
+      </Provider>
+    )
+  }
+}
+```
+
+
+
+
