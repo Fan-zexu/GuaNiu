@@ -233,7 +233,7 @@ const router = createBrowserRouter([
 
 # 疑惑？
 
-Q: `Outlet`组件，具体作用，源码细节？
+## Q: `Outlet`组件，具体作用，源码细节？
 
 A: 用于支持嵌套路由，在父组件中用`<Outlet />`为子路由做占位，最终由子路由组件渲染
 
@@ -268,11 +268,13 @@ function App() {
 }
 ```
 
-2. 路由切换后，如何利用`setState`更新的组件，源码细节？
+## 2. 路由切换后，如何利用`setState`更新的组件，源码细节？
 
-3. `react-router`的`hash`模式是怎么实现的？
+## 3. `react-router`的`hash`模式是怎么实现的？
 
 `react-router-dom`提供 `HashRouter`、`Route`组件
+
+### HashRouter
 
 `HashRouter` 监听了`window.location.hash`变化。并将它hash值传递给子组件
 
@@ -314,6 +316,31 @@ class HashRouter extends React.component {
 }
 ```
 
+### Route
 
+```js
+const { Consumer } = React.createContext();
 
+class Route extends React.component {
+  render() {
+    return (
+      // 通过 Consumer来消费context
+      <Consumer>
+        {/* 跨组件传递location */}
+        {
+          (state) => {
+            const { path, component } = this.props;
+            const { pathname } = state.location;
+            // 如果跳转的url和<Route path="xxx">定义的path匹配，就渲染对应组件；
+            if (pathname.match(path)) {
+              return <component />
+            }
 
+            return null;
+          }
+        }
+      </Consumer>
+    )
+  }
+}
+```
