@@ -12,5 +12,7 @@
 
 > [componentDidCatch](https://zh-hans.legacy.reactjs.org/docs/react-component.html#componentdidcatch)
 
+> [static getDerivedStateFromError](https://zh-hans.legacy.reactjs.org/docs/react-component.html#static-getderivedstatefromerror)
+
 
 
