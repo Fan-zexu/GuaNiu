@@ -14,5 +14,41 @@
 
 > [static getDerivedStateFromError](https://zh-hans.legacy.reactjs.org/docs/react-component.html#static-getderivedstatefromerror)
 
+看下面这个`ErrorBoundary`组件
 
+```js
+class ErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            hasError: false,
+        }
+    }
 
+    static getDerivedStateFromError(error) {
+        // 有错误时会调用这个钩子，return一个状态，来更新state
+        // 官方推荐：通过这个静态方法来渲染降级UI组件
+        return { hasError: true }
+    }
+
+    // info是componentStack，表示组件错误栈
+    // 这个钩子里处理副作用
+    componentDidCatch(error, info) {
+        // Example "componentStack":
+        //   in ComponentThatThrows (created by App)
+        //   in ErrorBoundary (created by App)
+        //   in div (created by App)
+        //   in App
+        logComponentStackToMyService(info.componentStack);
+    }
+
+    render() {
+        if (this.state.hasError) {
+        // You can render any custom fallback UI
+        return <h1>Something went wrong.</h1>;
+        }
+
+        return this.props.children;
+    }
+}
+```
