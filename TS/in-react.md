@@ -1,5 +1,7 @@
 # TS在react中的应用手册
 
+[官方备忘录](https://react-typescript-cheatsheet.netlify.app/docs/basic/setup)
+
 ## 函数组件
 
 ```ts
