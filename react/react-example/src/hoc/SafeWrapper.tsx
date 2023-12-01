@@ -26,8 +26,6 @@ export default function SafeWrapperHoc(Component: React.ComponentType) {
 
 
         render(): React.ReactNode {
-            console.log('this.props,,,', this.props);
-            
             const { showError } = this.state;
             return (
                 showError ? (
