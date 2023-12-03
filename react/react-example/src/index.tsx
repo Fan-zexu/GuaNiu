@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider, RouteObject } from 'react-router-dom';
 import './index.css';
 import Hooks from './pages/Hooks';
+import Func from './pages/Hooks/Func';
 import HanldeError from './pages/Error';
 import reportWebVitals from './reportWebVitals';
 
@@ -23,9 +24,13 @@ const routes: RouteObject[] = [
       {
         path: 'handleError',
         element: <HanldeError />
+      },
+      {
+        path: 'hooks/func',
+        element: <Func />
       }
     ]
-  }
+  },
 ];
 
 const router = createBrowserRouter(routes);
