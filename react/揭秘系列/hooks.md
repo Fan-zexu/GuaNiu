@@ -15,3 +15,29 @@ useEffect(() => {
 但`componentWillReceiveProps`是在`render阶段`执行，而`useEffect`是在`commit阶段`执行。
 
 > 参考：[为什么componentWillXXX UNSAFE](https://juejin.cn/post/6847902224287285255)
+
+## 工作原理
+
+`useState`为例
+
+```js
+function App() {
+    const [num, updateNum] = useEffect(0);
+    return (
+        <p onClick={() => updateNum(num => num + 1)}>{num}</p>
+    )
+}
+```
+
+工作分为两部分：
+
+1. 通过`updateNum`方法触发一种**更新**，使组件`render`
+
+2. 将组件`render`时`useState`返回的值，作为更新后的结果
+
+工作1，分为`mount`和`update`：
+
+1. 通过`ReactDOM.render`产生`mount`的**更新**，更新内容作为`useState`的初始值`initialValue`(即 0)
+
+2. 通过`updateNum`产生`update`的**更新**，更新内容为`num => num + 1`
+
