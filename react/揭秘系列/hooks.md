@@ -41,3 +41,13 @@ function App() {
 
 2. 通过`updateNum`产生`update`的**更新**，更新内容为`num => num + 1`
 
+## 更新
+
+可以理解**更新**是一种数据结构，每次更新都会产生
+
+```js
+const update = {
+    action,
+    next: null
+}
+```
