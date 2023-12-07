@@ -93,3 +93,32 @@ function dispatchAction(queue, action) {
     schedule();
 }
 ```
+环状单向链表：
+
+产生第一个update（u0），此时`queue.pending === null`：
+
+`update.next = update`即 `u0.next = u0`，此时u0**单向成环链表**，
+
+然后`queue.pending = update;`，即`queue.pending = u0`
+
+```
+queue.pending = u0 ---> u0
+                ^        |
+                |        |
+                ---------
+```
+
+产生第二个update（u1），此时`queue.pending === u0`：
+
+`update.next = queue.pending.next`，即 `u1.next = u0`;
+
+`queue.pending.next = update;`，即 `u0.next = u1`；
+
+然后`queue.pending = update;`，即`queue.pending = u1`
+
+```
+queue.pending = u1 ---> u0
+                ^        |
+                |        |
+                ---------
+```
