@@ -51,3 +51,45 @@ const update = {
     next: null
 }
 ```
+
+```js
+function App() {
+    const [num, updateNum] = useEffect(0);
+    return (
+        <p onClick={() => {
+            updateNum(num => num + 1)
+            updateNum(num => num + 1)
+            updateNum(num => num + 1)
+        }}>{num}</p>
+    )
+}
+```
+如果这样的话，点击后会产生3个`update`
+
+## update数据结构
+
+源码中`updateNum`实际调用 `dispatchAction.bind(null, hook.queue)`，这个函数类似如下
+
+```js
+function dispatchAction(queue, action) {
+    const update = {
+        action,
+        next: null,
+    };
+    
+    // 环状单向链表
+    if (queue.pending === null) {
+        // u0.next = u0;
+        update.next = update;
+    } else {
+        // u1.next = u0;
+        update.next = queue.pending.next;
+        // u0.next = u1;
+        queue.pending.next = update;
+    }
+    queue.pending = update;
+    
+    // 模拟react开始调度
+    schedule();
+}
+```
