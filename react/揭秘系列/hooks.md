@@ -122,3 +122,5 @@ queue.pending = u1 ---> u0
                 |        |
                 ---------
 ```
+
+所以，当再产生update后，`queue.pending`指向最后一个`udpate`；`queue.pending.next`指向第一个`update`
