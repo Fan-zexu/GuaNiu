@@ -124,3 +124,25 @@ queue.pending = u1 ---> u0
 ```
 
 所以，当再产生update后，`queue.pending`指向最后一个`udpate`；`queue.pending.next`指向第一个`update`
+
+
+## 状态怎么保存
+
+每次更新的`update`保存在`queue`中
+
+- 对于`ClassComponennt`的状态保存在**类实例**中
+
+- 对于`FunctionComponent`状态保存在对应的**fiber**中
+
+类似如下结构：
+
+```js
+// App组件对应的fiber结构
+const fiber = {
+    // 保存FunctionComponent对应的 hooks链表
+    memoizedState: null,
+    // 指向App函数
+    stateNode: App
+}
+```
+
