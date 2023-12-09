@@ -146,3 +146,29 @@ const fiber = {
 }
 ```
 
+## Hook数据结构
+
+`fiber.memoizedState`中保存的`hook`数据结构
+
+这里的`hook`与`update`结构类似，但是`hook`是**无环**单向链表
+
+```js
+const hook = {
+    // 保存update的queue，上面的 有环单向链表
+    queue: {
+        pending: null
+    },
+    // 保存hook对应的state
+    memoizedState: initialState,
+    // 指向下一个hook，即无环单向链表
+    next: null
+}
+```
+
+**注意：**
+
+`update`和`hook`关系：
+
+每个`useState`对应一个`hook`对象，
+
+调用`const [num, updateNum] = useState(0)`;时`updateNum`（即上文介绍的`dispatchAction`）产生的`update`保存在`useState`对应的`hook.queue`中。
