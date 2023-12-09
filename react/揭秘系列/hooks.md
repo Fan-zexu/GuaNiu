@@ -172,3 +172,6 @@ const hook = {
 每个`useState`对应一个`hook`对象，
 
 调用`const [num, updateNum] = useState(0)`;时`updateNum`（即上文介绍的`dispatchAction`）产生的`update`保存在`useState`对应的`hook.queue`中。
+
+
+## 模拟React调度更新流程
