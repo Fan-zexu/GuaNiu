@@ -175,3 +175,34 @@ const hook = {
 
 
 ## 模拟React调度更新流程
+
+之前介绍的`updateNum`中调用`dispatchAction`中的`schedule`方法
+
+```js
+function dispatchAction(queue, action) {
+  // ...创建update
+  
+  // ...环状单向链表操作
+
+  // 模拟React开始调度更新
+  schedule();
+}
+```
+
+实现：
+
+通过`isMount`代表是`mount`还是`update`
+
+```js
+// 首次是mount
+isMount = true;
+
+function schedule() {
+    // 更新前将workInProgressHook重置为fiber中保存的第一个hook
+    workInProgressHook = fiber.memoizedState;
+    // 调用组件render
+    fiber.stateNode();
+    // mount后置为false，下次update
+    isMount = false;
+}
+```
