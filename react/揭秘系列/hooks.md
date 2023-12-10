@@ -206,3 +206,17 @@ function schedule() {
     isMount = false;
 }
 ```
+
+通过 `workInProgressHook`指向当前正在工作的`hook`
+
+```js
+workInProgressHook = fiber.memoizedState
+```
+
+当组件`render`时，每遇到下一个`useState`，只需要移动`workInProgressHook`的指针，指向下一个`hook`
+
+```js
+workInProgressHook = workInProgressHook.next
+```
+
+这样，只要组件`render`时，`useState`顺序和个数保持不变，就可以通过`workInProgressHook`找到当前`useState`对应的`hook`对象
