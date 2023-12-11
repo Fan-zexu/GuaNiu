@@ -220,3 +220,11 @@ workInProgressHook = workInProgressHook.next
 ```
 
 这样，只要组件`render`时，`useState`顺序和个数保持不变，就可以通过`workInProgressHook`找到当前`useState`对应的`hook`对象
+
+以上，实现第一步
+
+> 1. 通过一些操作生产出update，造成组件render
+
+然后，实现第二步
+
+> 2. 通过render后，updateNum返回的 num为更新后的结果
