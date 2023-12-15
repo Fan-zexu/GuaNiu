@@ -228,3 +228,26 @@ workInProgressHook = workInProgressHook.next
 然后，实现第二步
 
 > 2. 通过render后，updateNum返回的 num为更新后的结果
+
+## 更新state
+
+`useState`逻辑：
+
+```js
+function useState(initialState) {
+    // 当前useState的hook变量
+    let hook
+    if (isMount) {
+        // mount时，需要创建hook对象
+    } else {
+        // update时，从workInProgressHook中取出对应useState的hook
+    }
+    // state值
+    let baseState = hook.memoizedState;
+    if (hook.queue.pending) {
+        // queue.pending中保存的update来更新state
+    }
+    hook.memoizedState = baseState;
+    return [baseState, dispatchAction.bind(null, hook.queue)];
+}
+```
