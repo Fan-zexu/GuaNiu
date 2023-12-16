@@ -283,5 +283,27 @@ if (isMount) {
 找到该`useState`对应的`hook`，如果`hook.queue.pending`存在，即存在`update`更新函数，则更新state
 
 ```js
+// update执行前的初始state
+let baseState = hook.memoizedState;
 
+// 存在update
+if (hook.queue.pending) {
+    // 取环状链表中第一个update函数
+    let fisrtUpdate = hook.queue.pending.next;
+
+    do {
+        // 执行update action
+        const action = firstUpdate.action;
+        baseState = action(baseState);
+        firstUpdate = firstUpdate.next;
+
+        // 最后一个update执行完，跳出循环
+    } while(firstUpdate !== hook.queue.pending.next)
+
+    // 清空queue.pending
+    hook.queue.pending = null
+}
+
+// 将update action执行后的state作为memoizedState
+hook.memoizedState = baseState;
 ```
