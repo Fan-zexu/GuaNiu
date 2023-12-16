@@ -251,3 +251,37 @@ function useState(initialState) {
     return [baseState, dispatchAction.bind(null, hook.queue)];
 }
 ```
+
+关注hook获取
+
+```js
+if (isMount) {
+    // mount时，为该useState生成hook
+    hook = {
+        queue: {
+            pending: null
+        },
+        memoizedState: initialState,
+        next: null
+    }
+    // 将hook插入fiber.memoizedState链表尾部
+    if (!fiber.memoizedState) {
+        fiber.memoizedState = hook
+    } else {
+        workInProgressHook.next = hook
+    }
+    // 移动workInProgressHook指针
+    workInProgressHook = hook
+} else {
+    // 更新时，找到对应hook
+    hook = workInProgressHook
+    // 移动workInProgressHook指针，指向下一个hook
+    workInProgressHook = workInProgressHook.next
+}
+```
+
+找到该`useState`对应的`hook`，如果`hook.queue.pending`存在，即存在`update`更新函数，则更新state
+
+```js
+
+```
