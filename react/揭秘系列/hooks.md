@@ -306,4 +306,6 @@ if (hook.queue.pending) {
 
 // 将update action执行后的state作为memoizedState
 hook.memoizedState = baseState;
+
+return [baseState, dispatch.bind(null, hook.queue)]
 ```
