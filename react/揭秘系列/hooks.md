@@ -309,3 +309,21 @@ hook.memoizedState = baseState;
 
 return [baseState, dispatchAction.bind(null, hook.queue)]
 ```
+
+## 模拟事件触发
+
+```js
+function App() {
+    const [ num, updateNum ] = useState(0);
+    
+    console.log(`${isMount ? 'mount' : 'update'} num: `, num);
+
+    return {
+        click() {
+            updateNum(num => num + 1)
+        }
+    }
+}
+```
+
+[在线demo](https://code.h5jun.com/biqi/edit?html,js,console,output)
