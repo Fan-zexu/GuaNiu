@@ -416,3 +416,13 @@ function App() {
 
 window.app = schedule();
 ```
+
+## 和React的区别
+
+1. `React hooks`没有`isMount`变量，而是在不同时机调用不同的`dispatcher`，也就是`mount`和`update`使用的不同的`useState`函数
+
+2. `React hooks`有`batchedUpdates`批量更新机制，调用3次`updateNum` 只会触发一次更新
+
+3. `React hooks`有**跳过**更新的优化手段
+
+4. `React hooks`有更新的**优先级**，可以跳过优先级低的更新
