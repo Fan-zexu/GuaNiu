@@ -463,3 +463,26 @@ const HooksDispatcherOnUpdate: Dispatcher = {
   // ...省略
 };
 ```
+
+`FunctionComponent`在`render`前，通过对应的`Fiber`判断`mount`还是`update`
+
+```js
+current === null || current.memoizedState === null
+```
+
+并将不同情况对应的`dispatcher`赋值给全局变量`ReactCurrentDispatcher`的current属性。
+
+```js
+ReactCurrentDispatcher.current =
+      current === null || current.memoizedState === null
+        ? HooksDispatcherOnMount
+        : HooksDispatcherOnUpdate;  
+```
+
+> [源码](https://github.com/acdlite/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiberHooks.new.js#L409)
+
+所以，在`FunctionComponent`渲染时，会从`ReactCurrentDispatcher.current`取当前需要的`hook`
+
+也就是说，在不同的执行上下文，`ReactCurrentDispatcher.current`会被赋值为不同的`dispatcher`
+
+> [其他dispatcher](https://github.com/acdlite/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiberHooks.new.js#L1775)
