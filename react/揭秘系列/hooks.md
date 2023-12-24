@@ -426,3 +426,40 @@ window.app = schedule();
 3. `React hooks`有**跳过**更新的优化手段
 
 4. `React hooks`有更新的**优先级**，可以跳过优先级低的更新
+
+
+# hook数据结构
+
+## dispatcher
+
+在实际`useState`中，`mount`和`update`不同阶段的`hook`是不同的对象，这类对象称为`dispatcher`
+
+```js
+// mount时的Dispatcher
+const HooksDispatcherOnMount: Dispatcher = {
+  useCallback: mountCallback,
+  useContext: readContext,
+  useEffect: mountEffect,
+  useImperativeHandle: mountImperativeHandle,
+  useLayoutEffect: mountLayoutEffect,
+  useMemo: mountMemo,
+  useReducer: mountReducer,
+  useRef: mountRef,
+  useState: mountState,
+  // ...省略
+};
+
+// update时的Dispatcher
+const HooksDispatcherOnUpdate: Dispatcher = {
+  useCallback: updateCallback,
+  useContext: readContext,
+  useEffect: updateEffect,
+  useImperativeHandle: updateImperativeHandle,
+  useLayoutEffect: updateLayoutEffect,
+  useMemo: updateMemo,
+  useReducer: updateReducer,
+  useRef: updateRef,
+  useState: updateState,
+  // ...省略
+};
+```
