@@ -486,3 +486,27 @@ ReactCurrentDispatcher.current =
 也就是说，在不同的执行上下文，`ReactCurrentDispatcher.current`会被赋值为不同的`dispatcher`
 
 > [其他dispatcher](https://github.com/acdlite/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiberHooks.new.js#L1775)
+
+## 一个错误使用hook场景
+
+错误嵌套了`hook`
+
+```js
+useEffect(() => {
+  useState(0)
+})
+```
+
+此时`ReactCurrentDispatcher.current`已经指向`ContextOnlyDispatcher`，所以调用`useState`实际会调用`throwInvalidHookError`，直接抛错
+
+```js
+export const ContextOnlyDispatcher: Dispatcher = {
+  useCallback: throwInvalidHookError,
+  useContext: throwInvalidHookError,
+  useEffect: throwInvalidHookError,
+  useImperativeHandle: throwInvalidHookError,
+  useLayoutEffect: throwInvalidHookError,
+  // ...省略
+```
+
+> [这里源码](https://github.com/acdlite/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiberHooks.new.js#L458)
