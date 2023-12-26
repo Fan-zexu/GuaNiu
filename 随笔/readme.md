@@ -1,3 +1,7 @@
+# 12-26
+
+述职中老板们更关心数据指标，这方面确实需要加强，做一个技术项目数据指标的回收，是技术设计中不可缺少的一环。要明确统计口径
+
 # 12-21
 
  抗日神曲：[show it ben](https://www.bilibili.com/video/BV1rN411H7b7/?spm_id_from=333.337.search-card.all.click)
