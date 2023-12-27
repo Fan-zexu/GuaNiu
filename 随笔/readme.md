@@ -1,3 +1,13 @@
+# 12-27
+
+Yapi to TS
+
+将接口文档转成TS接口和类型声明
+
+社区实践参考：[yapi-to-typescript](https://github.com/fjc0k/yapi-to-typescript/tree/master)
+
+美团内部目前发现一款基于它封装的工具
+
 # 12-26
 
 述职中老板们更关心数据指标，这方面确实需要加强，做一个技术项目数据指标的回收，是技术设计中不可缺少的一环。要明确统计口径
