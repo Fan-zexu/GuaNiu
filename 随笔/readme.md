@@ -1,3 +1,9 @@
+# 12-28
+
+[vue2停止维护](https://blog.vuejs.org/posts/vue-2-eol)
+
+然而用户可以购买`Vue2`的延长支持...(Never-Ending Support)，与`HeroDevs`合作，对于购买的用户提供持续更新和安全补丁
+
 # 12-27
 
 Yapi to TS
