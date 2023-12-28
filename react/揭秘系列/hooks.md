@@ -510,3 +510,20 @@ export const ContextOnlyDispatcher: Dispatcher = {
 ```
 
 > [这里源码](https://github.com/acdlite/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiberHooks.new.js#L458)
+
+
+## Hook数据结构
+
+```js
+const hook: Hook = {
+  memoizedState: null,
+
+  baseState: null,
+  baseQueue: null,
+  queue: null,
+
+  next: null
+}
+```
+
+[创建hook源码](https://github.com/acdlite/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiberHooks.new.js#L546)
