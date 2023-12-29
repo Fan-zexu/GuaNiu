@@ -1,3 +1,7 @@
+# 12-29
+
+[官方备忘录](https://react-typescript-cheatsheet.netlify.app/docs/basic/setup)
+
 # 12-28
 
 [vue2停止维护](https://blog.vuejs.org/posts/vue-2-eol)
