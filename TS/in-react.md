@@ -8,10 +8,23 @@
 interface IProps {
 };
 
-const compA = React.FC<IProps> = (props) => ()
+const compA = React.FC<IProps> = (props) => (<div>函数表达式形式的组件</div>)
 
 const compB = (props: IProps) => ()
 ```
+
+---
+
+除了`React.FC`之外，还有另一种形式:
+
+```js
+function CompC(): React.ReactNode {
+    return <div>声明式函数组件</div>
+}
+```
+
+这里使用`React.ReactNode`定义，是因为`function CompC`返回的是一个**声明**，而`compA`返回的是一个**函数**，既不是值也是不是表达式，所以需要用`React.FC`定义为一个函数组件
+
 
 ## HOC
 
