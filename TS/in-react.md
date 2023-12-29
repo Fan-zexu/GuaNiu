@@ -8,7 +8,7 @@
 interface IProps {
 };
 
-const compA = React.FC<IProps> = (props) => (<div>函数表达式形式的组件</div>)
+const compA: React.FC<IProps> = (props) => (<div>函数表达式形式的组件</div>)
 
 const compB = (props: IProps) => ()
 ```
@@ -46,5 +46,16 @@ function loadingHOC<P>(WrappedComponent: React.ComponentType<P>) {
             return loading ? <span>loading...</span> : <WrappedComponent {...this.props as P}/>
         }
     }
+}
+```
+
+## 关于注释
+
+使用`TSDoc`，`/** comment */`
+
+```ts
+type Props = {
+    /** background color */
+    colors: string;
 }
 ```
