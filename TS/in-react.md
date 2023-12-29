@@ -61,3 +61,14 @@ type Props = {
 ```
 
 ## 关于 type 还是 interface 的选择
+
+> [官方参考](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/basic_type_example/#types-or-interfaces)
+
+> Here's a helpful rule of thumb:
+
+- always use interface for public API's definition when authoring a library or 3rd party ambient type definitions, as this allows a consumer to extend them via declaration merging if some definitions are missing.
+- consider using type for your React Component Props and State, for consistency and because it is more constrained.
+
+网上有很多关于这个问题的讨论，我个人认为不需要纠结。
+
+优先使用`interface`，需要时候使用`type`
