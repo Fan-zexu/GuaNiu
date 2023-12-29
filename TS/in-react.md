@@ -59,3 +59,5 @@ type Props = {
     colors: string;
 }
 ```
+
+## 关于 type 还是 interface 的选择
