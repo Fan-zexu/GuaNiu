@@ -527,3 +527,12 @@ const hook: Hook = {
 ```
 
 [创建hook源码](https://github.com/acdlite/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiberHooks.new.js#L546)
+
+
+## memoizedState
+
+这里需要注意`hook`和 `FunctionComponent Fiber`中都存在`memoizedState`属性
+
+- `fiber.memoizedState`：`FunctionComponent`对应`fiber`的`hooks`链表
+
+- `hook.memoizedState`：`hooks`链表中单一`hook`对应的数据
