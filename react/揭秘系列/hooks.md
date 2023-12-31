@@ -553,3 +553,7 @@ const hook: Hook = {
 - `useCallback`: 对于`useCallback(callback, [depA])`，`memoizedState保存[callback, depA]`。与`useMemo`区别是`useMemo`保存的是`callback`的执行结果，`useCallback`保存的是`callback`函数本身
 
 - 有些hook是没有`memoizedState`的，比如：`useContext`
+
+## useState 和 useReducer
+
+这两个`hook`是由`redux`作者`Dan`贡献的，`useState`其实就是内置了`reducer`的`useReducer`，`useReducer`的一个语法糖~
