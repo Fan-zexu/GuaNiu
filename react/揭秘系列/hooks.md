@@ -536,3 +536,20 @@ const hook: Hook = {
 - `fiber.memoizedState`：`FunctionComponent`对应`fiber`的`hooks`链表
 
 - `hook.memoizedState`：`hooks`链表中单一`hook`对应的数据
+
+不同的`hook`对应不同的`memoizedState`值：
+
+- `useState`：`const [state, setState] = useState(initialState)`，`memoizedState`保存的`state`的值
+
+- `useReducer`: `const [state, dispatch] = useReducer(reducer, {})`, `memoizedState`保存的`state`的值
+
+- `useEffect`: `memoizedState`保存的`useEffect的回调函数`、`依赖项`等的链表依赖数据`effect`，`effect`链表数据也会保存在`fiber.updateQueue`中。[这里](https://github.com/acdlite/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiberHooks.new.js#L1181)可以看
+`effect`创建过程
+
+- `useRef`：比如`useRef(1)`，`memoizedState`保存的`{current: 1}`
+
+- `useMemo`：`useMemo(callback, [dep])`，`memoizedState`保存的`[callback(), dep]`
+
+- `useCallback`: 对于`useCallback(callback, [depA])`，`memoizedState保存[callback, depA]`。与`useMemo`区别是`useMemo`保存的是`callback`的执行结果，`useCallback`保存的是`callback`函数本身
+
+- 有些hook是没有`memoizedState`的，比如：`useContext`
