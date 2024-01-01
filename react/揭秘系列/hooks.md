@@ -581,3 +581,29 @@ function App() {
 
 调用阶段：点击按钮，执行`dispatch`和`updateNum`
 
+### 声明阶段
+
+当`FunctionComponent`进入`render阶段`的`beginWork`时，会调用[renderWithHooks](https://github.com/acdlite/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiberBeginWork.new.js#L1419)
+
+该方法内部会执行`FunctionComponent`对应函数（即`fiber.type`）。
+
+两个hook内部源码：
+
+```js
+function useState(initialState) {
+  const dispatcher = resolveDispatcher();
+  return dispatcher.useState(initialState);
+}
+
+function useReducer(reducer, initArg, init) {
+  const dispatcher = resolveDispatcher();
+  return dispatcher.useReducer(reducer,  initArg, init);
+}
+```
+
+从`mount`和`update`来看：
+
+#### mount
+
+
+#### update
