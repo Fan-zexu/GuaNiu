@@ -627,6 +627,31 @@ function mountState<S>(
     lastRenderedReducer: basicStateReducer,
     laseRenderedState: (initialState as any)
   }
+
+  // 创建dispatch
+  return [hook.memoizedState, dispatch];
+}
+
+function mountReducer<S, I, A>(
+  reducer: (S, A) => S,
+  initialArg: I,
+  init?: I => S,
+): [S, Dispatch<A>] {
+  // 创建并返回当前hook
+  const hook = mountWorkInProgressHook();
+
+  // ...赋值初始baseState
+  
+  // 创建queue
+  const queue = hook.queue = {
+    pending: null,
+    dispatch: null,
+    lastRenderedReducer: reducer,
+    laseRenderedState: (initialState as any)
+  }
+
+  // 创建dispatch
+  return [hook.memoizedState, dispatch];
 }
 ```
 
