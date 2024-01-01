@@ -605,5 +605,29 @@ function useReducer(reducer, initArg, init) {
 
 #### mount
 
+`useState`调用[mountState](https://github.com/acdlite/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiberHooks.new.js#L1143)
+
+`useReducer`调用[mountReducer](https://github.com/acdlite/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiberHooks.new.js#L638)
+
+方法对比：
+
+```ts
+function mountState<S>(
+  initialState: () => S | S,
+): [S, Dispatch<BasicStateAction<S>>] {
+  // 创建并返回hook
+  const hook = mountWorkInProgressHook();
+
+  // ...赋值初始baseState
+  
+  // 创建queue
+  const queue = hook.queue = {
+    pending: null,
+    dispatch: null,
+    lastRenderedReducer: basicStateReducer,
+    laseRenderedState: (initialState as any)
+  }
+}
+```
 
 #### update
