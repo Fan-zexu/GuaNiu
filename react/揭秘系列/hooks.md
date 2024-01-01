@@ -655,4 +655,31 @@ function mountReducer<S, I, A>(
 }
 ```
 
+其中`mountWorkInProgressHook`方法会创建并返回对应hook，对应极简Hooks实现中useState方法的`isMount`逻辑部分。
+
+两者区别：`lastRenderedReducer`值
+
+```js
+const queue = (hook.queue = {
+  // 与极简实现中的同名字段意义相同，保存update对象
+  pending: null,
+  // 保存dispatchAction.bind()的值
+  dispatch: null,
+  // 上一次render时使用的reducer
+  lastRenderedReducer: reducer,
+  // 上一次render时的state
+  lastRenderedState: (initialState: any),
+});
+```
+
+其中`basicStateReducer`代码：
+
+```ts
+function basicStateReducer<S>(state: S, action: BasicStateAction<S>):S {
+  return typeof action === 'function' ? action(state) : state;
+}
+```
+
+可见，`useState`就是`reducer`参数为`basicStateReducer`的`useReducer`
+
 #### update
