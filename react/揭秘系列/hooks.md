@@ -557,3 +557,27 @@ const hook: Hook = {
 ## useState 和 useReducer
 
 这两个`hook`是由`redux`作者`Dan`贡献的，`useState`其实就是内置了`reducer`的`useReducer`，`useReducer`的一个语法糖~
+
+### 流程概览
+
+通过**声明阶段**和**调用阶段**来看，下面这个demo
+
+```js
+function App() {
+  const [state, dispatch] = useReducer(reducer, {a: 1});
+
+  const [num, updateNum] = useState(0);
+  
+  return (
+    <div>
+      <button onClick={() => dispatch({type: 'a'})}>{state.a}</button>  
+      <button onClick={() => updateNum(num => num + 1)}>{num}</button>  
+    </div>
+  )
+}
+```
+
+声明阶段：执行`App`后，执行`useReducer`和`useState`
+
+调用阶段：点击按钮，执行`dispatch`和`updateNum`
+
