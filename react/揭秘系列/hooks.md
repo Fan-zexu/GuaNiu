@@ -683,3 +683,42 @@ function basicStateReducer<S>(state: S, action: BasicStateAction<S>):S {
 可见，`useState`就是`reducer`参数为`basicStateReducer`的`useReducer`
 
 #### update
+
+`update`时，`useReducer`和`useState`都调用的是同一个函数 `updateReducer`
+
+```js
+function updateReducer<S, I, A>(
+  reducer: (S, A) => S,
+  initialArg: I,
+  init?: I => S,
+): [S, Dispatch<A>] {
+  // 获取当前hook
+  const hook = updateWorkInProcessHook();
+  const queue = hook.queue;
+
+  queue.lastRenderedReducer = reducer;
+
+  const dispatch: Dispatch<A> = (queue.dispatch);
+  return [hook.memoizedState, dispatch];
+}
+```
+
+流程用一句话概括：
+
+> 找到对应的`hook`，根据`update`计算该`hook`的新`state`并返回
+
+这里特别注意👇🏻这个场景：
+
+```js
+function App() {
+  const [num, updateNum] = useState(0);
+  
+  updateNum(num + 1);
+
+  return (
+    <button onClick={() => updateNum(num => num + 1)}>{num}</button>  
+  )
+}
+```
+
+// TODO 上面这个例子的问题
