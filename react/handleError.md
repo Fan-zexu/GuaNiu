@@ -56,3 +56,15 @@ class ErrorBoundary extends React.Component {
 ## 代码演示
 
 移步 `react-example`项目
+
+# Suspense 和 ErrorBoundary 关系
+
+> [光神的一篇文章](https://juejin.cn/post/7315231440777527334)
+
+讲到了`React Suspense`和`ErrorBoundary`的关系，看到关于实现的方式很巧妙。这里记录一下
+
+核心是用到了 **`throw promise` 和 `throw error`**
+
+// TODO 源码分析
+
+
