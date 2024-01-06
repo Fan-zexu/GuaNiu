@@ -65,6 +65,21 @@ class ErrorBoundary extends React.Component {
 
 核心是用到了 **`throw promise` 和 `throw error`**
 
-// TODO 源码分析
+## React Suspense用法
 
+在react里 `suspense`配合`lazy`实现异步加载
+
+```js
+import React, { Suspense } from 'react';
+
+const LazyA = React.lazy(() => import('./A'));
+
+export default function App() {
+    return (
+        <Suspense fallback="loading...">
+            <LazyA />
+        </Suspense>
+    )
+}
+```
 
