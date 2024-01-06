@@ -57,6 +57,38 @@ class ErrorBoundary extends React.Component {
 
 移步 `react-example`项目
 
+## react-error-boundary
+
+在`class`组件中需要 `getDerivedStateFromError + componentDidCatch` 配合使用
+
+在`funciton`组件中，可以引入`yarn install react-error-boundary`来实现：
+
+```js
+import { ErrorBoundary } from "react-error-boundary";
+
+function Bbb() {
+  const b = window.a.b;
+
+  return <div>{b}</div>
+}
+
+function fallbackRender({ error }) {
+  return (
+    <div>
+      <p>出错了：</p>
+      <div>{error.message}</div>
+    </div>
+  );
+}
+
+export default function App() {
+  return <ErrorBoundary fallback={fallbackRender}>
+    <Bbb></Bbb>
+  </ErrorBoundary>
+}
+
+```
+
 # Suspense 和 ErrorBoundary 关系
 
 > [光神的一篇文章](https://juejin.cn/post/7315231440777527334)
@@ -82,4 +114,3 @@ export default function App() {
     )
 }
 ```
-
