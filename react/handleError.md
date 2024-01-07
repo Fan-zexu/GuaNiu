@@ -152,3 +152,16 @@ export default function App() {
 }
 
 ```
+
+也就是说`throw promise`会被最近的一个`Suspense`捕获。
+
+`promise`的初始状态展示`fallback`组价，`resolve`状态展示子组件。
+
+
+其实`React.lazy`也是这么实现的
+
+![react-lazy](./imgs/react-lazy.awebp)
+
+可以看到通过`React.lazy`的包裹，可以实现一个`throw promise`来触发`Suspense`。
+
+当 promise 改变状态后，再返回拿到的值。
