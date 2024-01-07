@@ -114,3 +114,41 @@ export default function App() {
     )
 }
 ```
+
+## Suspense原理
+
+`ErrorBoundary`通过捕获子组件或者子孙组件中的error来渲染对应的`fallback内容`
+
+`Suspense`也是类似`ErrorBoundary`一样的实现。类似`throw error`。
+
+比如下面代码，也可以在不是用`React.lazy`的情况下，达到异步加载的效果
+
+```js
+import { Suspense } from "react";
+
+let data, promise;
+function fetchData() {
+  if (data) return data;
+  promise = new Promise(resolve => {
+    setTimeout(() => {
+      data = '取到的数据'
+      resolve()
+    }, 2000)
+  })
+  throw promise;
+}
+
+function Content() {
+  const data = fetchData();
+  return <p>{data}</p>
+}
+
+export default function App() {
+  return (
+    <Suspense fallback={'loading data'}>
+      <Content />
+    </Suspense>
+  )
+}
+
+```
