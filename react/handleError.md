@@ -165,3 +165,65 @@ export default function App() {
 可以看到通过`React.lazy`的包裹，可以实现一个`throw promise`来触发`Suspense`。
 
 当 promise 改变状态后，再返回拿到的值。
+
+### Suspense 和 ErrorBoundary同时使用，会混乱么
+
+```js
+
+import { Suspense } from "react";
+
+let data, promise;
+function fetchData() {
+  if (data) return data;
+  promise = new Promise(resolve => {
+    setTimeout(() => {
+      data = '取到的数据'
+      resolve()
+    }, 2000)
+  })
+  throw promise;
+}
+
+function Content() {
+  const data = fetchData();
+  return <p>{data}</p>
+}
+
+function fallbackRender({ error }) {
+  return (
+    <div>
+      <p>出错了：</p>
+      <div>{error.message}</div>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Suspense fallback={'loading data'}>
+      <ErrorBoundary fallback={fallbackRender}>
+        <Content />
+      </ErrorBoundary>
+    </Suspense>
+  )
+}
+```
+
+也是不会有问题
+
+![width-errorboundary](./imgs/withErrorBoundary.awebp)
+
+```js
+function fetchData() {
+  // if (data) return data;
+  // promise = new Promise(resolve => {
+  //   setTimeout(() => {
+  //     data = '取到的数据'
+  //     resolve()
+  //   }, 2000)
+  // })
+  throw new Error('xxx');
+}
+```
+
+结果就是被`ErrorBoundary`捕获，`fallbackRender`组件渲染："出错了: xxx"
