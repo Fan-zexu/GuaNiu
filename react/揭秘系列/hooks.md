@@ -722,3 +722,42 @@ function App() {
 ```
 
 // TODO 上面这个例子的问题
+
+### 调用阶段
+
+调用阶段会执行[dispatchAction](https://github.com/acdlite/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiberHooks.new.js#L1662)，此时该`FunctionComponent`对应的`fiber`和`hook.queue`都已经预先作为参数传入函数
+
+```js
+function dispatchAction(fiber, queue, action) {
+
+  // ...创建update
+  var update = {
+    eventTime: eventTime,
+    lane: lane,
+    suspenseConfig: suspenseConfig,
+    action: action,
+    eagerReducer: null,
+    eagerState: null,
+    next: null
+  }; 
+
+  // ...将update加入queue.pending
+  
+  var alternate = fiber.alternate;
+
+  if (fiber === currentlyRenderingFiber$1 || alternate !== null && alternate === currentlyRenderingFiber$1) {
+    // render阶段触发的更新
+    didScheduleRenderPhaseUpdateDuringThisPass = didScheduleRenderPhaseUpdate = true;
+  } else {
+    if (fiber.lanes === NoLanes && (alternate === null || alternate.lanes === NoLanes)) {
+      // ...fiber的updateQueue为空，优化路径
+    }
+
+    scheduleUpdateOnFiber(fiber, lane, eventTime);
+  }
+}
+```
+
+整体流程概况为：先创建`update`，将`update`放入`hook.queue`，然后开启调度
+
+// TODO 这里`if else`细节不太理解
