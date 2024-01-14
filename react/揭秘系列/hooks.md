@@ -761,3 +761,21 @@ function dispatchAction(fiber, queue, action) {
 整体流程概况为：先创建`update`，将`update`放入`hook.queue`，然后开启调度
 
 // TODO 这里`if else`细节不太理解
+
+
+
+### 小Tip： 关于useReudcer参数reducer可以动态可变
+
+`useReuducer(reducer, initialState)`，其中`reducer`在初始化创建之后，还是可以变更的，原因如下：
+
+```js
+
+function useReducer(reducer, initialArg, init)) {
+  // ...
+  queue.lastRenderedReducer = reducer;
+  // ...
+}
+
+```
+`reducer`在每次渲染调度时，都会被重新赋值
+
