@@ -779,3 +779,32 @@ function useReducer(reducer, initialArg, init)) {
 ```
 `reducer`在每次渲染调度时，都会被重新赋值
 
+## useEffect
+
+这里deep到源码有点懵逼，暂且记录大体流程，具体源码方法先记下，2、3刷再深入
+
+前面有关于[`useEffect`介绍](https://react.iamkasong.com/renderer/prepare.html#layout%E4%B9%8B%E5%90%8E)
+
+源码部分：
+
+`flushPassiveEffects`内部先设置优先级，之后执行`flushPassiveEffectsImpl`
+
+> [flushPassiveEffects源码](https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiberWorkLoop.old.js#L2458)
+
+流程部分：
+
+`flushPassiveEffectsImpl`主要3件事：
+
+- 调用该`useEffect`在**上一次**render时的销毁函数
+
+- 调用该`useEffect`**本次**render时的回调函数
+
+- 如果存在同步任务，不需要等到下次`事件循环`的`宏任务`，提前执行它
+
+这里还有个点，第一步销毁函数调用，在`v16`是同步执行，这里还有[官方说明](https://zh-hans.legacy.reactjs.org/blog/2020/08/10/react-v17-rc.html#effect-cleanup-timing)
+
+> 副作用清理函数（如果存在）在 React 16 中同步运行。我们发现，对于大型应用程序来说，这不是理想选择，因为同步会减缓屏幕的过渡（例如，切换标签）。
+
+由于这个原因，在`v17` `useEffect`的2个阶段都会在页面渲染后(`layout`阶段后)异步执行
+
+> 事实上，从代码中看，v16.13.1中已经是异步执行了
