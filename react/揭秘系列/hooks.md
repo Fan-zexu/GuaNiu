@@ -818,3 +818,30 @@ function useReducer(reducer, initialArg, init)) {
 如果不是按照“全部销毁”再“全部执行”的顺序，那么某个组件`useEffect`的`销毁函数`中修改的`ref.current`可能影响另一个组件`useEffect`的`回调函数`中的同一个`ref`的`current`属性。
 
 在`useLayoutEffect`也存在类似问题，所以都遵循 “全部销毁”再“全部执行” 的顺序
+
+在阶段一，会遍历并执行所有`useEffect`的`销毁函数`
+
+```js
+// pendingPassiveHookEffectsUnmount中保存了所有需要执行销毁的useEffect
+const unmountEffects = pendingPassiveHookEffectsUnmount;
+
+pendingPassiveHookEffectsUnmount = [];
+
+for (let i = 0; i < unmountEffects.length; i+=2) {
+  const effect: HookEffect = unmountEffects[i];
+  const fiber: Fiber = unmountEffect[i+1];
+  const destroy = effect.destroy;
+  effect.destroy = undefined;
+
+  if (typeof destroy === 'function') {
+    // 存在销毁函数则执行
+    try {
+      destroy();
+    } catch(error) {
+      captureCommitPhaseError(fiber, error);
+    }
+  }
+}
+```
+
+其中`pendingPassiveHookEffectsUnmount`数组索引`i`保存着要销毁的`effect`，`i+1`保存该`effect`对应的`fiber`。
