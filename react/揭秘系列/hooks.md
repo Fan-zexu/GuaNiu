@@ -808,3 +808,13 @@ function useReducer(reducer, initialArg, init)) {
 由于这个原因，在`v17` `useEffect`的2个阶段都会在页面渲染后(`layout`阶段后)异步执行
 
 > 事实上，从代码中看，v16.13.1中已经是异步执行了
+
+### 阶段一：销毁函数的执行
+
+`useEffect`的执行需要保证所有组件的`useEffect`的`销毁函数`必须都执行完之后，才能执行任意一个组件的`useEffect`的回调函数
+
+这是因为多个`组件`可能共用一个`ref`。
+
+如果不是按照“全部销毁”再“全部执行”的顺序，那么某个组件`useEffect`的`销毁函数`中修改的`ref.current`可能影响另一个组件`useEffect`的`回调函数`中的同一个`ref`的`current`属性。
+
+在`useLayoutEffect`也存在类似问题，所以都遵循 “全部销毁”再“全部执行” 的顺序
