@@ -845,3 +845,9 @@ for (let i = 0; i < unmountEffects.length; i+=2) {
 ```
 
 其中`pendingPassiveHookEffectsUnmount`数组索引`i`保存着要销毁的`effect`，`i+1`保存该`effect`对应的`fiber`。
+
+向`pendingPassiveHookEffectsUnmount`数组中`push`数据的操作发生在`layout阶段`，`commitLayoutEffectOnFiber`方法内部的`schedulePassiveEffects`方法中。
+
+> `commitLayoutEffectOnFiber`在[Layout阶段](https://react.iamkasong.com/renderer/layout.html#commitlayouteffectonfiber)说过
+
+// TODO 这里的`schedulePassiveEffects`源码不理解
