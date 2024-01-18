@@ -851,3 +851,29 @@ for (let i = 0; i < unmountEffects.length; i+=2) {
 > `commitLayoutEffectOnFiber`在[Layout阶段](https://react.iamkasong.com/renderer/layout.html#commitlayouteffectonfiber)说过
 
 // TODO 这里的`schedulePassiveEffects`源码不理解
+
+
+### 阶段二：回调函数的执行
+
+与阶段一类似，同样遍历数据，执行`effect`的回调
+
+其中向`pendingPassiveHookEffectsMount`中push数据的操作同样发生在`schedulePassiveEffects`中。
+
+```js
+const mountEffects = pendingPassiveHookEffectsMount;
+pendingPassiveHookEffectsMount = [];
+
+
+for (let i = 0; i < mountEffects.length; i+=2) {
+  const effect: HookEffect = mountEffects[i];
+  const fiber: Fiber = mountEffect[i+1];
+  const create = effect.create;
+
+  try {
+    // effect回调的返回值（一个清理函数或undefined）给destroy
+    effect.destroy = create();
+  } catch(error) {
+    captureCommitPhaseError(fiber, error);
+  }
+}
+```
