@@ -551,7 +551,7 @@ function Child({ fetchData }) {
 
 ### 竞态
 
-什么是竞态。就是在一个`effect`中，同时发起多个请求，但是这些请求的返回顺序是不确定的，可能会导致数据不一致。可以参考[demo](../react/react-example/src/components/RaceWrap.tsx)
+什么是竞态。就是在一个`effect`中，同时发起多个请求，但是这些请求的返回顺序是不确定的，可能会导致数据不一致。可以参考[demo](../react/react-example/src/pages/Hooks/components/RaceWrap.tsx)
 
 这里我们模拟了一种竞态场景，多次点击累加button，会发起多次请求，其中偶数id的请求，会比奇数id请求返回慢。所以就会出现当`id=3`时，最终展示`id=2`的数据。
 
