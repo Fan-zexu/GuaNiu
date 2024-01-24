@@ -877,3 +877,45 @@ for (let i = 0; i < mountEffects.length; i+=2) {
   }
 }
 ```
+
+## useRef
+
+前面hooks数据结构提到过，
+
+> useRef(1)，在memoizedState保存{current: 1}
+
+和其他hook一样，在`mount`和`update`阶段，`useRef`对应两个不同的`dispatcher`
+
+```js
+function mountRef<T>(initialValue: T): { current: T } {
+  // 获取当前useRef的hook
+  const hook = mountWorkInProgressHook();
+  // 创建ref
+  const ref = { current: initialValue };
+  hook.memoizedState = ref;
+  return ref;
+}
+
+function updateRef<T>(initialValue: T): { current: T } {
+  // 获取当前useRef的hook
+  const hook = updateWorkInProgressHook();
+  // 返回保存的数据
+  return hook.memoizedState;
+}
+```
+
+> [这里有上面的源码](https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiberHooks.old.js#L1208-L1221)
+
+参考 `React.createRef`
+
+```js
+export function createRef(): RefObject {
+  const refObject = {
+    current: null
+  };
+  return refObject;
+}
+```
+
+> [源码这里](https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react/src/ReactCreateRef.js)
+
