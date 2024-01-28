@@ -48,3 +48,20 @@ for(let i=0; i<n; i++) {
     }
 }
 ```
+
+# 数据结构
+
+## 栈
+
+**先进后出/后进先出**
+
+`JS`没有栈`API`，可以通过数组`Array`模拟
+
+```js
+const stack = []
+
+stack.push(1) // 入栈
+stack.push(2) // 入栈
+
+const item1 = stack.pop() // 出栈
+```
