@@ -65,3 +65,22 @@ stack.push(2) // 入栈
 
 const item1 = stack.pop() // 出栈
 ```
+
+### DEMO
+
+1. 十进制转二进制
+
+## 队列
+
+**先进先出**
+
+模拟：
+
+```js
+const queue = [];
+
+queue.push(1); // 进队 [1]
+queue.push(2); // 进队 [1, 2]
+
+queue.shift() // 出队 [1] / [2]
+```
