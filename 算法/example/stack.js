@@ -1,3 +1,7 @@
+/**
+ * 10进制转2进制
+ */
+
 // 时间复杂度 O(n) n为二进制的长度
 // 空间复杂度 O(n) n为二进制的长度
 const dec2bin = (dec) => {
@@ -26,3 +30,33 @@ const dec2bin = (dec) => {
 };
 
 dec2bin(10);
+
+/**
+ * 判断字符串的有效括号
+ */
+
+const isValidKH = (str) => {
+  // 如果不是偶数，也就是不是成对出现，就返回false
+  if (str.length % 2 !== 0) return false;
+
+  const stack = [];
+  // 如果碰见左括号，就入栈
+  for (let i = 0; i < str.length; i++) {
+    const s = str[i];
+    if (["(", "{", "["].includes(s)) {
+      stack.push(s);
+    } else {
+      const top = stack.pop();
+      if (s === ")" && top !== "(") return false;
+      if (s === "}" && top !== "{") return false;
+      if (s === "]" && top !== "[") return false;
+    }
+  }
+  return true;
+};
+
+isValidKH("()[]{}");
+
+isValidKH("(]");
+
+isValidKH("}");
