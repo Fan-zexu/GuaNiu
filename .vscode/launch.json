@@ -12,6 +12,15 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/算法/example/stack.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "算法-queue",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/算法/example/queue.js"
         }
     ]
 }
