@@ -216,3 +216,12 @@ d.next = c;
 // 删除节点 b
 a.next = d;
 ```
+
+1. 实现instanceof
+
+举例：
+
+```js
+// 表示 Array 在 [] 的原型链上
+[] instanceof Array // true
+```

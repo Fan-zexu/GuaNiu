@@ -21,6 +21,15 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/算法/example/queue.js"
-        }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "算法-linkedList",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/算法/example/linkedList.js"
+        },
     ]
 }
