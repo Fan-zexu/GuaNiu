@@ -162,3 +162,55 @@ recentCounter.ping(3002);  // requests = [1, 100, 3001, 3002]，范围是 [2,300
 就是循环比较看队头的时间T，和左区间t-3000。
 
 如果T < t-3000，则说明T不在区间内，需要剔除 `queue.shift()`
+
+## 链表
+
+> [维基百科定义](https://zh.wikipedia.org/wiki/%E9%93%BE%E8%A1%A8)
+
+多个**无序**节点，依靠指针`next`进行连接，底层节点为null
+
+```js
+const a = {
+  val: 'a'
+};
+const b = {
+  val: 'b'
+};
+const c = {
+  val: 'c'
+};
+
+a.next = b;
+b.next = c;
+
+
+const linkedList = {
+  val: 'a',
+  next: {
+    val: 'b',
+    next: {
+      val: 'c',
+      next: null
+    }
+  }
+}
+
+// 遍历链表
+let p = a;
+
+while(p) {
+  console.log(p.val)
+  p = p.next;
+}
+
+// 插入节点
+const d = {
+  val: 'd'
+};
+
+b.next = d;
+d.next = c;
+
+// 删除节点 b
+a.next = d;
+```
