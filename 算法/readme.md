@@ -236,3 +236,7 @@ const deleteLinkedListNode = (node) {
   node.next = node.next.next;
 }
 ```
+
+3. 删除有序链表中的重复元素
+
+[传送门](./example/linkedList.js)
