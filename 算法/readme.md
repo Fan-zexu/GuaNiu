@@ -225,3 +225,14 @@ a.next = d;
 // 表示 Array 在 [] 的原型链上
 [] instanceof Array // true
 ```
+
+2. 删除头部节点
+
+时间和空间复杂度都是`O(1)`
+
+```js
+const deleteLinkedListNode = (node) {
+  node.val = node.next.val;
+  node.next = node.next.next;
+}
+```
