@@ -57,3 +57,9 @@ const deleteDuplicates = (head) => {
 
 const res = deleteDuplicates(duplicateData);
 console.log("deleteDuplicates,,", deleteDuplicates);
+
+// 1 -> 2 -> 3 -> 4 -> 5 -> null
+// 5 -> 4 -> 3 -> 2 -> 1 -> null
+
+// 时间复杂度 O(n) n为链表的长度
+// 空间复杂度 O(1)

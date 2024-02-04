@@ -240,3 +240,5 @@ const deleteLinkedListNode = (node) {
 3. 删除有序链表中的重复元素
 
 [传送门](./example/linkedList.js)
+
+4. 反转链表
