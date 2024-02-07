@@ -11,7 +11,8 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/算法/example/stack.js"
+            "program": "${workspaceFolder}/算法/example/stack.js",
+            "runtimeExecutable": "/Users/zn/.nvm/versions/node/v14.20.1/bin/node"
         },
         {
             "type": "node",
@@ -20,7 +21,8 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/算法/example/queue.js"
+            "program": "${workspaceFolder}/算法/example/queue.js",
+            "runtimeExecutable": "/Users/zn/.nvm/versions/node/v14.20.1/bin/node"
         },
         {
             "type": "node",
@@ -29,7 +31,8 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/算法/example/linkedList.js"
+            "program": "${workspaceFolder}/算法/example/linkedList.js",
+            "runtimeExecutable": "/Users/zn/.nvm/versions/node/v14.20.1/bin/node"
         },
     ]
 }
