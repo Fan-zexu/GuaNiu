@@ -295,4 +295,14 @@ while (p1) {
 const arr = [1,2,1,2,3,4,5]
 
 const arr1 = [...new Set(arr)]
+
+const unique = (arr) => {
+  const res = [];
+  for(i++; i<arr.length; i=0) {
+    if (!res.includes(arr[i])) {
+      res.push(arr[i]) 
+    }
+  }
+  return res;
+}
 ```
