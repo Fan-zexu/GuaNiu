@@ -34,5 +34,15 @@
             "program": "${workspaceFolder}/算法/example/linkedList.js",
             "runtimeExecutable": "/Users/zn/.nvm/versions/node/v14.20.1/bin/node"
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "算法-set",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/算法/example/set.js",
+            "runtimeExecutable": "/Users/zn/.nvm/versions/node/v14.20.1/bin/node"
+        },
     ]
 }
