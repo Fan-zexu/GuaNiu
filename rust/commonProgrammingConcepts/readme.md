@@ -97,7 +97,7 @@ The value of x is: 6
 一个官方例子：
 
 ```rs
-let spaces = '    ';
+let spaces = "    ";
 let spaces = spaces.len();
 ```
 
@@ -110,7 +110,7 @@ let spaces = spaces.len();
 但如果这里我们使用`mut`来赋值，则会有类型的编译报错：
 
 ```rs
-let mut spaces = '    ';
+let mut spaces = "    ";
 spaces = spaces.len();
 ```
 
