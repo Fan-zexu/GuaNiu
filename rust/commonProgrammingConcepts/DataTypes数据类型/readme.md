@@ -58,3 +58,9 @@ fn main() {
     let remainder = 43 % 5;
 }
 ```
+
+## 布尔型
+
+`bool`
+
+
