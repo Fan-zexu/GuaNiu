@@ -59,3 +59,55 @@ fn main() {
 
 所以{}块内返回值是4，然后将4绑定给外面的变量y
 
+## 具有返回值的函数
+
+```rs
+fn five() -> i32 {
+    5
+}
+
+fn main() {
+    let x = five();
+    println!("x value is {x}")
+}
+```
+
+注意：
+
+1. `five`函数里没有调用函数，宏，或者let语句，只有5，这里并没有分号结尾。
+
+2. 用 `->`来声明返回值类型。TS中，`five():number`
+
+3. 在rust中除了结尾隐式返回表达式之外，还可以中途通过`return`值的形式返回，和JS一致
+
+`Error`：下面这个代码，由于结尾使用分号，会有报错
+
+```rs
+fn main() {
+    let x = plus_one(5);
+
+    println!("The value of x is: {x}");
+}
+
+fn plus_one(x: i32) -> i32 {
+    x + 1;
+}
+```
+
+```sh
+$ cargo run
+   Compiling functions v0.1.0 (file:///projects/functions)
+error[E0308]: mismatched types
+ --> src/main.rs:7:24
+  |
+7 | fn plus_one(x: i32) -> i32 {
+  |    --------            ^^^ expected `i32`, found `()`
+  |    |
+  |    implicitly returns `()` as its body has no tail or `return` expression
+8 |     x + 1;
+  |          - help: remove this semicolon
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `functions` due to previous error
+
+```
