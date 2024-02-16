@@ -65,7 +65,7 @@ fn main() {
 }
 ```
 
-## 循环返回值
+### 循环返回值
 
 [demo传送门](./loops/src/main.rs)
 
@@ -87,7 +87,7 @@ fn main() {
 
 关键点：可以使用`break表达式`停止循环
 
-## 循环标签：在多个循环间消除歧义
+### 循环标签：在多个循环间消除歧义
 
 [demo传送门](./loops/src/main.rs)
 
@@ -116,3 +116,43 @@ fn main() {
 ```
 
 重点：`counting_up`是外层loop的循环标签，内层循环可以通过 `break 'counting_up'`来结束外层循环。
+
+
+## while
+
+```rs
+fn main() {
+    let mut number = 3;
+    while number > 0 {
+        println!("{number}")
+        number -= 1;
+    }
+    println!("while done");
+}
+```
+
+
+## for
+
+```rs
+fn main() {
+    let a = [1,2,3,4,5];
+    
+    for element in a {
+        println!("value is: {element}");
+    }
+}
+```
+
+这里有个倒计时的例子，使用`range` 和 `rev`用来反转range
+
+`range: (1..4)`表示从1开始，到3结束。
+
+```rs
+fn main() {
+    for number in (1..4).rev() {
+        println!("{number}!");
+    }
+    println!("发射~")
+}
+```
