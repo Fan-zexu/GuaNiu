@@ -310,3 +310,19 @@ const unique = (arr) => {
 ### 数组取交集
 
 [传送门](./example/set.js)
+
+
+## 字典 map
+
+和集合类似，是一个存储唯一值的结构，JS中就是Map类型
+
+### 两数之和
+
+> [leetcode](https://leetcode.cn/problems/two-sum/description/)
+
+[传送门](./example/mao.js)
+
+思路：
+
+使用一次循环，通过 `target - currentNum` 得到另一个值，从Map中找，存在则返回索引，不存在则将当前值和索引缓存进Map
+
