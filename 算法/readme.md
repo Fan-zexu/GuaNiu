@@ -337,3 +337,11 @@ const unique = (arr) => {
 这个数组交集2的题目，可以用hashMap来解决
 
 > [leetcode](https://leetcode.cn/problems/intersection-of-two-arrays-ii/description/)
+
+思路：
+
+1. **由于有次数限制，所以需要使用Map结构将每个数字出现的次数进行记录**。遍历`nums1`，让每一项记录到map中，数字重复出现就 +1
+
+2. 遍历`nums2`，如果该项在`Map`可以找到，并且记录次数 >0，则`push`进结果，然后将次数-1
+
+3. 考虑Map的空间复杂度，可以对比`nums1和nums2`长度，使用长度小的来循环记录`Map`
