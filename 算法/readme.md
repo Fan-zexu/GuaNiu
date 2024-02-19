@@ -326,3 +326,14 @@ const unique = (arr) => {
 
 使用一次循环，通过 `target - currentNum` 得到另一个值，从Map中找，存在则返回索引，不存在则将当前值和索引缓存进Map
 
+### 两个数组的交集
+
+> [leetcode](https://leetcode.cn/problems/intersection-of-two-arrays/description/)
+
+使用`Set`集合也可以求解，这里使用Map解决，思路就是先遍历`num1`然后存进`Map`，之后再遍历`num2`去`Map`对应查找。
+
+---
+
+这个数组交集2的题目，可以用hashMap来解决
+
+> [leetcode](https://leetcode.cn/problems/intersection-of-two-arrays-ii/description/)
