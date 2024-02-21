@@ -345,3 +345,38 @@ const unique = (arr) => {
 2. 遍历`nums2`，如果该项在`Map`可以找到，并且记录次数 >0，则`push`进结果，然后将次数-1
 
 3. 考虑Map的空间复杂度，可以对比`nums1和nums2`长度，使用长度小的来循环记录`Map`
+
+
+### 字符的有效括号
+
+```js
+// 用字典优化
+
+// 时间复杂度 O(n) n为s的字符长度
+// 空间复杂度 O(n)
+
+const isValid = (str) => {
+  if (str.length % 2 !== 0) return false;
+  const map = new Map();
+  map.set("(", ")");
+  map.set("[", "]");
+  map.set("{", "}");
+  const stack = [];
+  for(let i=0; i<str.length; i++) {
+    const s = str[i];
+    // 是左括号，则入栈
+    if (map.has(s)) {
+      stack.push(s);
+    } else {
+      // 取栈顶左括号
+      const t = stack[stack.length - 1];
+      if (map.get(t) === s) {
+        stack.pop();
+      } else {
+        return false;
+      }
+    }
+  }
+  return stack.length === 0;
+}
+```
