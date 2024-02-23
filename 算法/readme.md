@@ -432,3 +432,24 @@ const tree = {
 }
 
 ```
+
+#### 深度优先遍历
+
+尽可能搜索树的分支，遇到一个节点就直接遍历它的子节点，而不是兄弟节点
+
+方式：
+
+- 访问根节点
+
+- 对根节点的children进行dfs
+
+```js
+const dfs = (tree) => {
+  console.log('tree.val is :', tree.val);
+  // tree.children.forEach((subTree) => {
+  //   dfs(subTree);
+  // })
+
+  tree.children.forEach(dfs)
+}
+```
