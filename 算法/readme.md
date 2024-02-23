@@ -384,3 +384,51 @@ const isValid = (str) => {
 ### 最小覆盖字符
 
 >[leetcode](https://leetcode.cn/problems/minimum-window-substring/description/)
+
+
+
+## 树
+
+> [wiki树定义](https://zh.wikipedia.org/wiki/%E6%A0%91_(%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84))
+
+是一种分层数据的抽象模型，比如`DOM结构` `树形组件`
+
+JS中可以通过`Object`和`Array`构造树
+
+### 普通树
+
+```js
+// 这就是一个常见的普通树形结构
+const tree = {
+  val: "a",
+  children: [
+    {
+      val: "b",
+      children: [
+        {
+          val: "d",
+          children: [],
+        },
+        {
+          val: "e",
+          children: [],
+        }
+      ],
+    },
+    {
+      val: "c",
+      children: [
+        {
+          val: "f",
+          children: [],
+        },
+        {
+          val: "g",
+          children: [],
+        }
+      ],
+    }
+  ],
+}
+
+```
