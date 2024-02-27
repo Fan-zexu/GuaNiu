@@ -104,6 +104,39 @@ let s2 = s1;
 
 * 注意：这个`指针`包含3部分，指针、长度和容量
 
-如图所示，看起来和JS对象引用拷贝差不多。
+如图所示，看起来和JS对象引用拷贝差不多，有点类似浅拷贝。但在rust中称为`move 移动`。`s1`被移动到`s2`
 
 ![String](https://kaisery.github.io/trpl-zh-cn/img/trpl04-02.svg)
+
+
+```rs
+    let s1 = String::from("hello");
+    let s2 = s1;
+
+    println!("{}, world!", s1);
+
+```
+
+再次打印s1会报错。原因是在执行完`let s2 = s1`后，`s1`就被无效了，为了防止“二次释放(double free)”
+
+```sh
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/ownership)
+error[E0382]: borrow of moved value: `s1`
+ --> src/main.rs:5:28
+  |
+2 |     let s1 = String::from("hello");
+  |         -- move occurs because `s1` has type `String`, which does not implement the `Copy` trait
+3 |     let s2 = s1;
+  |              -- value moved here
+4 |
+5 |     println!("{}, world!", s1);
+  |                            ^^ value borrowed here after move
+  |
+  = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+For more information about this error, try `rustc --explain E0382`.
+error: could not compile `ownership` due to previous error
+
+```
+
