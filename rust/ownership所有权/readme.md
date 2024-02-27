@@ -140,3 +140,30 @@ error: could not compile `ownership` due to previous error
 
 ```
 
+* 注意：`Rust`永远不会自动创建数据的“深拷贝”，因此任何**自动**的创建对运行时性能影响较小
+
+### 变量与数据交互的方式（2）：克隆
+
+如果需要深拷贝，既复制栈上的数据，又复制堆上的数据，可以使用`clone`方法
+
+这个例子可以正常运行。
+
+```rs
+    let s1 = String::from("hello");
+    let s2 = s1.clone();
+
+    println!("s1 = {}, s2 = {}", s1, s2);
+```
+
+这个例子属于栈上的拷贝，所以也是正常的。
+
+```rs
+    let x = 5;
+    let y = x;
+
+    println!("x = {}, y = {}", x, y);
+
+```
+
+从这里就引出了两种特殊注释 `Copy trait` 和 `Drop trait` [参考这里](https://kaisery.github.io/trpl-zh-cn/ch04-01-what-is-ownership.html#%E5%8F%AA%E5%9C%A8%E6%A0%88%E4%B8%8A%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8B%B7%E8%B4%9D)
+
