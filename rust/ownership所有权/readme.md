@@ -167,3 +167,32 @@ error: could not compile `ownership` due to previous error
 
 从这里就引出了两种特殊注释 `Copy trait` 和 `Drop trait` [参考这里](https://kaisery.github.io/trpl-zh-cn/ch04-01-what-is-ownership.html#%E5%8F%AA%E5%9C%A8%E6%A0%88%E4%B8%8A%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8B%B7%E8%B4%9D)
 
+
+
+## 所有权与函数
+
+变量传给函数和变量赋值类似，也会出现“移动”或者“复制”，下面例子用注释描述变量进入和离开作用域
+
+```rs
+fn main() {
+    let s = String::from("hello"); // s进入作用域
+
+    let x = 5; // x进入作用域
+
+    takes_ownership(s); // s的值移动到函数中
+                        // ...这里不再有效
+
+    makes_copy(x); // x移动到函数里
+                   // 但是x是i32 是copy类型的
+                   // 所以后面也可以访问
+}
+
+fn takes_ownership(str: String) {
+    println!("{}", str);
+} // 这类str移除作用域并调用`drop`方法
+  // 占用的内存释放掉
+
+fn makes_copy(integer: i32) {
+    println!("{}", integer);
+} // 这里同样变量被移除作用域
+```
