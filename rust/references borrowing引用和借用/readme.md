@@ -88,3 +88,25 @@ For more information about this error, try `rustc --explain E0596`.
 error: could not compile `ownership` due to previous error
 s
 ```
+
+## 可变引用 mutable reference
+
+和可变变量类似，可以用 `&mut`来创建可变引用，同时s1也需要加mut
+
+```rs
+fn main() {
+    let mut s1 = String::from("hello");
+
+    change_s(&mut s1);
+}
+
+fn change_s(s: &mut String) {
+    s.push_str(", world");
+}
+```
+
+注意：函数参数也需要添加`&mut`来变成可变引用。
+
+
+### 可变引用的一个限制
+
