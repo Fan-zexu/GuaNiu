@@ -54,3 +54,37 @@ fn calculate_length(s: &String) -> usize { // s 是 String 的引用
 } // 这里，s 离开了作用域。但因为它并不拥有引用值的所有权，
   // 所以什么也不会发生
 ```
+
+## 不可变引用
+
+和定义变量一样，`&`创建的引用默认是不可变的。例子
+
+```rs
+fn main() {
+    let s1 = String::from("hello");
+
+    change_s(&s1);
+}
+
+fn change_s(s: &String) {
+    s.push_str(", world");
+}
+```
+
+直接修改引用，编译会报错:
+
+```sh
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/ownership)
+error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&` reference
+ --> src/main.rs:8:5
+  |
+7 | fn change(some_string: &String) {
+  |                        ------- help: consider changing this to be a mutable reference: `&mut String`
+8 |     some_string.push_str(", world");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `some_string` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+
+For more information about this error, try `rustc --explain E0596`.
+error: could not compile `ownership` due to previous error
+s
+```
