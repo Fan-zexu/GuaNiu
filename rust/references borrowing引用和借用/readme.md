@@ -41,3 +41,16 @@ fn calculate_length(s: &String) -> usize {
     s.len() // 这里不加 ; 表示 return s.len();
 }
 ```
+
+`&`表示**引用**，它允许你使用值，但不获取所有权
+
+例子中，`&s1`表示创建一个指向`s1`变量的引用，但不拥有它的所有权，所以当`s1`发生”移动“后，不会出现变量失效情况。
+
+同理，函数参数 `&String`表示对 String的引用
+
+```rs
+fn calculate_length(s: &String) -> usize { // s 是 String 的引用
+    s.len()
+} // 这里，s 离开了作用域。但因为它并不拥有引用值的所有权，
+  // 所以什么也不会发生
+```
