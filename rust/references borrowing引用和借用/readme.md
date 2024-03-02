@@ -110,3 +110,45 @@ fn change_s(s: &mut String) {
 
 ### 可变引用的一个限制
 
+同时创建多个对于一个变量的可变引用，会报错
+
+```rs
+    let mut s = String::from("hello");
+
+    let r1 = &mut s;
+    let r2 = &mut s;
+
+    println!("{}, {}", r1, r2);
+
+```
+
+报错如下：
+
+```sh
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/ownership)
+error[E0499]: cannot borrow `s` as mutable more than once at a time
+ --> src/main.rs:5:14
+  |
+4 |     let r1 = &mut s;
+  |              ------ first mutable borrow occurs here
+5 |     let r2 = &mut s;
+  |              ^^^^^^ second mutable borrow occurs here
+6 |
+7 |     println!("{}, {}", r1, r2);
+  |                        -- first borrow later used here
+
+For more information about this error, try `rustc --explain E0499`.
+error: could not compile `ownership` due to previous error
+
+```
+
+这种设计好处：Rust在编译时就可以避免`数据竞争(竞态)`。
+
+竞态产生的原因有几个：
+
+- 两个或多个指针同时指向一个数据
+
+- 至少有一个指针被用来写入数据 ？
+
+- 没有同步数据访问的机制 ？
