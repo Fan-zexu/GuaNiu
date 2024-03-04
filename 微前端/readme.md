@@ -50,6 +50,16 @@ window.loadSupApp = (module) => {
 
 ## 动态路由
 
+### 基座
+
+基座使用 react-router 实现，以 /subapp 前缀来区分子项目
+
+命中子项目后渲染 MicroSubapp 组件，同时将路由参数一并传入
+
+![base-router](./imgs/baseRouter.png)
+
+### 子项目
+
 ## 动态Store
 
 ## 动态CSS
