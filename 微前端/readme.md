@@ -48,3 +48,13 @@ window.loadSupApp = (module) => {
 
 - 具备独立发布部署
 
+## 动态路由
+
+## 动态Store
+
+## 动态CSS
+
+## 复用能力
+
+## 流程部署
+
