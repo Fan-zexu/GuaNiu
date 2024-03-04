@@ -152,3 +152,73 @@ error: could not compile `ownership` due to previous error
 - 至少有一个指针被用来写入数据 ？
 
 - 没有同步数据访问的机制 ？
+
+
+#### 如何避开限制？
+
+在不同的作用域中，允许拥有多个可变引用。但是不能同时（同一个作用域）拥有
+
+```rs
+let mut s = String::from("hello");
+
+{
+  let s1 = &mut s;
+}
+
+let s2 = &mut s;
+```
+
+#### 可变引用和不可变引用一起使用的限制
+
+不可以在拥有可变引用的同时拥有不可变引用
+
+```rs
+    let mut s = String::from("hello");
+
+    let r1 = &s; // 没问题
+    let r2 = &s; // 没问题
+    let r3 = &mut s; // 大问题
+
+    println!("{}, {}, and {}", r1, r2, r3);
+
+```
+
+报错如下：
+
+```sh
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/ownership)
+error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
+ --> src/main.rs:6:14
+  |
+4 |     let r1 = &s; // no problem
+  |              -- immutable borrow occurs here
+5 |     let r2 = &s; // no problem
+6 |     let r3 = &mut s; // BIG PROBLEM
+  |              ^^^^^^ mutable borrow occurs here
+7 |
+8 |     println!("{}, {}, and {}", r1, r2, r3);
+  |                                -- immutable borrow later used here
+
+For more information about this error, try `rustc --explain E0502`.
+error: could not compile `ownership` due to previous error
+
+```
+
+不可变引用和可变引用如何共存？例子
+
+```rs
+    let mut s = String::from("hello");
+
+    let r1 = &s; // 没问题
+    let r2 = &s; // 没问题
+    println!("{} and {}", r1, r2);
+    // 此位置之后 r1 和 r2 不再使用
+
+    let r3 = &mut s; // 没问题
+    println!("{}", r3);
+
+```
+
+由于`r1 r2`在`println!`之后就结束，所以是允许在这之后创建`r3`的，因为作用域没有**重叠**
+
