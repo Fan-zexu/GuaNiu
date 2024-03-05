@@ -222,3 +222,32 @@ error: could not compile `ownership` due to previous error
 
 由于`r1 r2`在`println!`之后就结束，所以是允许在这之后创建`r3`的，因为作用域没有**重叠**
 
+
+## 悬垂引用 Dangling Reference
+
+所谓悬垂引用就是指，一个指针指向的内存被分配给其他所有者
+
+一个悬垂引用的例子：
+
+```rs
+fn main() {
+  let reference_to_nothing = dangle(); // 这里dangle返回了一个无效的String引用，所以Rust编译会报错
+}
+
+fn dangle() -> &String { // dangle返回一个字符串引用
+  let s = String::from("hello"); // s 是一个新字符串
+
+  &s // 返回字符串s的引用
+} // 这里s离开作用域并被丢弃，其内存被释放
+// 危险~
+```
+
+修改：将引用去掉，变成返回变量
+
+```rs
+fn dangle() -> String {
+  let s = String::from("hello");
+
+  s
+} 
+```
