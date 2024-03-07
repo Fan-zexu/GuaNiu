@@ -115,3 +115,43 @@ let s = "hello world";
 ```
 
 这里s的类型是 `&str`：它是一个指向二进制程序特定位置的slice，`&str`它是不可变引用，所以字符串字面值是不可变的。
+
+### 字符串字面值作为参数
+
+```rs
+fn first_word(s: &String) -> &str {}
+
+// 也可以这么定义
+
+fn first_word(s: &str) -> &str {}
+```
+
+总结：
+
+- 如果有一个字符串slice ，可以直接传递它
+
+- 如果有一个String，可以传递整个String的slice
+
+- 直接传递String的引用
+
+```rs
+fn main() {
+    let my_string = String::from("hello world");
+
+    // 可以传入 String的slice，全部或部分
+    let word = first_word(&my_string[..]);
+    let word = first_word(&my_string[0..6]);
+
+    // 可以传入 String的引用，这等价于 整个String的slice
+    let word = first_word(&my_string);
+
+    let my_string_literal = "hello world";
+
+    // 可以传入字符串字面量的slice
+    let word = first_world(&my_string_literal[..]);
+    let word = first_world(&my_string_literal[0..6]);
+
+    // 字符串字面值就等价于字符串slice，所以可以不使用slice语法
+    let word = first_world(my_string_literal);
+}
+```
