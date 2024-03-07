@@ -57,3 +57,50 @@ let slice = &s[0..len];
 
 let slice = &s[..]
 ```
+
+利用`slice`重写`first_word`方法
+
+```rs
+fn main() {
+    let s = String::from("hello world");
+
+    let word = first_word(&s);
+
+    println!("first word is {}", word)
+}
+
+fn first_word(s: &String) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[..i];
+        }
+    }
+
+    &s[..]
+}
+```
+
+这样会报错：
+
+```rs
+fn main() {
+    let s = String::from("hello world");
+
+    let word = first_word(&s); // 这里&s是一个不可变引用
+
+    // 增加了清除功能
+    s.clear(); // 这里的s是一个可变引用
+
+    println!("first word is {}", word); // 这里的word是一个不可变引用
+}
+```
+
+原因：借用规则，当拥有某值的不可变引用时，就不能再获取一个可变引用。
+
+`s.clear()`为了清空String，所以这里它尝试获取一个可变引用。
+
+但是println!中的word是第一个不可变引用。
+
+所以两者与rust规则冲突，则会编译报错
