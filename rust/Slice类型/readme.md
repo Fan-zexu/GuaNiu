@@ -155,3 +155,24 @@ fn main() {
     let word = first_world(my_string_literal);
 }
 ```
+
+## 其他类型的slice
+
+比如数组集合的slice
+
+```rs
+fn main() {
+    let a = [1,2,3,4,5];
+    
+    let slice = &a[1..3];
+
+    println!("{:?}", slice);  // 输出 [2,3]
+
+    assert_eq!(slice, &[2,3])
+}
+```
+注意：
+
+1. slice遵循左闭右开原则，`&a[1..3] 即 [1, 2, 3)` 表示索引1和2，不包括3，所以slice变量等于`[2,3]`
+
+2. 打印数组slice，不能用`"{}"`，而需要用`"{:?}"`这个占位符
