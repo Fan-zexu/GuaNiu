@@ -87,3 +87,20 @@ let user4 = User {
 ```
 
 `..`就像 `=`赋值操作，会存在移动数据。在这例子中，name的String值就被从`user1`移动到`user4`中，所以`user1.name`就无效了。此时编译会报错
+
+
+## 元组结构体
+
+通过元组结构体创建类型
+
+```rs
+struct Color(i32, i32, i32);
+struct Point(i32, i32, i32);
+
+fn main() {
+    let black = Color(0, 0, 0);
+    let origin = Point(0,0,0);
+}
+```
+
+注意：`black和origin`值的类型不同，因为他们是不同元组的实例。即便结构体中的值类型都相同。
