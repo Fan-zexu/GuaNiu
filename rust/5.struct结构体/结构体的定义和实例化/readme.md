@@ -53,3 +53,37 @@ fn build_user2(name: String, active: bool) -> User {
 ```
 
 简写的函数和JS中es6对象简写形式类似。
+
+
+## 结构体更新语法 struct update syntax
+
+复用部分结构体的值来创建一个新的结构体。
+
+可以使用`..`来做复用。类似JS的`...`解构运算符。
+
+注意：`..`属于`base struct`需要放在结构体**最后**
+
+```rs
+// 原始啰嗦版
+let user2 = User {
+    active: user1.active,
+    age: user1.age,
+    name: String::from("newname"),
+};
+
+// 简化版本
+let user3 = User {
+    name: String::from("..newname"),
+    ..user1
+};
+```
+
+注意“移动move”的问题：
+
+```rs
+let user4 = User {
+    ..user1
+}
+```
+
+`..`就像 `=`赋值操作，会存在移动数据。在这例子中，name的String值就被从`user1`移动到`user4`中，所以`user1.name`就无效了。此时编译会报错
