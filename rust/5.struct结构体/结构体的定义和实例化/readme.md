@@ -104,3 +104,16 @@ fn main() {
 ```
 
 注意：`black和origin`值的类型不同，因为他们是不同元组的实例。即便结构体中的值类型都相同。
+
+
+## 没有任何字段的类单元结构体
+
+没看懂具体用法，摆个例子
+
+```rs
+struct AlwaysEqual;
+
+fn main() {
+    let subject = AlwaysEqual;
+}
+```
