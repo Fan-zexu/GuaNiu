@@ -117,3 +117,30 @@ fn main() {
     let subject = AlwaysEqual;
 }
 ```
+
+# String和&str区别
+
+在 Rust 中，`String` 和 `&str` 都用于表示字符串，但它们的使用场景和特性有所不同。
+
+1. `String` 类型：`String` 是一个可变的、拥有所有权的、堆上分配的字符串类型。你可以对 `String` 进行修改，例如添加字符、改变字符等。`String` 类型的大小在编译时是不确定的，只有在运行时才能确定。
+
+```rust
+let mut s = String::from("hello");
+s.push_str(", world!");  // s 的内容变为了 "hello, world!"
+```
+
+2. `&str` 类型：`&str` 是一个字符串切片类型，通常用作函数的参数，让函数接受任何类型的字符串。它是对现有字符串的引用，不拥有所有权，因此不能对其进行修改。`&str` 类型的大小在编译时是确定的。
+
+```rust
+fn takes_slice(slice: &str) {
+    println!("Got: {}", slice);
+}
+
+fn main() {
+    let s = String::from("Hello, world!");
+
+    takes_slice(&s);
+}
+```
+
+总结：`String` 是一个可变的、拥有所有权的字符串类型，而 `&str` 是一个不可变的、不拥有所有权的字符串引用。
