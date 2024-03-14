@@ -115,3 +115,25 @@ fn main() {
 }
 ```
 
+## 关联函数
+
+所有定义在`impl`中的函数，都被叫做“关联函数”(associated functions)，因为它们与`impl`后面命名的类型相关。
+
+可以定义一个不以`self`为参数的函数（所以不是方法）。类似这样的函数是 String类型上定义的 `String::from`函数。
+
+```rs
+impl Rectangle {
+    fn square(size: u32) -> Self {
+        Self {
+            width: size,
+            height: size,
+        }
+    }
+}
+
+fn main() {
+    let sq = Rectangle::square(3);
+    
+    dbg!(&sq);
+}
+```
