@@ -137,3 +137,27 @@ fn main() {
     dbg!(&sq);
 }
 ```
+
+## 多个impl块
+
+每个结构体可以允许有多个impl
+
+```rs
+impl Rectangle {
+    fn width(&self) -> bool {
+        self.width > 0
+    }
+}
+
+impl Rectangle {
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+}
+```
+
+# 总结
+
+- 结构体可以定义灵活的类型
+
+- `impl`中可以定义关联函数，可以是方法，用来来定义结构体实例的行为。或者不是方法，用于配合`::`来结构体上调用关联函数。
