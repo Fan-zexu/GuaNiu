@@ -102,3 +102,32 @@ let m = Message::Write(String::from("hello"));
 
 m.call();
 ```
+
+### Option枚举
+
+干啥的：用于区分空值null和非空值
+
+在Rust中并没有空值，但缺有处理这种情况的枚举 `Option<T>`，它定义在[标准库中](https://doc.rust-lang.org/std/option/enum.Option.html)
+
+```rs
+enum Option<T> {
+    None,
+    Some<T>,
+}
+```
+注意：
+
+1. 它是一个不需要显示引入到作用域里，它被定义到prelude中（类似于全局定义）。
+
+2. 可以直接使用`None`和`Some`，不需要类似这样调用`Option::xxx`
+
+
+`<T>`是泛型，和TS中的使用类似
+
+```rs
+let some_number = Some(5);
+
+let some_str = Some('a');
+
+let other_number: Option<i32> = None;
+```
