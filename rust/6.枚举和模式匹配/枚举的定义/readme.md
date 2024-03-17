@@ -49,8 +49,8 @@ let loopback = IpAddr::v6(String::from("::1"));
 
 ```rs
 enum IpAddr {
-    v4: (u8, u8, u8, u8),
-    v6: String
+    v4(u8, u8, u8, u8),
+    v6(String)
 }
 
 let home = IpAddr::v4(127, 0, 0, 1);
@@ -58,3 +58,33 @@ let home = IpAddr::v4(127, 0, 0, 1);
 let loopback = IpAddr::v6(String::from("::1"));
 ```
 
+### 支持更多负责类型数据
+
+示例1：
+
+```rs
+struct Ipv4Addr {
+    // --snip--
+}
+
+struct Ipv6Addr {
+    // --snip--
+}
+
+enum IpAddr {
+    V4(Ipv4Addr),
+    V6(Ipv6Addr),
+}
+
+```
+
+示例2：
+
+```rs
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+```
