@@ -88,3 +88,17 @@ enum Message {
     ChangeColor(i32, i32, i32),
 }
 ```
+
+### 使用impl为枚举定义方法
+
+```rs
+impl Message {
+    fn call(&self) {
+        // 定义方法体
+    }
+}
+
+let m = Message::Write(String::from("hello"));
+
+m.call();
+```
