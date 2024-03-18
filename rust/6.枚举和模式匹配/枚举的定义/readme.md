@@ -131,3 +131,16 @@ let some_str = Some('a');
 
 let other_number: Option<i32> = None;
 ```
+
+3. `Option<T>和T`是不同类型，如下代码会编译失败：
+
+```rs
+let x: i8 = 5;
+let y: Option<i8> = Some(5);
+
+let sum = x + y;
+```
+
+这里Rust是为了防止一些看似有值但实际是空值的情况出现。
+
+[这里](https://doc.rust-lang.org/std/option/enum.Option.html)可以看到关于`Option<T>`拥有的应对各种情况的方法。
