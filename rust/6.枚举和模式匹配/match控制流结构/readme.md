@@ -89,3 +89,8 @@ fn main() {
     println!("none is {:?}", none);
 }
 ```
+
+## 匹配是穷尽的
+
+比如，如果`match`的分支中只有`Some<T>`，并没有`None`，编译器会报错，提示匹配缺失。
+
