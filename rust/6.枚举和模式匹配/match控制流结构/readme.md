@@ -94,3 +94,19 @@ fn main() {
 
 比如，如果`match`的分支中只有`Some<T>`，并没有`None`，编译器会报错，提示匹配缺失。
 
+## 通配符模式
+
+```rs
+let dice_roll = 9;
+match dice_roll {
+    3 => addFn(),
+    5 => removeFn(),
+    other => nothing(other),
+}
+```
+
+`other`就属于通配符，表示3和5之外的所有。
+
+注意：
+
+1. 如果在other后面再定义分支，编译会警告，提示后面定义的分支不会被匹配到
