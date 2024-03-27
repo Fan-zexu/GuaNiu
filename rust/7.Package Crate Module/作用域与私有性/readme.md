@@ -54,3 +54,41 @@ fn main() {
 }
 ```
 
+## 定义模块
+
+通过`cargo new --lib restaurent`，创建一个名为restaurant的“库crate”。
+
+文件名：`src/lib.rs`
+
+官网demo 
+
+```rs
+mod front_of_house {
+    mod hosting {
+        fn add_to_waitlist() {}
+        fn seat_at_table() {}
+    }
+
+    mod serving {
+        fn take_order() {}
+
+        fn serve_order() {}
+
+        fn take_payment() {}
+    }
+}
+```
+
+`src/lib.rs`叫做`crate根`，文件内容和根组成“模块树（`module tree`）”
+
+```
+crate
+ └── front_of_house
+     ├── hosting
+     │   ├── add_to_waitlist
+     │   └── seat_at_table
+     └── serving
+         ├── take_order
+         ├── serve_order
+         └── take_payment
+```
