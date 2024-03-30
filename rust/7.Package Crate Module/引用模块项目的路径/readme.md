@@ -46,3 +46,42 @@ mod back_of_house {
     fn cook_order() {}
 }
 ```
+
+## 创建共有结构体
+
+创建共有结构体，但其中包含共有和私有属性，例子：
+
+```rs
+mod back_of_house {
+   pub struct Breakfast {
+    pub toast: String,
+    seasonal_fruit: String,
+   }
+
+   impl Breakfast {
+    pub fn summer(toast: &str) -> Breakfast {
+        Breakfast {
+            toast: String::from(toast),
+            seasonal_fruit: String::from("peaches"),
+        }
+    }
+   }
+}
+
+pub fn eat_at_restaurant {
+    // 订购一个黑麦吐司
+    let mut meal = back_of_house::Breakfast::summer("Rye");
+    // 改变主意，将黑麦修改为小麦面包
+    meal.toast = String::from("Wheat");
+
+    // 如果取消下一行的注释代码不能编译；
+    // 不允许查看或修改早餐附带的季节水果
+    // meal.seasonal_fruit = String::from("blueberries");
+}
+```
+
+疑问：这里如果不使用`impl Breakfast`，只定义summer方法，也可以正常执行。那会有问题吗？
+
+
+
+
