@@ -8,6 +8,9 @@
 
 两种路径都后跟一个或多个双冒号`(::)`分隔的标识符
 
+
+## 使用pub关键字暴露路径
+
 `src/lib.rs`
 
 ```rs
@@ -22,5 +25,24 @@ pub fn eat_at_restaurant() {
     crate::front_of_house::hosting::add_waitlist();
     // 相对路径
     front_of_house::hosting::add_waitlist();
+}
+```
+
+## super开始的相对路径
+
+使用`super`开头的相对路径，从父级目录开始构建路径，有点类似于 `..`文件系统路径用法。
+
+```rs
+// 文件：src/lib.rs
+
+fn deliver_order() {}
+
+mod back_of_house {
+    fn fix_order() {
+        cook_order();
+        super::deliver_order();
+    }
+
+    fn cook_order() {}
 }
 ```
