@@ -83,5 +83,21 @@ pub fn eat_at_restaurant {
 疑问：这里如果不使用`impl Breakfast`，只定义summer方法，也可以正常执行。那会有问题吗？
 
 
+## 共有枚举
 
+枚举共有，则它的成员都变成共有。
+
+```rs
+mod back_of_house {
+    pub enum Appetizer {
+        Soup,
+        Salad,
+    }
+}
+
+pub fn eat_at_restaurant() {
+    let order1 = back_of_house::Appetizer::Soup;
+    let order2 = back_of_house::Appetizer::Salad;
+}
+```
 
