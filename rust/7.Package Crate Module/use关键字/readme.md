@@ -74,3 +74,19 @@ fn fn2() -> io::Result<()> {
 }
 ```
 
+# 使用as关键字定义新名称
+
+和ESM中 import as 定义别名差不多
+
+```rs
+use std::fmt::Result;
+use std::io::Result as IoResult;
+
+fn function1() -> Result {
+    // --snip--
+}
+
+fn function2() -> IoResult<()> {
+    // --snip--
+}
+```
