@@ -45,3 +45,32 @@ mod customer {
 2. 通过`super::hosting`来调用，从父模块中引用
 
 
+# 创建惯用的use
+
+1. 将`HashMap`引入的**习惯**写法
+
+```rs
+use std::collections::HashMap;
+
+fn main() {
+    let mut map = HashMap::new();
+
+    map.insert(1, 2);
+}
+```
+
+2. 将两个父模块不同，但是类型名相同，引入作用域
+
+```rs
+use std::fmt;
+use std::io;
+
+fn fn1() -> fmt::Result {
+
+}
+
+fn fn2() -> io::Result<()> {
+    
+}
+```
+
