@@ -90,3 +90,31 @@ fn function2() -> IoResult<()> {
     // --snip--
 }
 ```
+
+# pub use 重导出名称
+
+```rs
+mod front_of_house {
+    pub mod hosting {
+        fn add_to_list() {}
+    }
+}
+
+pub use crate::front_of_house::hosting;
+
+pub fn eat() {
+    hosting::add_to_list();
+}
+```
+
+修改前，在外部代码使用：
+
+```rs
+restaurant::front_of_house::hosting::add_to_list();
+```
+
+修改后：
+
+```rs
+restaurant::hosting::add_to_list();
+```
