@@ -118,3 +118,38 @@ restaurant::front_of_house::hosting::add_to_list();
 ```rs
 restaurant::hosting::add_to_list();
 ```
+
+# 嵌套路径消除大量use
+
+当从相同包活模块引入项时，可以简化use的引用
+
+1. 
+
+优化前：
+
+```rs
+use std::cmp::Ordering;
+use std::io;
+```
+
+优化后：
+
+```rs
+use std::{cmp::Ordering, io};
+```
+
+2. 
+
+优化前：
+
+```rs
+use std::io;
+use std::io::write;
+```
+
+优化后：
+
+```rs
+use std::io::{self, write}
+```
+
