@@ -153,3 +153,12 @@ use std::io::write;
 use std::io::{self, write}
 ```
 
+# 通过glob运算符将所有共有定义引入作用域
+
+将一个路径下所有公有项引入作用域，在指定路径后跟 `*`，glob运算符
+
+```rs
+use std::collections::*
+```
+
+glob运算符一般使用在测试模块场景。
