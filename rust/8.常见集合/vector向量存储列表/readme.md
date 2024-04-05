@@ -1,14 +1,18 @@
-# 常见集合collections
+# Vector存储
 
-集合中所指向的数据是存在堆上的
+类型是`Vec<T>`，可以存多个**类型相同**的值，且在内存中都彼此相邻的排列。
 
-常见集合：
+## 新建 vector
 
-1. Vector(向量)，我们一个挨着一个地储存一系列数量可变的值
+```rs
+let vec: Vec<i32> = Vec::new();
+```
 
-2. 字符串（string），是字符的集合。比如String类型
+新建一个空的`vector`来存储`i32`的值
 
-3. hash map，存储key value
+为了方便，可以使用`vec宏`来创建，rust会自动推断类型
 
-更多[集合参考](https://doc.rust-lang.org/std/collections/index.html)
-
+```rs
+let vec = vec![1,2,3];
+```
+1,2,3是整型，所以推断为`i32`
