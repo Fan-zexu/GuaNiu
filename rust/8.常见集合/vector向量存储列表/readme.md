@@ -29,3 +29,32 @@ vec.push(6);
 ```
 
 注意，想改变vec的值，需要使用`mut`关键字
+
+## 读取 vector元素
+
+### 读取方式
+
+两种方式：1. 通过索引 2. `get`方法
+
+```rs
+let v = vec![1,2,3,4,5];
+
+let third: &i32 = &v[2];
+
+println!("The third element is {third}");
+
+let third = Option<&i32> = v.get(2);
+
+match third {
+    Option<third> => {
+        println!("The third element is {third}")
+    },
+    None => println!("There is no third element.")
+}
+```
+
+注意：
+
+1. 使用`&`和`[]`，会得到一个索引位置元素的引用
+
+2. 使用索引作为参数调用`get`方法，会得到一个可以用于`match`的`Option<&T>`
