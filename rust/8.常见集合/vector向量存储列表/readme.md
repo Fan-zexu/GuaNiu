@@ -16,3 +16,16 @@ let vec: Vec<i32> = Vec::new();
 let vec = vec![1,2,3];
 ```
 1,2,3是整型，所以推断为`i32`
+
+## 更新 vector
+
+使用`push`，向空vector中更新数据
+
+```rs
+let mut vec: Vec<i32> = Vec::new();
+
+vec.push(5);
+vec.push(6);
+```
+
+注意，想改变vec的值，需要使用`mut`关键字
