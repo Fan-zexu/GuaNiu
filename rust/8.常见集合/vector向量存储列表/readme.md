@@ -152,3 +152,19 @@ let cell = vec![
 println!("cell is {:?}", cell);
 ```
 
+## 丢弃 vector 时也会丢弃其所有元素
+
+类似于`struct`，`vector`在离开作用域时会被释放。
+
+这里内部的整数都无法使用。
+
+借用检查器确保了任何 vector 中内容的引用仅在 vector 本身有效时才可用。
+
+```rs
+    {
+        let v = vec![1, 2, 3, 4];
+
+        // do stuff with v
+    } // <- v goes out of scope and is freed here
+
+```
