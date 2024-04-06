@@ -102,3 +102,29 @@ let first = &v[0];
 println!("The first element is: {}", first);
 
 ```
+
+## 遍历vector
+
+```rs
+let v = vec![1,2,3,4,5];
+
+for i in &v {
+    println!("i is {i}")
+}
+
+println!("i is {:?}", v)
+```
+
+使用可变引用，为每个元素增加1：
+
+```rs
+let mut v1 = vec![1,2,3,4,5];
+
+for i in &mut v1 {
+    *i += 1;
+}    
+
+println!("i is {:?}", v1);
+```
+
+第124行，这里需要使用`*`这个解引用运算符来获取`i`的值
