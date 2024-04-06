@@ -128,3 +128,27 @@ println!("i is {:?}", v1);
 ```
 
 第124行，这里需要使用`*`这个解引用运算符来获取`i`的值
+
+
+## 使用枚举存储多种类型
+
+使用枚举来定义多个不同类型的值，由于每个成员的类型都是这个枚举的类型，所以可以放在`vector`中使用
+
+```rs
+#[derive(Debug)]
+
+enum CellMumbers {
+    Int(i32),
+    Float(f64),
+    Text(String)
+}
+
+let cell = vec![
+    CellMumbers::Int(3),
+    CellMumbers::Float(10.12),
+    CellMumbers::Text(String::from("blue"))
+];
+
+println!("cell is {:?}", cell);
+```
+
