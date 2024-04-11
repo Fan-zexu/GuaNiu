@@ -59,6 +59,16 @@ println!("s3 is {s3}");
 ```
 
 - `push_str`既可以传入字符，也可以传入变量
-
+/ad/wmafe/micro/h5/isomor_recharge/js
 - `push`只能传入字符
+
+### 使用`+`运算符或 `format!`宏拼接字符串
+
+两个字符串拼接
+
+```rs
+let s1 = String::from("hello,");
+let s2 = String::from("world");
+let s3 = s1 + &s2; // 注意 s1 被移动了，不能继续使用
+```
 
