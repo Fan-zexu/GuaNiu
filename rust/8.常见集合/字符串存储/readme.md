@@ -72,3 +72,23 @@ let s2 = String::from("world");
 let s3 = s1 + &s2; // 注意 s1 被移动了，不能继续使用
 ```
 
+这里 `+`背后调用了 `add`函数，类似这样
+
+```rs
+fn add(self, &str) -> String {}
+```
+
+1. 其中`self`没有`&`，非引用，所以会转移`s1`的所有权，导致在运算之后，`s1`被回收无法使用。
+
+2. 参数`s2`是`&String`类型，并非`&str`类型，但没有报编译失败，原因是`add`函数中有对于`&String` 到`&str`的类型强转 (deref coercion)
+
+
+多个字符串拼接，可以用使用 `format`宏
+
+```rs
+let s1 = String::from("a");
+let s2 = String::from("b");
+let s3 = String::from("c");
+
+let s4 = format!("{s1}-{s2}-{s3}");
+```
