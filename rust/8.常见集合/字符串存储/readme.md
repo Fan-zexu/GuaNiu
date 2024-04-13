@@ -92,3 +92,16 @@ let s3 = String::from("c");
 
 let s4 = format!("{s1}-{s2}-{s3}");
 ```
+
+
+## 索引字符串
+
+```rs
+let s1 = String::from("hello");
+
+let h = s1[0];
+```
+
+编译会报错
+
+[原因详看官网](https://kaisery.github.io/trpl-zh-cn/ch08-02-strings.html#%E7%B4%A2%E5%BC%95%E5%AD%97%E7%AC%A6%E4%B8%B2)
