@@ -105,3 +105,15 @@ let h = s1[0];
 编译会报错
 
 [原因详看官网](https://kaisery.github.io/trpl-zh-cn/ch08-02-strings.html#%E7%B4%A2%E5%BC%95%E5%AD%97%E7%AC%A6%E4%B8%B2)
+
+
+## 字符串slice
+
+可以获取明确特定字节的`字符串slice`
+
+```rs
+let hello = "Здравствуйте";
+let s = &hello[0..4];
+```
+
+这里一个字母是2个字节
