@@ -38,3 +38,22 @@ for (key, value) in &map {
     println!("{key}: {value}")
 }
 ```
+
+## hash map和所有权
+
+```rs
+use std::collections::HashMap;
+
+let name = String::from("color");
+let value = String::from("blue");
+
+let mut map = HashMap::new();
+
+map.insert(name, value);
+
+// 这里使用`name`和`value`，都是无效的。
+```
+
+调用`insert`后，变量就被移动到HashMap中，所以无法再次失效。
+
+除非用`&`，传入引用
