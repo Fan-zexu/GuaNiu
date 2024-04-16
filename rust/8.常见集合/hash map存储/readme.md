@@ -115,3 +115,10 @@ fn main() {
 `split_whitespace`方法返回以空隔分隔`text`子`slice`的迭代器。
 
 `or_insert`返回这个键值的一个可变引用
+
+
+## 哈希函数
+
+[官网描述](https://kaisery.github.io/trpl-zh-cn/ch08-03-hash-maps.html#%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0)
+
+不太理解...
