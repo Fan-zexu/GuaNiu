@@ -25,3 +25,54 @@ pub trait Summary {
 3. 方法签名后面用“;”结尾，不需要提供具体实现。每一个实现这个`trait`的类型都需要提供自定义行为的方法体。
 
 4. `trait`中可以包含多个方法签名，用“;”隔开
+
+# 为类型实现trait
+
+定义了`trait`之后，我们去实现这个类型
+
+以`Summary trait`为例，
+
+文件: `src/lib.rs`
+
+```rs
+pub struct Article {
+    pub title: String;
+    pub location: String;
+    pub author: String;
+    pub content: String;
+}
+
+impl Summary for Article {
+    fn summarize(&self) -> String {
+        format!("{}, by {} ({})", self.title, self.author, self.location);
+    }
+}
+
+pub struct Tweet {
+    pub username: String;
+    pub content: String;
+}
+
+impl Summary for Tweet {
+    fn summarize(&self) -> String {
+        format!("{}: {}", self.username, self.content)
+    }
+}
+```
+
+官方对于这个trait的使用
+
+```rs
+use aggregator::{Summary, Tweet};
+
+fn main() {
+    let tweet = Tweet {
+        username: String::from("horse_ebooks"),
+        content: String::from(
+            "of course, as you probably already know, people",
+        ),
+    };
+
+    println!("1 new tweet: {}", tweet.summarize());
+}
+```
