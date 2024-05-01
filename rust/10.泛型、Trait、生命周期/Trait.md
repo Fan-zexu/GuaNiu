@@ -76,3 +76,5 @@ fn main() {
     println!("1 new tweet: {}", tweet.summarize());
 }
 ```
+
+这里还解释了使用`trait`限制，看不懂。。。。[官网](https://kaisery.github.io/trpl-zh-cn/ch10-02-traits.html#%E4%B8%BA%E7%B1%BB%E5%9E%8B%E5%AE%9E%E7%8E%B0-trait)
