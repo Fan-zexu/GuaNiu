@@ -77,4 +77,10 @@ fn main() {
 }
 ```
 
-这里还解释了使用`trait`限制，看不懂。。。。[官网](https://kaisery.github.io/trpl-zh-cn/ch10-02-traits.html#%E4%B8%BA%E7%B1%BB%E5%9E%8B%E5%AE%9E%E7%8E%B0-trait)
+这里还解释了使用`trait`限制，参考：[官网](https://kaisery.github.io/trpl-zh-cn/ch10-02-traits.html#%E4%B8%BA%E7%B1%BB%E5%9E%8B%E5%AE%9E%E7%8E%B0-trait)
+
+个人理解：
+
+`use aggregator::{Summary, Tweet};`这里证明`Summary, Tweet`处于`aggregator crate`的本地作用域中，所以可以为`aggregator crate`中的`Tweet`类型实现`Display trait`；也可以为`aggregator crate`中的`Vec<T>`实现`Summary Trait`。
+
+但不能给`aggregator crate`中的`Vec<T>`实现`Display trait`，因为2者都属于标准库中的实现，都不在`aggregator crate`的作用域中
