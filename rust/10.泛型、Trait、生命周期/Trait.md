@@ -84,3 +84,63 @@ fn main() {
 `use aggregator::{Summary, Tweet};`这里证明`Summary, Tweet`处于`aggregator crate`的本地作用域中，所以可以为`aggregator crate`中的`Tweet`类型实现`Display trait`；也可以为`aggregator crate`中的`Vec<T>`实现`Summary Trait`。
 
 但不能给`aggregator crate`中的`Vec<T>`实现`Display trait`，因为2者都属于标准库中的实现，都不在`aggregator crate`的作用域中
+
+# 默认实现
+
+> 为`trait`某些或全部方法提供默认行为，而不是在每个类型的每个实现中都定义自己的行为是很有用的。
+
+例子，`Summary trait`中的`summarize`方法指定一个字符串，而不是仅定义方法签名
+
+```rs
+pub trait Summary {
+    fn summarize(&self) -> String {
+        String::from("read more ...")
+    }
+}
+```
+
+如果想让`Tweet`实例使用这个默认行为，可以这样，实现一个空`impl`
+
+```rs
+impl Summary for Tweet {}
+```
+
+## 特殊实现...
+
+在默认实现中可以调用`trait`上的其他方法，即使这些方法么有被实现。例子：
+
+```rs
+pub trait Summary {
+    fn summarize_other(&self) -> String;
+
+    fn summarize(&self) -> String {
+        format!("read more from {} ... ", &self.summarize_other)
+    }
+}
+```
+
+想使用这个版本的 `Summary trait`，只需要实现`summarize_other`即可
+
+```rs
+impl Summary for Tweet {
+    fn summarize_other(&self) -> String {
+        format!("@{}", &self.username)
+    }
+}
+```
+
+具体调用：
+
+```rs
+    let tweet = Tweet {
+        username: String::from("horse_ebooks"),
+        content: String::from(
+            "of course, as you probably already know, people",
+        ),
+    };
+
+    println!("1 new tweet: {}", tweet.summarize()); // 1 new tweet: (read more from @horse_ebooks...)。
+
+```
+
+> 注意：无法从相同方法的重载实现中调用默认方法。 ???
