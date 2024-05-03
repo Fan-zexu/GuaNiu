@@ -144,3 +144,21 @@ impl Summary for Tweet {
 ```
 
 > 注意：无法从相同方法的重载实现中调用默认方法。 ???
+
+## trait作为参数
+
+`Article和Tweet`上都是实现了`Summary trait`，之后我们定义一个函数`notify`来调用其参数`item`上的`summarize`方法，这个`item`也是一个实现了`Summary trait`的类型。可以用 `impl Trait`的语法
+
+```rs
+pub fn notify(item: &impl Summary) {
+    println!("Breaking news ! {}", item.summarize());
+}
+```
+
+`item`参数使用了`impl Trait`而不是具体类型，表示该参数之后任何实现了某种`Trait`的类型。
+
+这`notify`中，可以调用任何来自`Summary trait`的方法，比如`summarize`。
+
+我们可以传递`Article和Tweet`的实例来调用`notify`。
+
+但是用其他如`String、i32`的类型来调用`notify`都会编译失败，因为它并没有实现`Summary`
