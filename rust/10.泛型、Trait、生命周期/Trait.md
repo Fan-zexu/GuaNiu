@@ -198,3 +198,20 @@ pub fn notify(item: &impl (Display + Summary)) {}
  ```rs
 pub fn notify<T: Display + Summary>(item: &T) {}
  ```
+
+## 通过where 简化 trait bound
+
+```rs
+fn some_function<T: Display + Clone, U: Display + Debug>(t: &T, u: &U) -> i32 {}
+```
+
+简化：
+
+```rs
+fn some_function<T, U>(t: &T, u: &U) -> i32 
+where {
+    T: Display + Clone,
+    U: Display + Debug
+}
+```
+
