@@ -209,9 +209,9 @@ fn some_function<T: Display + Clone, U: Display + Debug>(t: &T, u: &U) -> i32 {}
 
 ```rs
 fn some_function<T, U>(t: &T, u: &U) -> i32 
-where {
+where 
     T: Display + Clone,
     U: Display + Debug
-}
+{}
 ```
 
