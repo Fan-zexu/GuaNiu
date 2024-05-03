@@ -184,3 +184,17 @@ pub fn notify(item1: &impl Summary, item2: &impl Summary) {}
 ```rs
 pub fn notify<T: Summary>(item1: &T, item2: &T) {}
 ```
+
+## 通过 + 实现多个 trait bound
+
+如果要求item 既要有格式化`Display`能力，又可以调用`summarize`：
+
+```rs
+pub fn notify(item: &impl (Display + Summary)) {}
+```
+
+ + 语法也适用于泛型的`trait bound`
+
+ ```rs
+pub fn notify<T: Display + Summary>(item: &T) {}
+ ```
