@@ -162,3 +162,25 @@ pub fn notify(item: &impl Summary) {
 我们可以传递`Article和Tweet`的实例来调用`notify`。
 
 但是用其他如`String、i32`的类型来调用`notify`都会编译失败，因为它并没有实现`Summary`
+
+## trait bound语法
+
+`impl trait`是`trait bound`这种较长形式的语法糖
+
+```rs
+pub fn notify<T: Summary>(item: &T) {
+    println!("Breaking news! {}", item.summarize());
+}
+```
+
+复杂场景，比如获取两个实现了`Summary`的参数，使用`impl trait`语法：
+
+```rs
+pub fn notify(item1: &impl Summary, item2: &impl Summary) {}
+```
+
+但是如果希望是相同类型，只能使用`trait bound`语法：
+
+```rs
+pub fn notify<T: Summary>(item1: &T, item2: &T) {}
+```
