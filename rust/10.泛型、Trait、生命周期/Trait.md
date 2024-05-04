@@ -215,3 +215,19 @@ where
 {}
 ```
 
+## 返回实现了trait的类型
+
+可以在返回中使用`impl trait`语法，来返回一个实现`trait`的类型
+
+```rs
+fn return_summarize() -> impl Summary {
+    Tweet {
+        username: String::from("horse_ebooks"),
+        content: String::from(
+            "of course, as you probably already know, people",
+        ),     
+    }
+}
+```
+
+这里并未限制返回值的具体类型
