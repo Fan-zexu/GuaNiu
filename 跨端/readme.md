@@ -20,3 +20,5 @@
 ### webview 
 
 这里特别说明下webview技术方案，早期作为hybrid混合应用被广泛使用。native将webview组件集成到客户端中，在webview中使用web技术包括 js css html 来实现动态化能力。
+
+补一点：webview除了性能差之外，其他方面都很好。深入了解[webview参考](https://zhuanlan.zhihu.com/p/28184028)
