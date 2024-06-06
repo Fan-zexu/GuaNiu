@@ -10,3 +10,13 @@
 ## 跨平台
 
 针对前端领域，跨平台框架是比较常见的解决方案，支持一套代码创建在多个操作系统（iOS Android Web）或桌面系统（windows Mac）上运行的应用程序。业界常见的框架包括：ReactNative、Flutter、Weex、Electron等
+
+## 动态化
+
+有些跨平台方案比如Flutter，它和原生Native类似，发版升级都需要经过App应用市场审核才能更新，这样就功能迭代速度就不快。
+
+动态化是指功能可以以bundle（包）的形式，通过远端下发到应用客户端来实现更新，这样就可以加快应用程序的迭代和升级。
+
+### webview 
+
+这里特别说明下webview技术方案，早期作为hybrid混合应用被广泛使用。native将webview组件集成到客户端中，在webview中使用web技术包括 js css html 来实现动态化能力。
