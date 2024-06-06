@@ -7,3 +7,6 @@
 最常见的容器技术就是Docker。
 
 
+## 跨平台
+
+针对前端领域，跨平台框架是比较常见的解决方案，支持一套代码创建在多个操作系统（iOS Android Web）或桌面系统（windows Mac）上运行的应用程序。业界常见的框架包括：ReactNative、Flutter、Weex、Electron等
