@@ -15,3 +15,5 @@
 比如在一些要求埋点准确性的场景，比如广告的计费，埋点上报数据必须可以被服务端接受，此时就可以使用Beacon API 来对异常情况进行兜底，确保数据可以正常上报
 
 ## 怎么用
+
+[Navigator.sendBeacon()](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigator/sendBeacon)
