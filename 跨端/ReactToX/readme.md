@@ -37,6 +37,25 @@ rtx init
 
 ### 运行时
 
+- @rtx/rtx 运行时框架
 
+- @rtx/rtx-h5  h5运行时框架
+
+- @rtx/rtx-weapp WX小程序运行时框架
+
+- @rtx/rtx-mrn mrn运行时框架
+
+- @rtx/router 路由
+
+- @rtx/router-mrn mrn路由
+
+- @rtx/components 基础组件库
+
+- @rtx/components-mrn 基础组件库
+
+- @rtx/async-await 请求库
+
+- @rtx/utils 工具包
+ 
 ### 编译时
 
