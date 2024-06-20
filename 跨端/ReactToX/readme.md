@@ -77,3 +77,8 @@ rtx init
 
 - @rtx/babel-plugin-transform-api 编译插件
 
+### 其他
+
+- @rtx/eslint-config-rtx
+
+- @rtx/eslint-plugin-rtx
