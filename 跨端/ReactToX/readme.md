@@ -59,3 +59,21 @@ rtx init
  
 ### 编译时
 
+- @rtx/cli 开发工具
+
+- @rtx/transformer-x ? 各端 转换工具
+
+- @rtx/webpack-runner h5 webpack 编译工具
+
+- @rtx/rtx-plugin-babel 编译插件
+
+- @rtx/rtx-plugin-css/less/scss/stylus css编译插件
+
+- @rtx/rtx-plugin-typescript ts编译插件
+
+- @rtx/rtx-plugin-uglifyjs 压缩编译插件
+
+- @rtx/postcss-pxtransform 单位编译插件
+
+- @rtx/babel-plugin-transform-api 编译插件
+
