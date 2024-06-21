@@ -82,3 +82,17 @@ rtx init
 - @rtx/eslint-config-rtx
 
 - @rtx/eslint-plugin-rtx
+
+## 组件和API的设计和适配
+
+rtx的目的就是一套代码多端运行，但是多端上的差异，需要设计一套统一的标准规范来抹平。
+
+### 多端差异
+
+#### 组件（标签）差异
+
+- h5标签采用XML写法，类似标签有 `<div>` `<span>`等
+
+- 小程序采用WXML（WeiXin Markup Language）标签语言，同时也有完整的基础组件，但和h5差异较大
+
+- ReactNative 采用JSX，有自己的一套基础组件，和h5 小程序也截然不同
