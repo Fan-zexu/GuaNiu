@@ -116,4 +116,57 @@ RN采用的是`StyleSheet`是用`inline style`的方式，不支持全局样式�
 
 封装组件库和API，对于端能力限制的功能进行了一定取舍，对高优功能进行了SDK底层适配
 
-#### 
+#### 组件适配
+
+**h5 对齐 DSL**
+
+```js
+// 小程序基础组件view
+<view class="wrapper" style="width: 20px" hover-class="hover">children</view>
+
+// 对应的h5 React封装的组件类似这样
+<View className="wrapper" hoverClass="hover" style={{width: '20px'}}></View>
+```
+
+可以这样实现
+
+```js
+
+class View extends React.Component {
+  state = {
+    hover: false,
+  }
+  
+  onTouchStart = e => {
+    if (this.props.hoverClass) {
+      this.setState({
+        hover: true
+      })
+    }
+  }
+​
+  onTouchEnd = e => {
+    if (this.props.hoverClass) {
+      this.setState({
+        hover: false
+      })
+    }
+  }
+​
+  render() {
+    const { hover } = this.state
+    const { className, hoverClass, style } = this.props
+    return (
+      <div
+        className={`${className} ${hover ? hoverClass : ''}`}
+        style={style}
+        onTouchStart={this.onTouchStart}
+        onTouchEnd={this.onTouchEnd}
+      >
+         {children}
+      </div>
+    )
+  }
+}
+ 
+```
