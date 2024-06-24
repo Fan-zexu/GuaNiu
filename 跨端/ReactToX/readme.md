@@ -118,7 +118,7 @@ RN采用的是`StyleSheet`是用`inline style`的方式，不支持全局样式�
 
 #### 组件适配
 
-**h5 对齐 DSL**
+##### **h5 对齐 DSL**
 
 ```js
 // 小程序基础组件view
@@ -169,4 +169,41 @@ class View extends React.Component {
   }
 }
  
+```
+
+##### **RN 对齐 DSL**
+
+分成两部分：JS适配和SDK适配
+
+1. JS适配
+
+情况1：一部分属性、方法是共有的，且命名相同，可以直接复用。如：
+
+`Slider`组件属性：step(步长)，disabled(禁用)
+
+情况2：功能实现，但是对外暴漏的属性名或方法名不统一，这部分只需要做简单封装，保证对外名称一致即可
+
+| 组件名 | RN | 小程序 | 描述 |
+| ----- | ----- | ----- | ----- |
+| Switch | value | checked | 是否选中 |
+| Switch | onValueChange | bindchange | 选中值发生改变时调用 |
+
+...
+
+情况三：一分部功能，小程序实现，但是RN未实现，这种情况需要定制化实现，达到对齐目的。举例：
+
+微信小程序的button组件支持loading属性（名称前是否带 loading 图标），像这样的功能我们需要在<TouchableOpacity>中嵌入一个<Animated.View>动画标签和一个带着loading的<Image>标签来对齐小程序loading相同的功能。
+
+```js
+{loading && (
+            <Animated.View
+              style={[styles.loading, { transform: [{ rotate: rotateDeg }] }]}
+            >
+              <Image
+                source={type === 'warn' ? require('../../assets/loading-warn.png') : require('../../assets/loading.png')}
+                style={styles.loadingImg}
+              />
+            </Animated.View>)
+          }
+
 ```
