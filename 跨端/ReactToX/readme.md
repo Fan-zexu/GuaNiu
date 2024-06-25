@@ -217,3 +217,6 @@ class View extends React.Component {
 总结：
 
 小程序和RN的适配分两部分，第一部分是native组件和桥的封装，第二部分是Js端对js组件的二次封装。通过这两种方式抹平了RN和小程序之间的差异。
+
+
+#### 样式适配
