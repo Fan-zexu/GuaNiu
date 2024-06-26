@@ -220,3 +220,34 @@ class View extends React.Component {
 
 
 #### 样式适配
+
+- 小程序和h5差异不大，可以通过postcss将样式单位进行转换，将**px**转成**rem/rpx**
+
+- 针对RN，则是将CSS样式编译成`StyleSheet`文件，再将引入的`index.css`替换成`index.stylesheet.js`
+
+![css-adapter](./img/rtx-style-adapt.png)
+
+下面是编译后的样例：
+
+```js
+import { View } from '@rtx/component';
+import './index.css'
+<View
+  className="box"
+  hoverClass="hover"
+  style={{ height: 300 }}
+>children</View>
+​
+// 编译成小程序
+import './index.wxss'
+<view class="box" hover-class="hover" style="inlineStyle({ height: 300 })" >children</view>
+​
+// 编译成MRN
+import { View } from '@rtx/component-rn';
+import styles './index.styleSheet.js'
+<View
+  hoverStyle={styles.hover}
+  style={[styles.box, { height: 300 }]}
+>children</View>
+ 
+```
