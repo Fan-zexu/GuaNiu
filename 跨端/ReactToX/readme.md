@@ -319,3 +319,28 @@ RTX.redirectTo() => this.props.navigation.replace()
 
 RTX.navigateBack() => this.props.navigation.goBack()
 ```
+
+### h5路由实现
+‘
+业界比较成熟的是`react-router`，但它属于组件级别的路由，对于h5来说有点重，所以参考它自己实现一个轻量router，同样是基于`hashchange`和`popstate`
+
+编译后的h5代码：
+
+```jsx
+// 在入口文件 App.js 中
+import { Router } from '@rtx/router';
+class App extends Component {
+  render() {
+    return <Router 
+     routes={[{
+      path: '/pages/index/index',
+      componentLoader: () => import( /* webpackChunkName: "index_index" */'./pages/index/index'),
+      isIndex: true
+    }, {
+      path: '/pages/test/index',
+      componentLoader: () => import( /* webpackChunkName: "test_index" */'./pages/test/index'),
+    }]}   />
+  }
+}
+ 
+```
