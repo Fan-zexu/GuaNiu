@@ -251,3 +251,16 @@ import styles './index.styleSheet.js'
 >children</View>
  
 ```
+
+## 路由实现
+
+小程序有自己的路由机制，所以它可以作为参考配置结合各端功能来实现类似方案
+
+```js
+conifg = [
+  pages: [
+    'pages/index/a',
+    'pages/index/b',
+  ]
+]
+```
