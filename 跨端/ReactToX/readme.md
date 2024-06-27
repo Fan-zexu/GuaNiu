@@ -264,3 +264,58 @@ conifg = [
   ]
 ]
 ```
+
+
+### RN路由实现
+
+使用[React-Navigation](https://www.reactnavigation.org.cn/docs/guide-intro) ，它是一款比较成熟、功能齐全的路由库
+
+编译后的RN代码：
+
+```jsx
+// 在入口文件 App.js 中
+import RTXRouter from '@rtx/rtx-router-mrn';
+import pagesIndexIndex from './pages/index/index';
+import pagesTestIndex from './pages/test/index';
+​
+class App extends RTX.Component {
+  // ...
+  render() {
+    return renderRootStack(this.props.screenProps)
+  }
+}
+​
+const renderRootStack = screenProps => {
+  const pages = [
+    ['pages/index/index', pagesIndexIndex],
+    ['pages/test/index', pagesTestIndex],
+  ];
+  const RootStack = RTXRouter.initRouter(pages, R2X);
+  return <RootStack screenProps={screenProps} />;
+};
+​
+// RTXRouter.initRouter 的实现
+function initRouter(pages, R2X) {
+  let RouteConfigs = {}
+  pages.forEach(v => {
+    const pageKey = v[0]
+    const Screen = v[1]
+    RouteConfigs[pageKey] = {
+      screen: getWrappedScreen(Screen, R2X)
+    }
+  })
+  return createStackNavigator(RouteConfigs)
+}
+ 
+
+```
+
+关于`navigate api`在`React Navigation`初始化时将函数挂载到`RTX`上，再对参数进行一次转换
+
+```js
+RTX.navigateTo() => this.props.navigation.push()
+
+RTX.redirectTo() => this.props.navigation.replace()
+
+RTX.navigateBack() => this.props.navigation.goBack()
+```
