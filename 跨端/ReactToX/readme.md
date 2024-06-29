@@ -355,3 +355,10 @@ class App extends Component {
 
 所以整体思路就是把JSX抽离出来作为模板，再将Page类转换成Page()的配置对象
 
+### 模板抽离
+
+通过`AST`不断遍历，完成转换，同时处理一些小细节：
+
+- 遍历`JSXElement`，将驼峰标签`<View>` `<ScrollView>`转为中横线小写命名`<view>` `<sroll-view>`
+
+- 遍历`JSXAttribute`。将`onXXX={this.add}`替换成`bindXXX="add"`（onClick转bindTap要特殊处理）
