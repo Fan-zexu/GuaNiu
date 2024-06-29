@@ -344,3 +344,14 @@ class App extends Component {
 }
  
 ```
+
+## 编译和运行时结合
+
+由于H5和RN的语法较为类型，得益于React和JSX，所以二者编译相对简单。但是小程序语法和两者差别巨大，编译难度大
+
+![小程序和react语法差异](./img/wxapp-react.png)
+
+差异：React中视图和js在一个文件，而小程序中视图和js是两个文件
+
+所以整体思路就是把JSX抽离出来作为模板，再将Page类转换成Page()的配置对象
+
