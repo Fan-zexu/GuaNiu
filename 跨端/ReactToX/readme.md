@@ -362,3 +362,24 @@ class App extends Component {
 - 遍历`JSXElement`，将驼峰标签`<View>` `<ScrollView>`转为中横线小写命名`<view>` `<sroll-view>`
 
 - 遍历`JSXAttribute`。将`onXXX={this.add}`替换成`bindXXX="add"`（onClick转bindTap要特殊处理）
+
+### JS抽离
+
+通过运行时手段解决，实现一个`createComponent`来对类进行封装
+
+```js
+Page(createComponent(class extends Component {
+  state = {
+    count: 0
+  }
+  add () {
+    this.setState({
+      count: this.state.count + 1
+    })
+  }
+  render() {
+    // 将JSX部分代码给剔除
+  }
+}))
+ 
+```
