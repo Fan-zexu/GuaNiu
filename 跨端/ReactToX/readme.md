@@ -383,3 +383,87 @@ Page(createComponent(class extends Component {
 }))
  
 ```
+
+上面代码中使用**匿名类**作为参数传递给`createComponent`方法。使用匿名类一般用于临时参数传递，这样处理比较简单。
+
+`createComponent`的实现：
+
+```js
+function createComponent (ComponentClass, isPage) {
+  let initData = {}
+  const componentProps = filterProps(ComponentClass.defaultProps)
+  const weappComponentConf = {
+    data: initData,
+    created (options = {}) {
+      // 实例化 ComponentClass
+      this.$component = new ComponentClass({}, isPage)
+      this.$component._init(this)
+      this.$component.render = this.$component._createData
+      this.$component.__propTypes = ComponentClass.propTypes
+      // 将options的参数同步到$router.params
+      Object.assign(this.$component.$router.params, options)
+    },
+    attached () {
+      // ...
+    },
+    ready () {
+      if (!isPage && !this.$component.__mounted) {
+        this.$component.__mounted = true
+        componentTrigger(this.$component, 'componentDidMount')
+      }
+    },
+    detached () {
+      const component = this.$component
+      componentTrigger(component, 'componentWillUnmount')
+      component.hooks.forEach((hook) => {
+        if (isFunction(hook.cleanup)) {
+          hook.cleanup()
+        }
+      })
+    }
+  }
+  if (isPage) {
+    weappComponentConf.methods = weappComponentConf.methods || {}
+    weappComponentConf.methods['onLoad'] = function (options = {}) {
+      if (this.$component.__isReady) return
+      Object.assign(this.$component.$router.params, options)
+      initComponent.apply(this, [ComponentClass, isPage])
+    }
+    weappComponentConf.methods['onReady'] = function () {
+      this.$component.__mounted = true
+      componentTrigger(this.$component, 'componentDidMount')
+    }
+    weappComponentConf.methods['onShow'] = function () {
+      componentTrigger(this.$component, 'componentDidShow')
+    }
+    weappComponentConf.methods['onHide'] = function () {
+      componentTrigger(this.$component, 'componentDidHide')
+    }
+    __wxRoute && cacheDataSet(__wxRoute, ComponentClass)
+  } else {
+    weappComponentConf.pageLifetimes = weappComponentConf.pageLifetimes || {}
+​
+    weappComponentConf.pageLifetimes['show'] = function () {
+      componentTrigger(this.$component, 'componentDidShow')
+    }
+​
+    weappComponentConf.pageLifetimes['hide'] = function () {
+      componentTrigger(this.$component, 'componentDidHide')
+    }
+​
+    weappComponentConf.pageLifetimes['resize'] = function () {
+      componentTrigger(this.$component, 'onResize')
+    }
+  }
+  bindProperties(weappComponentConf, ComponentClass, isPage)
+  bindBehaviors(weappComponentConf, ComponentClass)
+  bindStaticFns(weappComponentConf, ComponentClass)
+  bindStaticOptions(weappComponentConf, ComponentClass)
+  bindMultipleSlots(weappComponentConf, ComponentClass)
+  // 绑定所有事件
+  ComponentClass['$$events'] && bindEvents(weappComponentConf, ComponentClass['$$events'], isPage)
+  return weappComponentConf
+}
+​
+ 
+```
