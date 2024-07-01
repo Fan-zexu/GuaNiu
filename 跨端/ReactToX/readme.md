@@ -467,3 +467,5 @@ function createComponent (ComponentClass, isPage) {
 ​
  
 ```
+
+在`createComponent`中Class实例化，并且将小程序的各个生命周期对应的去触发`React.Component`对应的生命周期，并对一些参数进行了同步，这样就可以让React代码在小程序中运行。
