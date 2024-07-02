@@ -469,3 +469,24 @@ function createComponent (ComponentClass, isPage) {
 ```
 
 在`createComponent`中Class实例化，并且将小程序的各个生命周期对应的去触发`React.Component`对应的生命周期，并对一些参数进行了同步，这样就可以让React代码在小程序中运行。
+
+
+# 实践
+
+## 处理差异
+
+作为上层DSL，对于底层技术栈融合能力是有限的，所以对于一些复杂场景不可避免的需要处理多端差异
+
+### 业务逻辑差异
+
+利用环境变量 `process.env.RTX_ENV`判断当前编译类型，如: h5 | weapp | rn。通过这个变量来差异化处理不同端的逻辑
+
+```js
+if (process.env.RTX_ENV === 'rn') {
+  // rn 逻辑
+} else if (process.env.RTX_ENV === 'h5') {
+  // h5 逻辑
+} else if (process.env.RTX_ENV === 'weapp') {
+  // 小程序逻辑
+}
+```
