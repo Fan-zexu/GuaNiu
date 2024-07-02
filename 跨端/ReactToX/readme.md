@@ -43,15 +43,15 @@ rtx init
 
 - @rtx/rtx-weapp WX小程序运行时框架
 
-- @rtx/rtx-mrn mrn运行时框架
+- @rtx/rtx-rn mrn运行时框架
 
 - @rtx/router 路由
 
-- @rtx/router-mrn mrn路由
+- @rtx/router-rn mrn路由
 
 - @rtx/components 基础组件库
 
-- @rtx/components-mrn 基础组件库
+- @rtx/components-rn 基础组件库
 
 - @rtx/async-await 请求库
 
@@ -242,7 +242,7 @@ import './index.css'
 import './index.wxss'
 <view class="box" hover-class="hover" style="inlineStyle({ height: 300 })" >children</view>
 ​
-// 编译成MRN
+// 编译成RN
 import { View } from '@rtx/component-rn';
 import styles './index.styleSheet.js'
 <View
@@ -274,7 +274,7 @@ conifg = [
 
 ```jsx
 // 在入口文件 App.js 中
-import RTXRouter from '@rtx/rtx-router-mrn';
+import RTXRouter from '@rtx/rtx-router-rn';
 import pagesIndexIndex from './pages/index/index';
 import pagesTestIndex from './pages/test/index';
 ​
@@ -290,18 +290,18 @@ const renderRootStack = screenProps => {
     ['pages/index/index', pagesIndexIndex],
     ['pages/test/index', pagesTestIndex],
   ];
-  const RootStack = RTXRouter.initRouter(pages, R2X);
+  const RootStack = RTXRouter.initRouter(pages, RTX);
   return <RootStack screenProps={screenProps} />;
 };
 ​
 // RTXRouter.initRouter 的实现
-function initRouter(pages, R2X) {
+function initRouter(pages, RTX) {
   let RouteConfigs = {}
   pages.forEach(v => {
     const pageKey = v[0]
     const Screen = v[1]
     RouteConfigs[pageKey] = {
-      screen: getWrappedScreen(Screen, R2X)
+      screen: getWrappedScreen(Screen, RTX)
     }
   })
   return createStackNavigator(RouteConfigs)
@@ -489,4 +489,88 @@ if (process.env.RTX_ENV === 'rn') {
 } else if (process.env.RTX_ENV === 'weapp') {
   // 小程序逻辑
 }
+```
+
+### 组件复用
+
+有时候在处理复杂通用组件时，可以利用RTX的**多态协议**能力，按照端来实现各自的组件功能
+
+```js
+|── config                   //配置目录
+|   ├── index.js            //默认配置
+|── packages                 //源码目录
+|   |
+|   |── reuseComponent        //复用组件
+|   |   |── interface.ts     //r2x调用协议
+|   |   |── index.ts         //H5实现
+|   |   |── index.rn.ts     //RN实现
+|   |   |── index.weapp.ts   //小程序实现
+|   |   |── package.json     //package.json
+|   |── ......               
+|── global.d.ts              
+|── package.json             
+ 
+```
+
+三端各自的实现：
+
+```js
+export interface IReuseComponentProps {
+  index: number,
+  enable?: boolean | undefined,
+  onLongTap?: (index: number) => void,
+}
+​
+/**
+ * 新建index.weapp.tsx文件(微信小程序实现)
+ */
+import RTX, { Component } from '@rtx/rtx'
+import { View } from '@rtx/components'
+import { IReuseComponentProps } from './interface'
+export default class reuseComponent extends Component<IReuseComponentProps> {
+//...
+  render() {
+    return (
+      <View className="container">
+        //这里是小程序复用组件的实现...
+      </View>
+    )
+  }
+}
+​
+/**
+ * 新建index.rn.tsx文件(RN实现)
+ */
+import RTX, { Component } from '@rtx/rtx'
+import { View } from '@rtx/components'
+import { IReuseComponentProps } from './interface'
+export default class reuseComponent extends Component<IReuseComponentProps> {
+//...
+  render() {
+    return (
+      <View>
+        //这里是RN复用组件的实现...
+      </View>
+    )
+  }
+}
+​
+/**
+ * 新建index.tsx文件(H5实现)
+ */
+import { Component } from '@rtx/rtx';
+import { View } from '@rtx/components';
+import { IReuseComponentProps } from './interface'
+export default class reuseComponent extends Component<IReuseComponentProps> {
+//...
+  render() {
+    return (
+      <View className="container">
+        //这里是H5复用组件的实现...
+      </View>
+    )
+  }
+}
+​
+ 
 ```
