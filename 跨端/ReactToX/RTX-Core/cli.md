@@ -34,3 +34,8 @@ printPkgVersion().then(() => {
 })
 
 ```
+
+可以学到什么：
+
+- 用代码描述命令行界面的工具包：[commander](https://github.com/tj/commander.js/blob/HEAD/Readme_zh-CN.md)
+
