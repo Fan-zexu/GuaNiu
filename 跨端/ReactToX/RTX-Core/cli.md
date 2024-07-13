@@ -73,3 +73,42 @@ printPkgVersion().then(() => {
 可以学到什么：
 
 - 用代码描述命令行界面的工具包：[commander](https://github.com/tj/commander.js/blob/HEAD/Readme_zh-CN.md)
+
+## rtx build
+
+直接进入重点
+
+```js
+updateProjectForPlugin().then(() => {
+  program
+    .option('--type [typeName]', 'Build type, weapp/h5/rn')
+    .option('--watch', 'Watch mode')
+    .option('--env [SERVER_ENV]', 'Server Env, dev/test/stage/prod')
+    .option('--port [port]', 'Specified port')
+    .option('--node-env [NODE_ENV]', 'Node Env type')
+    .option('--entryName [entryName]', 'MRN EntryName')
+    .option('--v2', 'Use MRN 2.0')
+    .option('--public-path [publicPath]', 'publicPath for H5')
+    .option('--subpage', 'Mini Program Page')
+    .option('--lazy', 'Mini Program Lazy Load')
+    .option('--server', 'R2X-Tango dev server')
+    .parse(process.argv)
+
+// 中间各种环境变量、watch等辅助逻辑
+
+build(appPath, {
+    type,
+    watch,
+    entryName,
+    port: typeof port === 'string' ? port : undefined,
+    useV2: !!v2,
+    publicPath,
+    subpage: !!subpage,
+    lazy: !!lazy,
+    server
+})
+```
+
+1.`updateProjectForPlugin` 更新项目为插件化项目
+
+2.`build`开始执行构建
