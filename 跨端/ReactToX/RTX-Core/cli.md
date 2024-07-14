@@ -112,3 +112,39 @@ build(appPath, {
 1.`updateProjectForPlugin` 更新项目为插件化项目
 
 2.`build`开始执行构建
+
+### updateProjectForPlugin
+
+```js
+export async function updateProjectForPlugin() {
+    /**
+     * configPath 是项目根目录下的 rtx.config.js
+     */
+    if (fs.existsSync(configPath)) return;
+
+    /**
+     * spinner 是 「ora」这个npm包提供的进度条功能
+     */
+    const spinner = ora({ text: '开始升级项目' }).start();
+
+    // 插件集合
+    const plugins = []
+
+    try {
+        // 获取项目配置信息，包括 weapp | h5 | rn 相关的配置，以及框架提供的各种能力配置
+        const projectConfig = getProjectConfig();
+
+        // 注入3个端主要插件
+        plugins.push(['@rtx/plugin-container-h5', h5Config])
+        plugins.push(['@rtx/plugin-container-mrn', _.get(projectConfig, 'mrn', {})])
+        plugins.push(['@rtx/plugin-container-tango', {}])
+
+        // 注入框架提供的其他能力，比如小工具、埋点
+        plugins.push(['rtx:env-tools']);
+        plugins.push(['rtx:lx'])
+
+    } catch() {
+
+    }
+}
+```
