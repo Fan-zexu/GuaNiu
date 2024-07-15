@@ -116,6 +116,10 @@ build(appPath, {
 ### updateProjectForPlugin
 
 ```js
+
+const cwd = process.cwd()
+const configPath = path.join(cwd, 'r2x.config.js')
+
 export async function updateProjectForPlugin() {
     /**
      * configPath 是项目根目录下的 rtx.config.js
@@ -142,6 +146,11 @@ export async function updateProjectForPlugin() {
         // 注入框架提供的其他能力，比如小工具、埋点
         plugins.push(['rtx:env-tools']);
         plugins.push(['rtx:lx'])
+
+
+        // 生成rtx.config.js
+        // JSON.stringify 第三个可选参数 space 用于控制缩进和空格，这里设置缩进为4个空格，更易度
+        fs.writeFileSync(configPath, `module.exports = ${JSON.stringify({ plugins }, null, 4)}`)
 
     } catch() {
 
