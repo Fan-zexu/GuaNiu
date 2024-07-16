@@ -152,6 +152,17 @@ export async function updateProjectForPlugin() {
         // JSON.stringify 第三个可选参数 space 用于控制缩进和空格，这里设置缩进为4个空格，更易度
         fs.writeFileSync(configPath, `module.exports = ${JSON.stringify({ plugins }, null, 4)}`)
 
+        // 更新package.json dependence 信息
+        // ...
+        fs.writeFileSync(path.join('package.json'), JSON.stringify(projectPkg, null, 2))
+        
+
+        // 进度成功结束
+        spinner.succeed();
+
+        // 安装依赖
+        await install(cwd);
+
     } catch() {
 
     }
