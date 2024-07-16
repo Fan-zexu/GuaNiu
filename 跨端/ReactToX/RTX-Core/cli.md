@@ -168,3 +168,32 @@ export async function updateProjectForPlugin() {
     }
 }
 ```
+
+### install 安装依赖方法
+
+```js
+const { exec } = child_process;
+
+
+const install = (p: string) => {
+    const spinner = ora(chalk.yellow('开始安装依赖~')).start();
+    // 更新当前工作目录为 process.cwd()
+    process.chdir(p);
+
+    // 提供yarn命令
+    const command = 'yarn install --registry=http://r.npm.com';
+
+    return new Promise((resolve, reject) => {
+        // 通过子进程执行命令
+        exec(command, (err, stdout, stderr) => {
+            spinner.stop();
+            if (err) {
+                reject(err)
+            } else {
+                resolve()
+            }
+        })
+    })
+}
+```
+
