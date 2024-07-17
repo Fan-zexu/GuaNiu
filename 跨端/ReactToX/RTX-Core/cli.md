@@ -96,17 +96,18 @@ updateProjectForPlugin().then(() => {
 
 // 中间各种环境变量、watch等辅助逻辑
 
-build(appPath, {
-    type,
-    watch,
-    entryName,
-    port: typeof port === 'string' ? port : undefined,
-    useV2: !!v2,
-    publicPath,
-    subpage: !!subpage,
-    lazy: !!lazy,
-    server
-})
+    build(appPath, {
+        type,
+        watch,
+        entryName,
+        port: typeof port === 'string' ? port : undefined,
+        useV2: !!v2,
+        publicPath,
+        subpage: !!subpage,
+        lazy: !!lazy,
+        server
+    })
+}
 ```
 
 1.`updateProjectForPlugin` 更新项目为插件化项目
@@ -197,3 +198,26 @@ const install = (p: string) => {
 }
 ```
 
+### build方法
+
+```js
+export default async function build(appPath, buildConfig) {
+    const {
+        type // 构建类型
+    } = buildConfig;
+
+    switch(type) {
+        case BUILD_TYPES.H5:
+            buildForH5(appPath, { watch, port })
+            break;
+
+        case BUILD_TYPES.RN:
+            buildForRN(appPath, { watch, port })
+            break;
+
+        case BUILD_TYPES.WEAPP:
+            buildForWeapp(appPath, { watch, port })
+            break;
+    }
+}
+```
