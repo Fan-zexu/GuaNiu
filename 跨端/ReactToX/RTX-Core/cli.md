@@ -221,3 +221,19 @@ export default async function build(appPath, buildConfig) {
     }
 }
 ```
+
+#### buildForH5
+
+```js
+export async function build(appPath, buildConfig) {
+    // 编译功能 在Compiler中实现
+    const compiler = new Compiler(appPath);
+    await compiler.clean();
+    await compiler.buildTemp();
+    await compiler.buildDist(buildConfig);
+
+    if (buildConfig.watch) {
+        compiler.watchFiles();
+    }
+}
+```
