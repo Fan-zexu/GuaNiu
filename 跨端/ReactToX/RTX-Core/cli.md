@@ -262,5 +262,20 @@ class Compiler {
             console.log(e)
         }
     }
+
+    /**
+     * 经过AST将源码进行转换输出到temp临时目录中
+     */
+    buildTemp() {
+        const tempPath = this.tempPath;
+        const outputPath = this.outputPath;
+        const appPath = this.appPath;
+
+        // 是fs-extra库提供的方法，是fs的扩展
+        // ensureDirSync 方法作用是保证目录存在，如果不存在则创建，是一个同步方法，无回调
+        fs.ensureDirSync(tempPath);
+
+        
+    }
 }
 ```
