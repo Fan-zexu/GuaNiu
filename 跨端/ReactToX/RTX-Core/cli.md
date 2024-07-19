@@ -225,6 +225,7 @@ export default async function build(appPath, buildConfig) {
 #### buildForH5
 
 ```js
+// cli-build
 export async function build(appPath, buildConfig) {
     // 编译功能 在Compiler中实现
     const compiler = new Compiler(appPath);
@@ -234,6 +235,32 @@ export async function build(appPath, buildConfig) {
 
     if (buildConfig.watch) {
         compiler.watchFiles();
+    }
+}
+
+// helper.js
+import * as rimraf from 'rimraf'  // UNIX命令：rm -rf ，支持跨平台
+
+export const pRimraf = promisify(rimraf);
+
+// compiler-h5.js
+class Compiler {
+    constructor() {
+        this.tempDir = Config.TEMP_DIR;  // '.temp';
+        this.tempPath = path.join(appPath, this.tempDir)
+    }
+
+    async clean() {
+        const tempPath = this.tempPath
+        const outputPath = this.outputPath
+
+        try {
+            // 清理.temp output 文件夹
+            await pRimraf(tempPath)
+            await pRimraf(outputPath)
+        } catch (e) {
+            console.log(e)
+        }
     }
 }
 ```
