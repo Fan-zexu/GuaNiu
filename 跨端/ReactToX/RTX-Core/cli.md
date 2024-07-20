@@ -275,7 +275,23 @@ class Compiler {
         // ensureDirSync 方法作用是保证目录存在，如果不存在则创建，是一个同步方法，无回调
         fs.ensureDirSync(tempPath);
 
-        
+        return new Promise((resolve, reject) => {
+            klaw(sourcePath)
+                .on('data', file => {
+                    const relativePath = path.join(appPath, file.path);
+                    if (!file.stats.isDirectory()) {
+                        console.log('发现文件', relativePath);
+                        this.processFiles(file.path);
+                    }
+                })
+                .on('end', () => {
+                    resolve();
+                })
+        })
     }
 }
 ```
+
+`klaw`是一个基于node fs实现的npm包，用于以流形式处理目录或文件，用法通过监听`data`事件，得到`file`对象，包含`path`和`stats`信息。
+
+通过`end`事件，遍历完成。error：遍历过程中发生错误时触发。
