@@ -295,3 +295,33 @@ class Compiler {
 `klaw`是一个基于node fs实现的npm包，用于以流形式处理目录或文件，用法通过监听`data`事件，得到`file`对象，包含`path`和`stats`信息。
 
 通过`end`事件，遍历完成。error：遍历过程中发生错误时触发。
+
+接下来进入 `processFiles`方法
+
+```js
+function processFiles(filePath) {
+    const sourceRoot = this.sourceRoot
+    const tempDir = this.tempDir
+
+    const file = fs.readFileSync(filePath)
+    const dirname = path.dirname(filePath) // 目录名
+    const extname = path.extname(filePath) // 文件后缀
+    const distDirname = dirname.replace(sourceRoot, tempDir) // 从src下改到 .temp下
+    const isScriptFile = REG_SCRIPTS.test(extname) // tsx | jsx
+    const distPath = this.getDist(filePath, isScriptFile)
+
+
+    try {
+        // 是脚本文件
+        if (isScriptFile) {
+
+        } else {
+            // 其他 直接复制
+            fs.ensureDirSync(distDirname);
+            fs.copySync(filePath, distPath)
+        }
+    } catch() {
+
+    }
+}
+```
