@@ -314,7 +314,24 @@ function processFiles(filePath) {
     try {
         // 是脚本文件
         if (isScriptFile) {
-
+            // 解析文件类型，是page（页面入口），还是其他
+            // 架构设计是通过根目录下的config.js中定义pages数组来实现多页面人口的
+            // 所以文件上区分了页面入口，以及其他（包括组件）
+            const fileType = this.classifyFiles(filePath)
+            // 文件内容string后准备ast处理
+            const content = file.toString()
+            let transformResult
+            // 区分页面和非页面进行处理
+            if (fileType === FILE_TYPE.ENTRY) {
+                this.pages = []
+                transformResult = this.processEntry(content, filePath)
+            } else {
+                transformResult = this.processOthers(content, filePath, fileType)
+            }
+            // 得到转换后的js代码，写入dist目录
+            const jsCode = transformResult.code
+            fs.ensureDirSync(distDirname) // 这里保证dist目录存在
+            fs.writeFileSync(distPath, Buffer.from(jsCode))
         } else {
             // 其他 直接复制
             fs.ensureDirSync(distDirname);
