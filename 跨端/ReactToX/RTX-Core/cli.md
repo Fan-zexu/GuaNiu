@@ -342,3 +342,12 @@ function processFiles(filePath) {
     }
 }
 ```
+
+下面重点来看如何处理文件：`processEntry`和`processOthers`
+
+```js
+// 入参：code是字符串化的源码；filepath是文件相对路径
+function processEntry(code, filePath) {
+
+}
+```
