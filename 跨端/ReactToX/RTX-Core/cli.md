@@ -348,6 +348,10 @@ function processFiles(filePath) {
 ```js
 // 入参：code是字符串化的源码；filepath是文件相对路径
 function processEntry(code, filePath) {
+    // 第一步ast
 
+    // 第二步traverse转换
+
+    // 第三步generate生成
 }
 ```
