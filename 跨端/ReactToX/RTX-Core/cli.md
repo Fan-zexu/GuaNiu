@@ -368,6 +368,14 @@ function processEntry(code, filePath) {
     // 进一步转换，插入额外代码：在适当的位置插入路由、组件和初始化代码
 
     // 第三步generate生成
-    
+    const generateCode = generate(ast, {
+        jsescOption: {
+            minimal: true
+        }
+    }).code
+    return {
+        code: generateCode,
+        ast
+    }
 }
 ```
