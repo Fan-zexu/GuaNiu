@@ -358,6 +358,9 @@ function processEntry(code, filePath) {
     // 生命周期调整，这个部分主要负责在适当的生命周期方法中插入特定的代码片段，例如在componentDidMount中调用componentDidShow，在componentWillUnmount中调用componentDidHide等
     function programExitVisitor() {}
 
+    // 类属性处理，主要处理pages属性，将config中的页面路径添加到pages中确保路径准确
+    function classPropertyVisitor() {}
+
     // 第二步traverse转换
 
     // 第三步generate生成
