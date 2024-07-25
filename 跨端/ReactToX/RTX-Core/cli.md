@@ -350,6 +350,12 @@ function processFiles(filePath) {
 function processEntry(code, filePath) {
     // 第一步ast
 
+    // 处理类声明或表达式，保证组件继承于Taro的Component或PureComponent
+    function ClassDeclarationOrExpression() {
+        // ... 很复杂
+    }
+
+    
     // 第二步traverse转换
 
     // 第三步generate生成
