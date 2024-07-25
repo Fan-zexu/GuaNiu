@@ -362,7 +362,12 @@ function processEntry(code, filePath) {
     function classPropertyVisitor() {}
 
     // 第二步traverse转换
+    traverse(ast, {
+        // ... 各种插件
+    })
+    // 进一步转换，插入额外代码：在适当的位置插入路由、组件和初始化代码
 
     // 第三步generate生成
+    
 }
 ```
