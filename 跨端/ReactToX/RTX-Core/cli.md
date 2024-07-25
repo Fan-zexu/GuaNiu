@@ -355,7 +355,9 @@ function processEntry(code, filePath) {
         // ... 很复杂
     }
 
-    
+    // 生命周期调整，这个部分主要负责在适当的生命周期方法中插入特定的代码片段，例如在componentDidMount中调用componentDidShow，在componentWillUnmount中调用componentDidHide等
+    function programExitVisitor() {}
+
     // 第二步traverse转换
 
     // 第三步generate生成
