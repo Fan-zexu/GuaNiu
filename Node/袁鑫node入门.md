@@ -14,3 +14,23 @@
 
 - stream 句柄，句柄可以理解为nodejs把底层功能封装了一个模块，提供给上层开发者调用。
 
+```js
+(req, res) => {
+    http.get('url', (data) => {
+        let body = '';
+    
+        data
+            .on('data', (chunk) => {
+                body += chunk;
+            })
+            .on('end', () => {
+                const jsonObj = JSON.parse(body);
+                res.write(JSON.stringify({
+                    data: [jsonObj]
+                }))
+                res.end();
+            })
+    })
+}
+
+```
