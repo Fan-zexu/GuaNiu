@@ -34,3 +34,12 @@
 }
 
 ```
+
+```sh
+node server.js
+```
+这里的node 本质就是一个编译好的二进制文件。同样可以写成这样
+
+```sh
+/usr/local/bin/node server.js
+```
