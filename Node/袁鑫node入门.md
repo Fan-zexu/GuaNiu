@@ -48,4 +48,6 @@ Node源码 C实现的：
 
 ![node-source code](./imgs/node-source-code.jpg);
 
-这里展示了核心功能 事件循环
+这里展示了核心功能 事件循环。
+
+`uv_run`核心方法是`libuv`这个库实现的
