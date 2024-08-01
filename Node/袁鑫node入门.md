@@ -43,3 +43,9 @@ node server.js
 ```sh
 /usr/local/bin/node server.js
 ```
+
+Node源码 C实现的：
+
+![node-source code](./imgs/node-source-code.jpg);
+
+这里展示了核心功能 事件循环
