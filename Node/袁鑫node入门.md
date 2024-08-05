@@ -85,3 +85,4 @@ module.exports = read;
 
 ## SSR
 
+`SSR`实质上是将jsx通过调用`renderToString`方法，转成`html`字符串，返回给前端
