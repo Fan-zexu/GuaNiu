@@ -86,3 +86,14 @@ module.exports = read;
 ## SSR
 
 `SSR`实质上是将jsx通过调用`renderToString`方法，转成`html`字符串，返回给前端
+
+### 一个关于SSR小技巧（奇技淫巧），用于优化首屏
+
+1、在模版html中定义一个全局变量，用于接受首屏渲染数据，变量值是一个模板字符串，等待服务端编译后填充数据
+
+```js
+window.initListData = %initListData%
+```
+
+2、在前端js中用window.initListData作为默认值来进行渲染
+
