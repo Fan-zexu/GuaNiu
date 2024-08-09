@@ -97,3 +97,18 @@ window.initListData = %initListData%
 
 2、在前端js中用window.initListData作为默认值来进行渲染
 
+### 一个Nodejs单进程单线程存在的问题
+
+在A文件中，定义一个全局变量 `count`
+
+```js
+// A.js
+let count = 0;
+
+function add() {
+    count += 1;
+    console.log(count);
+}
+```
+
+如上，此时a用户访问服务add方法后count会增加1变成1，b用户访问服务add方法后count会变成2。也就是任何请求都会使用同一个线程，更新同一个全局变量。
