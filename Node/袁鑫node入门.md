@@ -130,3 +130,16 @@ function add() {
 - mysql
 
 - redis
+
+
+### 服务端下发cookie
+
+```js
+res.setHeader('Set-Cookie', 'username=' + username + ';')
+
+res.write(JSON.stringify({
+    errorCode: 0
+}))
+
+res.end()
+```
