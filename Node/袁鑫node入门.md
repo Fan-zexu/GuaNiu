@@ -143,3 +143,11 @@ res.write(JSON.stringify({
 
 res.end()
 ```
+
+### 服务端存储session
+
+session 表示「会话」，即用户在刷新页面前的所有操作 ，都记作一次会话。
+
+session会在服务端以内存形式存在。比如可以用于存储用户信息。一般会生成一个全局唯一的id作为`sessionId`，并将这个`sessionId`存储到cookie中注入到客户端浏览器，之后浏览器的所有请求，都会带上这个`sessionId`，服务端就可以根据这个id来确定用户信息。
+
+由于http是一种无状态协议，所以需要通过session和cookie配合来记录一些信息（即状态）。
