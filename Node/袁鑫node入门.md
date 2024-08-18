@@ -161,3 +161,17 @@ session会在服务端以内存形式存在。比如可以用于存储用户信�
 正常情况，不使用`session`来进行用户数据存储。
 
 大多都会有数据库比如 `mysql`
+
+
+## Node链接mysql
+
+```sh
+npm install mysql --S
+```
+是一个`mysql`的连接器，用于和`mysql`数据库进行交互
+
+```js
+// dao.js data access object
+
+
+```
