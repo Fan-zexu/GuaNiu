@@ -20,9 +20,23 @@ count({ a: 1, b: 2 })
 
 1. `react`中设计机制，如果判定元素节点的父节点没有发生变化，那就跳过`props`对比，从而提高性能
 
-2. `React.memo`
+2. `React.memo`，这个api可以改变props对比规则，它接受一个组件声明作为参数
 
+```js
+function Count({ a: 1, b: 2 }) {}
 
+export default React.memo(Count);
+```
+
+包裹之后，`props`参数对比规则就变成了依次对比第一层key对应的值
+
+```js
+// memo前：
+{ a: 1, b: 1 } === { a: 1, b: 1 } // false
+
+// memo后：
+p0.a === p1.a && p0.b === p1.b // true
+```
 
 
 
