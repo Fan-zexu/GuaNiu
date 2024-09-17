@@ -70,6 +70,21 @@ p0.a === p1.a && p0.b === p1.b // true
 
 3. 以此类推，发现`a b c`都不作出移动，所以结果只是需要创建一个新p节点，不需要移动节点。
 
+#### 示例2：
+
+旧列表：`[A, B, C, D]`
+
+新列表：`[B, A, D, C]`
+
+1. 目标B，旧列表有相同key，复用节点。`index = 1; lastIndex = 0; index(1) < lastIndex(0)` 不满足，所以不移动, `lastIndex = Max(lastIndex, index) // 结果1`
+
+2. 目标A，旧列表有相同key，复用节点。`index = 0; index(0) < lastIndex(1)` 满足，所以移动, `lastIndex = Max(lastIndex, index) // 结果1`
+
+3. 目标D，旧列表有相同key，复用节点。`index = 3; index(3) < lastIndex(1)` 不满足，所以不移动, `lastIndex = Max(lastIndex, index) // 结果3`
+
+4. 目标C，旧列表有相同key，复用节点。`index = 2; index(2) < lastIndex(3)` 满足，所以移动, `lastIndex = Max(lastIndex, index) // 结果3`
+
+所以最终在经过diff后，真实DOM需要2次移动，就可以完成更新
 
 ## vue diff
 
