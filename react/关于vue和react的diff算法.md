@@ -41,11 +41,35 @@ p0.a === p1.a && p0.b === p1.b // true
 
 ## react diff
 
-变更前后数据对比
 
+
+变更前后数据对比：
+
+### 列表场景
+
+1. 定义`index`表示更新后节点对应更新前节点的索引，`a`节点，对应的就是`_a`的索引是 0，也就是 `index === 0`
+
+2. 定义`lastIndex`默认是0，如果通过`key`发现更新后节点，不能复用更新前节点，那么赋值`lastIndex = 0`。`lastIndex`更新逻辑是：`lastIndex = Max(lastIndex, index)`
+
+通过`index < lastIndex` 来判断是否需要移动节点，这里的移动节点，指的是操作**真实DOM**的移动
+
+#### 示例1：
 前：`[_a, _b , _c]`; 其中`_`表示就节点
 
 后: `[p, a, b , c]`
+
+1. p节点，通过key无法复用p，所以创建 `lastIndex = 0`
+
+2. a节点，通过key找到复用`_a`，所以`index = 0`，但由于`index(0) < lastIndex(0)`不满足，所以不移动。
+
+3. 此时 `lastIndex = Max(lastIndex, index); // 结果是0`
+
+4. b节点，通过key找到复用`_b`，所以`index = 1`，但由于`index(1) < lastIndex(0)`不满足，所以不移动。
+
+5. 此时 `lastIndex = Max(lastIndex, index); // 结果是1`
+
+3. 以此类推，发现`a b c`都不作出移动，所以结果只是需要创建一个新p节点，不需要移动节点。
+
 
 ## vue diff
 
