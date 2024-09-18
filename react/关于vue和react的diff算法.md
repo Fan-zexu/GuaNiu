@@ -88,6 +88,15 @@ p0.a === p1.a && p0.b === p1.b // true
 
 ## vue diff
 
+vue使用的是“双端对比”
+
+看这个示例：
+
+旧: `[A,B,C,D]`
+新：`[D,A,B,C]`
+
+用react对比方法，目标D，`index = 3`，之后的A,B,C 的`lastIndex`就是最大值3，都满足 `index < lastIndex`，所以需要移动3次，才能完成更新。
+
 
 # 疑问 ??
 
