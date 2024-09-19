@@ -86,7 +86,7 @@ p0.a === p1.a && p0.b === p1.b // true
 
 所以最终在经过diff后，真实DOM需要2次移动，就可以完成更新
 
-## vue diff
+## vue2 diff
 
 vue使用的是“双端对比”
 
@@ -96,6 +96,26 @@ vue使用的是“双端对比”
 新：`[D,A,B,C]`
 
 用react对比方法，目标D，`index = 3`，之后的A,B,C 的`lastIndex`就是最大值3，都满足 `index < lastIndex`，所以需要移动3次，才能完成更新。
+
+---
+
+vue的双端对比采用4个指针，分别记录新旧列表两个头尾
+
+```js
+let oldStartIdx = 0;
+let oldEndIdx = prevChildren.length - 1;
+let newStartIdx = 0;
+let newEndIdx = nextChildren.length - 1;
+```
+
+以及对应的虚拟节点对象
+
+```js
+let oldStartVNode = prevChildren[oldStartIdx]
+let oldEndVNode = prevChildren[oldEndIdx]
+let newStartVNode = nextChildren[newStartIdx]
+let newEndVNode = nextChildren[newEndIdx]
+```
 
 
 # 疑问 ??
