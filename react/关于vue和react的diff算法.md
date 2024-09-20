@@ -117,6 +117,9 @@ let newStartVNode = nextChildren[newStartIdx]
 let newEndVNode = nextChildren[newEndIdx]
 ```
 
+对比规则：
+
+首首、尾尾、首尾、尾首，通过这个比较顺序来找出可以复用的节点
 
 # 疑问 ??
 
