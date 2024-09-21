@@ -119,7 +119,61 @@ let newEndVNode = nextChildren[newEndIdx]
 
 对比规则：
 
-首首、尾尾、首尾、尾首，通过这个比较顺序来找出可以复用的节点
+首-首对比、尾-尾对比、首-尾对比、尾-首对比，通过这个比较顺序来找出可以复用的节点
+
+```js
+// 新旧列的首指针位置不能大于尾指针
+while(oldStartIdx<=oldEndIdx && newStartIdx <= newEndIdx) {
+    if (oldStartVNode.key === newStartVNode.key) {
+        // ...
+    } else if (oldEndVNode.key === newEndVNode.key) {
+        // ...
+    } else if (oldStartVNode.key === newEndVNode.key) {
+        // ...
+    } else if (oldEndVNode.key === newStartVNode.key) {
+        // ...
+    }
+}
+```
+
+如下案例：
+
+```
+旧：[A] [B] [C] [D]
+新：[D] [A] [B] [C]
+```
+
+经过4次对比，可以找到新首-旧尾key值相同，可以复用，此时需要通过移动首尾索引指针构建新的新旧节点数组
+
+
+```js
+// 发现复用节点，update
+patch(oldEndVNode, newStartVNode, container)
+// 移动
+container.insertBefore(oldEndVNode.el, oldStartVNode.el)
+// 更新索引指针
+oldEndVNode = prevChildren[--oldEndIdx]
+newStartVNode = nextChildren[++newStartIdx]
+```
+
+新的新旧数组为：
+
+```
+旧：[A] [B] [C] -[D]
+新：-[D] [A] [B] [C]
+
+演变为
+
+旧：[A] [B] [C]
+新：[A] [B] [C]
+```
+
+得到新的新旧数组，继续重复上述4组对比，直到结束。
+
+指针移动的方向，大致是从两端向中间
+
+
+
 
 # 疑问 ??
 
