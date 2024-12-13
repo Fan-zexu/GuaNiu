@@ -53,3 +53,33 @@ npx rollup -c rollup.config.mjs
 
 
 ### webpack
+
+`webpack.config.mjs`
+
+```js
+import path from 'node:path';
+
+/** @type {import("webpack").Configuration} */
+export default {
+    entry: './src/index.js',
+    mode: 'development',
+    devtool: false,
+    output: {
+        path: path.resolve(import.meta.dirname, 'dist2'),
+        filename: 'bundle.js',
+    }
+};
+```
+打包后，webpack会多出一些runtime代码，比如 `code split`的代码，这样就导致打包产物不纯粹了
+
+![webpack-codesplit-code](./img/webpack-codesplit-code.webp)
+
+#### 构建结果
+
+![webpack-build.webp](./img/webpack-codesplit-build.webp)
+
+#### 浏览器加载
+
+`import()`引入的模块，会被单独打包成一个`chunk`，在运行时会在执行到这个模块时，异步加载
+
+![webpack-codesplit-load](./img/webpack-codesplit-load.webp)
