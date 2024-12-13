@@ -83,3 +83,8 @@ export default {
 `import()`引入的模块，会被单独打包成一个`chunk`，在运行时会在执行到这个模块时，异步加载
 
 ![webpack-codesplit-load](./img/webpack-codesplit-load.webp)
+
+## 结论
+
+webpack 是为了浏览器打包而生的，而 rollup 一般用于 js 库的打包。
+
