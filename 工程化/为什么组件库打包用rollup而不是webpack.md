@@ -88,3 +88,19 @@ export default {
 
 webpack 是为了浏览器打包而生的，而 rollup 一般用于 js 库的打包。
 
+
+## antd打包
+
+在 node_modules 下可以看到它分了 `dist、es、lib` 三个目录
+
+`lib/ commonjs`：
+
+![antd-lib](./img/antd-lib.webp)
+
+`es/ es module`:
+
+![antd-es](./img/antd-es.webp)
+
+`dist/ umd`:
+
+![antd-umd](./img/antd-umd.webp)
