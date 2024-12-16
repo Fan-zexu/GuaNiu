@@ -91,6 +91,8 @@ webpack 是为了浏览器打包而生的，而 rollup 一般用于 js 库的打
 
 ## antd打包
 
+### 打包JS
+
 在 node_modules 下可以看到它分了 `dist、es、lib` 三个目录
 
 `lib/ commonjs`：
@@ -104,3 +106,13 @@ webpack 是为了浏览器打包而生的，而 rollup 一般用于 js 库的打
 `dist/ umd`:
 
 ![antd-umd](./img/antd-umd.webp)
+
+
+### 打包CSS
+
+安装处理CSS插件
+
+```sh
+npm install --save-dev rollup-plugin-postcss
+```
+
