@@ -1,6 +1,7 @@
 import path from "node:path";
 
 /** @type {import('webpack').Configuration} */
+console.log(import.meta.dirname);
 
 export default {
   entry: "./src/index.js",
