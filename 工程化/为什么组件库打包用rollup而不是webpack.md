@@ -91,6 +91,12 @@ webpack 是为了浏览器打包而生的，而 rollup 一般用于 js 库的打
 
 ## antd打包
 
+```sh
+npm install --no-save antd
+```
+
+有个小细节，`--no-save`可以仅把三方包下载到`node_modules`下，不写入`package.json`
+
 ### 打包JS
 
 在 node_modules 下可以看到它分了 `dist、es、lib` 三个目录
