@@ -122,3 +122,53 @@ npm install --no-save antd
 npm install --save-dev rollup-plugin-postcss
 ```
 
+添加CSS插件配置
+
+```js
+/** @type {import("rollup").RollupOptions} */
+export default {
+    input: 'src/index.js',
+    output: [
+        {
+            file: 'dist/esm.js',
+            format: 'esm'
+        },
+        {
+            file: 'dist/cjs.js',
+            format: "cjs"
+        },
+        {
+            file: 'dist/umd.js',
+            name: 'Guang',
+            format: "umd"
+        }
+    ],
+    plugins: [
+        postcss({
+            extract: true,
+            extract: "index.css",
+        })
+    ]
+};
+```
+
+构建结果中，js文件中的css引用被`tree sharking`掉了 参考：[cjs](./rollup/rollup-test/dist/cjs.js);
+
+这样就可以单独打包js 和 css了
+
+---
+
+我们看看不抽离CSS的效果
+
+```js
+plugins: [
+    postcss({
+        // extract: true,
+        // extract: "index.css",
+    })
+]
+```
+
+构建后的结果中，多出了 `styleInject`方法，用于动态插入css
+
+![postcss-styleinject](./img/postcss-styleinject.png)

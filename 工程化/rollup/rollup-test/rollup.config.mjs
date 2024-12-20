@@ -1,3 +1,5 @@
+import postcss from "rollup-plugin-postcss";
+
 /** @type {import("rollup").RollupOptions} */
 export default {
   input: "src/index.js",
@@ -15,5 +17,11 @@ export default {
       name: "ZN",
       format: "umd",
     },
+  ],
+  plugins: [
+    postcss({
+      extract: true, // 抽离css
+      extract: "index.css",
+    }),
   ],
 };
