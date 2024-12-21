@@ -116,6 +116,8 @@ npm install --no-save antd
 
 ### 打包CSS
 
+#### rollup
+
 安装处理CSS插件
 
 ```sh
@@ -172,3 +174,46 @@ plugins: [
 构建后的结果中，多出了 `styleInject`方法，用于动态插入css
 
 ![postcss-styleinject](./img/postcss-styleinject.png)
+
+#### webpack 
+
+安装插件 `npm install --save-dev css-loader style-loader`
+
+添加配置
+
+`css-loader`用于读取css为js，
+
+`style-loader`用于往head下添加style标签，填入css
+
+```js
+module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
+```
+
+执行 `npx webpack-cli -c webpack.config.mjs`
+
+结果：
+
+1. css变成Js模块引入了，这就是 `css-loader`做的
+
+```js
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.bbb {
+    background: red;
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+```
+
+2. 往head中注入style的方法`injectStylesIntoStyleTag`，就是`style-loader`提供的
+
+```js
+ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+```

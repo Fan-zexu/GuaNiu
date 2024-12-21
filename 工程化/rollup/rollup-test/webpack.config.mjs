@@ -11,6 +11,14 @@ export default {
   },
   devtool: false,
   mode: "development",
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
 };
 
 // 低版本Node，这么实现
