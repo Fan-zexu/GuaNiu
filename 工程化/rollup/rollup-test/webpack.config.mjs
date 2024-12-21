@@ -1,4 +1,5 @@
 import path from "node:path";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 /** @type {import('webpack').Configuration} */
 console.log(import.meta.dirname);
@@ -15,10 +16,15 @@ export default {
     rules: [
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
     ],
   },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "index.css",
+    }),
+  ],
 };
 
 // 低版本Node，这么实现

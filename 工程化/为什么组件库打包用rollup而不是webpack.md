@@ -217,3 +217,50 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.bbb {
 ```js
  "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 ```
+
+##### 抽离CSS
+
+按照插件
+
+```sh
+npm install --save-dev mini-css-extract-plugin
+```
+
+修改配置
+```js
+import path from "node:path";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+
+/** @type {import('webpack').Configuration} */
+console.log(import.meta.dirname);
+
+export default {
+  entry: "./src/index.js",
+  output: {
+    path: path.resolve(import.meta.dirname, "dist2"),
+    filename: "bundle.js",
+  },
+  devtool: false,
+  mode: "development",
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+    ],
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "index.css",
+    }),
+  ],
+};
+```
+结果：
+
+1. css被单独抽离到index.css中
+
+2. 原来`utils.css`变成了空实现
+
+![webpack-css-extract](./img/webpack-css-extract.png)

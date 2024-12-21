@@ -11,6 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^7.1.2",
+    "mini-css-extract-plugin": "^2.9.2",
     "rollup": "^4.28.1",
     "rollup-plugin-postcss": "^4.0.2",
     "style-loader": "^4.0.0",
