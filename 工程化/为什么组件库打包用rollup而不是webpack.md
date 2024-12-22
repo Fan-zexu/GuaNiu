@@ -264,3 +264,10 @@ export default {
 2. 原来`utils.css`变成了空实现
 
 ![webpack-css-extract](./img/webpack-css-extract.png)
+
+
+所以 webpack 的 `style-loader + css-loader + mini-css-extract-plugin` 就相当于 rollup 的 `rollup-plugin-postcss` 插件。
+
+为什么 rollup 没有 loader 呢？
+
+因为 rollup 的 plugin 有 transform 方法，也就相当于 loader 的功能了。
