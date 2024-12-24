@@ -271,3 +271,98 @@ export default {
 为什么 rollup 没有 loader 呢？
 
 因为 rollup 的 plugin 有 transform 方法，也就相当于 loader 的功能了。
+
+
+### 实现一个my-css-extract-rollup-plugin
+
+```js
+const extractArr = [];
+
+export default function myCssExtractRollupPlugin(options) {
+  return {
+    name: "my-css-extract-rollup-plugin",
+    transform(code, id) {
+      if (!id.endsWith(".css")) return null;
+      console.log("code,,,", code);
+      extractArr.push(code);
+      return {
+        code: `export default ${JSON.stringify(code)}`,
+        map: null,
+      };
+    },
+
+    generateBundle() {
+      this.emitFile({
+        type: "asset",
+        fileName: options.fileName,
+        source: extractArr.join("\n/* my-extract-css */\n"),
+      });
+    },
+  };
+}
+
+```
+
+运行：
+
+```js
+import postcss from "rollup-plugin-postcss";
+import myCssExtractRollupPlugin from "./my-css-extract-rollup-plugin.mjs";
+
+/** @type {import("rollup").RollupOptions} */
+export default {
+  input: "src/index.js",
+  output: [
+    {
+      file: "dist/esm.js",
+      format: "esm",
+    },
+    {
+      file: "dist/cjs.js",
+      format: "cjs",
+    },
+    {
+      file: "dist/umd.js",
+      name: "ZN",
+      format: "umd",
+    },
+  ],
+//   treeshake: false,
+  plugins: [
+    // postcss({
+    //   extract: true, // 抽离css
+    //   extract: "index.css",
+    // }),
+    myCssExtractRollupPlugin({
+      fileName: "666.css",
+    }),
+  ],
+};
+
+```
+
+结果会在dist下生成`666.css`
+
+---
+
+rollup打包默认开启`tree sharking`，如果关闭的话，效果：
+
+`cjs.js`
+
+```js
+'use strict';
+
+var utils = ".bbb {\n    background: red;\n}";
+
+function add(a, b) {
+  return a + b;
+}
+
+var index = ".aaa {\n    background: blue;\n}";
+
+function main() {
+  console.log(add(1, 2));
+}
+
+module.exports = main;
+```
