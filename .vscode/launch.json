@@ -54,5 +54,15 @@
             "program": "${workspaceFolder}/算法/example/map.js",
             "runtimeExecutable": "/Users/zn/.nvm/versions/node/v14.20.1/bin/node"
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "leetcode-102.二叉树层序遍历",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/算法/leetcode/102.二叉树层序遍历.js",
+            "runtimeExecutable": "/Users/zn/.nvm/versions/node/v14.20.1/bin/node"
+        },
     ]
 }
