@@ -6,3 +6,6 @@
 
 - [DeepSeek 弯道超车的秘诀！！！](https://mp.weixin.qq.com/s/NnTbkjcZc4YOk2PfDRYtSA)
 
+## 个人知识库
+
+[cherry studio](https://cherry-ai.com/)
