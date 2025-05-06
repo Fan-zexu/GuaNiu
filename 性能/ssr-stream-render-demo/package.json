@@ -1,0 +1,36 @@
+{
+  "name": "ssr-stream-render-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:client": "webpack --config client/webpack.config.js",
+    "start:server": "nodemon server/server.mjs",
+    "start": "npm run build:client && npm run start:server"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-react": "^7.26.3",
+    "@babel/register": "^7.27.1",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.15.3",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "babel-loader": "^10.0.0",
+    "nodemon": "^3.1.10",
+    "ts-loader": "^9.5.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "webpack": "^5.99.7",
+    "webpack-cli": "^6.0.1",
+    "webpack-node-externals": "^3.0.0"
+  }
+}
