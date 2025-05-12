@@ -33,3 +33,9 @@ class DynamicQueue {
     }
   }
 }
+
+const queue = new DynamicQueue(2);
+
+for (let i = 0; i < 20; i++) {
+  queue.add(() => fetch(`https://example.com/api/${i}`));
+}
