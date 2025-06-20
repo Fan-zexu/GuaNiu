@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "mcp-server": {
+      "command": "mcp-server",
+      "args": ["--port", "5000"]
+    }
+  }
+}
